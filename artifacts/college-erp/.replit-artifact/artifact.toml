@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Enterprise College ERP System"
+version = "1.0.0"
+id = "artifacts/college-erp"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22584
+
+[services.development]
+run = "pnpm --filter @workspace/college-erp run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/college-erp", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/college-erp/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22584"
+BASE_PATH = "/"

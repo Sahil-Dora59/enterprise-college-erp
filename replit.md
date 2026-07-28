@@ -1,10 +1,11 @@
-# [Project name]
+# Enterprise College ERP System
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A production-oriented college operations platform for managing students, faculty, academics, attendance, examinations, fees, library circulation, and notices.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/college-erp run dev` — run the React/Vite frontend
+- `pnpm --filter @workspace/api-server run dev` — run the Express API server (port 8080)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -22,23 +23,31 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/college-erp` — React/Vite web application and role-aware ERP screens
+- `artifacts/api-server` — Express API routes, JWT authentication, and dashboard queries
+- `lib/db/src/schema` — Drizzle PostgreSQL schema
+- `lib/api-spec/openapi.yaml` — source-of-truth REST contract
+- `lib/api-client-react` and `lib/api-zod` — generated API hooks and validation types
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- JWT authentication uses the `SESSION_SECRET` environment secret; tokens are stored in the browser as `erp_token`.
+- OpenAPI is the source of truth; regenerate client hooks and Zod schemas after contract changes.
+- The API is shared by the web artifact and binds to the configured `PORT`.
+- Database access uses the existing PostgreSQL database through Drizzle ORM.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+The ERP provides role-aware dashboards and CRUD workflows for users, departments, semesters, courses, students, faculty, attendance, examinations, marks, assignments, library books and borrowing, fee records and payments, notices, and activity reporting.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+No additional user preferences have been recorded.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Run API and frontend typechecks after changing generated API contracts.
+- Schema changes are applied to the development database with the DB package push command; production schema changes are handled at publish time.
 
 ## Pointers
 
