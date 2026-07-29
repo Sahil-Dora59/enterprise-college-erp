@@ -11,7 +11,7 @@ paths = [ "/" ]
 localPort = 22584
 
 [services.development]
-run = "pnpm --filter @workspace/college-erp run dev"
+run = "pnpm --filter @workspace/college-erp run fullstack"
 
 [services.production]
 build = [ "pnpm", "--filter", "@workspace/college-erp", "run", "build" ]
