@@ -1,0 +1,8 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "zlpno-U7vmEk60gw4GOR9"
+uri = "file://QA_REPORT.md"
+type = "text"
+title = "Enterprise College ERP Production Readiness QA Report"
