@@ -5,7 +5,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   login: (data: LoginInput) => Promise<User>;
-  logout: () => void;
+  logout: () => Promise<void>;
   isLoading: boolean;
   hasPermission: (permission: string) => boolean;
   isRole: (...roles: string[]) => boolean;
@@ -33,6 +33,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     try {
       if (token) await logoutMutation.mutateAsync();
+    } catch {
+      // Local session cleanup and redirect must still happen if the server
+      // session has already expired or the request is unavailable.
     } finally {
       localStorage.removeItem('erp_token');
       setToken(null);
