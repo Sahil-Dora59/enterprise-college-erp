@@ -12,3 +12,4 @@ export * from "./books";
 export * from "./fees";
 export * from "./notices";
 export * from "./activity_log";
+export * from "./rbac";

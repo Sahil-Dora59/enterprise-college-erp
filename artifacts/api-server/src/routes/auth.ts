@@ -5,6 +5,7 @@ import { LoginBody, ChangePasswordBody } from "@workspace/api-zod";
 import { signToken } from "../lib/jwt";
 import { verifyPassword, hashPassword } from "../lib/password";
 import { authenticate } from "../middlewares/auth";
+import { getUserWithPermissions } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -25,8 +26,8 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     return;
   }
   const token = signToken({ userId: user.id, email: user.email, role: user.role });
-  const { passwordHash: _pw, ...safeUser } = user;
-  res.json({ token, user: { ...safeUser, createdAt: safeUser.createdAt.toISOString() } });
+  const safeUser = await getUserWithPermissions(user.id);
+  res.json({ token, user: { ...safeUser, createdAt: safeUser!.createdAt.toISOString() } });
 });
 
 router.post("/auth/logout", (_req, res): void => {
@@ -39,8 +40,8 @@ router.get("/auth/me", authenticate, async (req, res): Promise<void> => {
     res.status(401).json({ error: "User not found" });
     return;
   }
-  const { passwordHash: _pw, ...safeUser } = user;
-  res.json({ ...safeUser, createdAt: safeUser.createdAt.toISOString() });
+  const safeUser = await getUserWithPermissions(user.id);
+  res.json({ ...safeUser, createdAt: safeUser!.createdAt.toISOString() });
 });
 
 router.post("/auth/change-password", authenticate, async (req, res): Promise<void> => {

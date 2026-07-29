@@ -34,9 +34,9 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     try {
       setIsSubmitting(true);
-      await login(data);
+      const authenticatedUser = await login(data);
       toast({ title: "Login successful" });
-      setLocation("/");
+      setLocation(`/dashboard/${authenticatedUser.role}`);
     } catch (err: any) {
       toast({ 
         title: "Login failed", 

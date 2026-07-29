@@ -15,11 +15,15 @@ import libraryRouter from "./library";
 import feesRouter from "./fees";
 import noticesRouter from "./notices";
 import dashboardRouter from "./dashboard";
+import { authenticate, authorizeRequest } from "../middlewares/auth";
+import rbacRouter from "./rbac";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
 router.use(authRouter);
+router.use(authenticate, authorizeRequest);
+router.use(rbacRouter);
 router.use(usersRouter);
 router.use(departmentsRouter);
 router.use(semestersRouter);

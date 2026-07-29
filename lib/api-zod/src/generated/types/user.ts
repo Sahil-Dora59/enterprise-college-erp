@@ -11,6 +11,7 @@ export interface User {
   name: string;
   email: string;
   role: string;
+  permissions: string[];
   /** @nullable */
   phone?: string | null;
   /** @nullable */

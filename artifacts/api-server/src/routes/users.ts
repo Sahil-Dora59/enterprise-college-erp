@@ -38,6 +38,10 @@ router.post("/users", authenticate, async (req, res): Promise<void> => {
     return;
   }
   const { password, ...rest } = parsed.data as typeof parsed.data & { password: string };
+  if (rest.role === "super_admin" && req.user?.role !== "super_admin") {
+    res.status(403).json({ error: "Only Super Admin can create Super Admin accounts" });
+    return;
+  }
   const passwordHash = await hashPassword(password);
   const [user] = await db.insert(usersTable).values({ ...rest, passwordHash }).returning();
   res.status(201).json(formatUser(user));
@@ -56,6 +60,10 @@ router.patch("/users/:id", authenticate, async (req, res): Promise<void> => {
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
   const parsed = UpdateUserBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
+  if (parsed.data.role === "super_admin" && req.user?.role !== "super_admin") {
+    res.status(403).json({ error: "Only Super Admin can assign the Super Admin role" });
+    return;
+  }
   const [user] = await db.update(usersTable).set(parsed.data).where(eq(usersTable.id, params.data.id)).returning();
   if (!user) { res.status(404).json({ error: "User not found" }); return; }
   res.json(formatUser(user));

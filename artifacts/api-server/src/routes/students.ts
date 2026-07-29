@@ -50,6 +50,7 @@ router.get("/students", authenticate, async (req, res): Promise<void> => {
   const offset = (pageNum - 1) * limitNum;
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") conditions.push(eq(studentsTable.userId, req.user.userId));
   if (departmentId) conditions.push(eq(studentsTable.departmentId, Number(departmentId)));
   if (semesterId) conditions.push(eq(studentsTable.semesterId, Number(semesterId)));
   if (search) conditions.push(ilike(usersTable.name, `%${search}%`));
@@ -93,7 +94,9 @@ router.post("/students", authenticate, async (req, res): Promise<void> => {
 router.get("/students/:id", authenticate, async (req, res): Promise<void> => {
   const params = GetStudentParams.safeParse(req.params);
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
-  const [data] = await buildStudentQuery([eq(studentsTable.id, params.data.id) as ReturnType<typeof and>], 1, 0);
+  const studentConditions = [eq(studentsTable.id, params.data.id) as ReturnType<typeof and>];
+  if (req.user?.role === "student") studentConditions.push(eq(studentsTable.userId, req.user.userId) as ReturnType<typeof and>);
+  const [data] = await buildStudentQuery(studentConditions, 1, 0);
   if (!data) { res.status(404).json({ error: "Student not found" }); return; }
   res.json(fmtStudent(data));
 });
@@ -101,6 +104,7 @@ router.get("/students/:id", authenticate, async (req, res): Promise<void> => {
 router.patch("/students/:id", authenticate, async (req, res): Promise<void> => {
   const params = UpdateStudentParams.safeParse(req.params);
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
+  if (req.user?.role === "student") { res.status(403).json({ error: "Students cannot edit academic records" }); return; }
   const parsed = UpdateStudentBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
 
@@ -123,6 +127,7 @@ router.patch("/students/:id", authenticate, async (req, res): Promise<void> => {
 router.delete("/students/:id", authenticate, async (req, res): Promise<void> => {
   const params = DeleteStudentParams.safeParse(req.params);
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
+  if (req.user?.role === "student") { res.status(403).json({ error: "Students cannot delete academic records" }); return; }
   const [s] = await db.delete(studentsTable).where(eq(studentsTable.id, params.data.id)).returning();
   if (!s) { res.status(404).json({ error: "Student not found" }); return; }
   res.sendStatus(204);
@@ -131,6 +136,11 @@ router.delete("/students/:id", authenticate, async (req, res): Promise<void> => 
 router.get("/students/:id/courses", authenticate, async (req, res): Promise<void> => {
   const params = GetStudentCoursesParams.safeParse(req.params);
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
+  if (req.user?.role === "student") {
+    const [owner] = await db.select({ id: studentsTable.id }).from(studentsTable)
+      .where(and(eq(studentsTable.id, params.data.id), eq(studentsTable.userId, req.user.userId)));
+    if (!owner) { res.status(403).json({ error: "Access denied" }); return; }
+  }
   const [student] = await db.select().from(studentsTable).where(eq(studentsTable.id, params.data.id));
   if (!student) { res.status(404).json({ error: "Student not found" }); return; }
 

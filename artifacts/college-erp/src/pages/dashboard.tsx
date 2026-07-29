@@ -6,6 +6,7 @@ import {
   useGetRecentActivity,
   useListNotices
 } from "@workspace/api-client-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   Users, GraduationCap, BookOpen, Building2, 
   CreditCard, CalendarDays, Library, Activity, Bell
@@ -31,6 +32,7 @@ const STATS_CONFIG = [
 ];
 
 export default function Dashboard() {
+  const { user } = useAuth();
   const { data: stats, isLoading: statsLoading } = useGetDashboardStats();
   const { data: enrollmentData } = useGetEnrollmentChart();
   const { data: feeData } = useGetFeeCollectionChart();
@@ -40,15 +42,37 @@ export default function Dashboard() {
 
   const formatCurrency = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
 
+  const role = user?.role ?? "student";
+  const roleTitles: Record<string, string> = {
+    super_admin: "System Command Center",
+    admin: "Administration Overview",
+    faculty: "Faculty Workspace",
+    student: "My Academic Dashboard",
+    accountant: "Finance Overview",
+    librarian: "Library Operations",
+  };
+  const visibleStats = role === "student"
+    ? STATS_CONFIG.filter((item) => ["todayAttendanceRate", "upcomingExams"].includes(item.key))
+    : role === "faculty"
+      ? STATS_CONFIG.filter((item) => ["totalStudents", "totalCourses", "todayAttendanceRate", "upcomingExams"].includes(item.key))
+      : role === "accountant"
+        ? STATS_CONFIG.filter((item) => ["totalStudents", "pendingFees"].includes(item.key))
+        : role === "librarian"
+          ? STATS_CONFIG.filter((item) => ["totalStudents", "totalBooks"].includes(item.key))
+          : STATS_CONFIG;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">{roleTitles[role] ?? "Dashboard"}</h2>
+          <p className="mt-1 text-muted-foreground capitalize">{role.replace("_", " ")} workspace</p>
+        </div>
       </div>
 
       {/* Stats Row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {STATS_CONFIG.map((config) => (
+        {visibleStats.map((config) => (
           <Card key={config.key} className="border-border/50 shadow-sm">
             <CardContent className="p-4 flex items-center gap-4">
               <div className={`p-3 rounded-xl ${config.bg} ${config.color}`}>

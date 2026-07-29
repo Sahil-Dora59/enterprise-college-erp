@@ -1716,7 +1716,7 @@ components:
     # USER SCHEMAS
     User:
       type: object
-      required: [id, name, email, role, isActive, createdAt]
+      required: [id, name, email, role, permissions, isActive, createdAt]
       properties:
         id:
           type: integer
@@ -1726,6 +1726,10 @@ components:
           type: string
         role:
           type: string
+        permissions:
+          type: array
+          items:
+            type: string
         phone:
           type: ["string", "null"]
         avatarUrl:

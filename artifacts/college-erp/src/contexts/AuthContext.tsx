@@ -4,9 +4,11 @@ import { useGetMe, useLogin, User, LoginInput, useLogout, getGetMeQueryKey } fro
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  login: (data: LoginInput) => Promise<void>;
+  login: (data: LoginInput) => Promise<User>;
   logout: () => void;
   isLoading: boolean;
+  hasPermission: (permission: string) => boolean;
+  isRole: (...roles: string[]) => boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -25,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await loginMutation.mutateAsync({ data });
     localStorage.setItem('erp_token', res.token);
     setToken(res.token);
+    return res.user;
   };
 
   const logout = async () => {
@@ -38,8 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isLoading = isUserLoading && !!token;
 
+  const currentUser = user || null;
+  const hasPermission = (permission: string) => currentUser?.permissions?.includes(permission) ?? false;
+  const isRole = (...roles: string[]) => currentUser ? roles.includes(currentUser.role) : false;
+
   return (
-    <AuthContext.Provider value={{ user: user || null, token, login, logout, isLoading }}>
+    <AuthContext.Provider value={{ user: currentUser, token, login, logout, isLoading, hasPermission, isRole }}>
       {children}
     </AuthContext.Provider>
   );

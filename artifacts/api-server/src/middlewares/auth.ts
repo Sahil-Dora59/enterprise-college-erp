@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { verifyToken, type JwtPayload } from "../lib/jwt";
+import { getUserPermissions, permissionForRequest, type PermissionKey } from "../lib/rbac";
 
 declare global {
   namespace Express {
@@ -37,4 +38,22 @@ export function requireRole(...roles: string[]) {
     }
     next();
   };
+}
+
+export async function authorizeRequest(req: Request, res: Response, next: NextFunction): Promise<void> {
+  if (!req.user) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+  const permission = permissionForRequest(req.path, req.method);
+  if (!permission) {
+    next();
+    return;
+  }
+  const permissions = await getUserPermissions(req.user.userId);
+  if (!permissions.includes(permission as PermissionKey)) {
+    res.status(403).json({ error: "Access denied", permission });
+    return;
+  }
+  next();
 }

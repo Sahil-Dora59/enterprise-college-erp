@@ -16,33 +16,33 @@ interface NavItem {
   title: string;
   href: string;
   icon: React.ElementType;
-  roles: string[];
+  permission: string;
 }
 
 const navItems: NavItem[] = [
-  { title: "Dashboard", href: "/", icon: LayoutDashboard, roles: ["super_admin", "admin", "faculty", "student", "accountant", "librarian"] },
-  { title: "Students", href: "/students", icon: Users, roles: ["super_admin", "admin"] },
-  { title: "Faculty", href: "/faculty", icon: GraduationCap, roles: ["super_admin", "admin"] },
-  { title: "Departments", href: "/departments", icon: Building2, roles: ["super_admin", "admin"] },
-  { title: "Courses", href: "/courses", icon: BookOpen, roles: ["super_admin", "admin", "faculty"] },
-  { title: "Semesters", href: "/semesters", icon: CalendarDays, roles: ["super_admin", "admin"] },
-  { title: "Attendance", href: "/attendance", icon: ClipboardCheck, roles: ["super_admin", "admin", "faculty", "student"] },
-  { title: "Examinations", href: "/examinations", icon: FileText, roles: ["super_admin", "admin", "faculty"] },
-  { title: "Marks", href: "/marks", icon: CheckCircle, roles: ["super_admin", "admin", "faculty", "student"] },
-  { title: "Assignments", href: "/assignments", icon: FileEdit, roles: ["super_admin", "admin", "faculty", "student"] },
-  { title: "Library", href: "/library", icon: Library, roles: ["super_admin", "admin", "student", "librarian"] },
-  { title: "Fees", href: "/fees", icon: CreditCard, roles: ["super_admin", "admin", "student", "accountant"] },
-  { title: "Notices", href: "/notices", icon: Bell, roles: ["super_admin", "admin", "faculty", "student", "accountant", "librarian"] },
-  { title: "Settings", href: "/settings", icon: Settings, roles: ["super_admin", "admin", "faculty", "student", "accountant", "librarian"] },
+  { title: "Dashboard", href: "/", icon: LayoutDashboard, permission: "dashboard.view" },
+  { title: "Students", href: "/students", icon: Users, permission: "students.view" },
+  { title: "Faculty", href: "/faculty", icon: GraduationCap, permission: "faculty.view" },
+  { title: "Departments", href: "/departments", icon: Building2, permission: "departments.view" },
+  { title: "Courses", href: "/courses", icon: BookOpen, permission: "courses.view" },
+  { title: "Semesters", href: "/semesters", icon: CalendarDays, permission: "semesters.view" },
+  { title: "Attendance", href: "/attendance", icon: ClipboardCheck, permission: "attendance.view" },
+  { title: "Examinations", href: "/examinations", icon: FileText, permission: "examinations.view" },
+  { title: "Marks", href: "/marks", icon: CheckCircle, permission: "marks.view" },
+  { title: "Assignments", href: "/assignments", icon: FileEdit, permission: "assignments.view" },
+  { title: "Library", href: "/library", icon: Library, permission: "library.view" },
+  { title: "Fees", href: "/fees", icon: CreditCard, permission: "fees.view" },
+  { title: "Notices", href: "/notices", icon: Bell, permission: "notices.view" },
+  { title: "Settings", href: "/settings", icon: Settings, permission: "settings.manage" },
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
-  const { user, logout } = useAuth();
+  const { user, logout, hasPermission } = useAuth();
   const [location] = useLocation();
 
   if (!user) return null; // Or a loading spinner, but Auth wrapper should handle it
 
-  const filteredNav = navItems.filter(item => item.roles.includes(user.role));
+  const filteredNav = navItems.filter(item => hasPermission(item.permission));
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col bg-sidebar text-sidebar-foreground">
