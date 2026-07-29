@@ -3,6 +3,7 @@ import { eq, and, ilike, sql } from "drizzle-orm";
 import { db, booksTable, borrowRecordsTable, studentsTable, usersTable } from "@workspace/db";
 import { ListBooksQueryParams, CreateBookBody, GetBookParams, UpdateBookParams, UpdateBookBody, DeleteBookParams, ListBorrowsQueryParams, BorrowBookBody, ReturnBookParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
+import { getStudentIdForUser } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -71,6 +72,11 @@ router.get("/library/borrows", authenticate, async (req, res): Promise<void> => 
   const { studentId, status } = parsed.data ?? {};
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    conditions.push(eq(borrowRecordsTable.studentId, ownStudentId));
+  }
   if (studentId) conditions.push(eq(borrowRecordsTable.studentId, Number(studentId)));
   if (status) conditions.push(eq(borrowRecordsTable.status, status as string));
 
@@ -102,6 +108,13 @@ router.get("/library/borrows", authenticate, async (req, res): Promise<void> => 
 router.post("/library/borrows", authenticate, async (req, res): Promise<void> => {
   const parsed = BorrowBookBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId || parsed.data.studentId !== ownStudentId) {
+      res.status(403).json({ error: "Students can only borrow books for their own account" });
+      return;
+    }
+  }
 
   const [book] = await db.select().from(booksTable).where(eq(booksTable.id, parsed.data.bookId));
   if (!book) { res.status(404).json({ error: "Book not found" }); return; }

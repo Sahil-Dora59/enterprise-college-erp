@@ -3,6 +3,7 @@ import { eq, and, sql } from "drizzle-orm";
 import { db, marksTable, studentsTable, usersTable, examinationsTable, coursesTable } from "@workspace/db";
 import { ListMarksQueryParams, EnterMarkBody, UpdateMarkParams, UpdateMarkBody, GetMarksReportQueryParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
+import { getStudentIdForUser } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -22,6 +23,11 @@ router.get("/marks", authenticate, async (req, res): Promise<void> => {
   const { examinationId, studentId } = parsed.data ?? {};
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    conditions.push(eq(marksTable.studentId, ownStudentId));
+  }
   if (examinationId) conditions.push(eq(marksTable.examinationId, Number(examinationId)));
   if (studentId) conditions.push(eq(marksTable.studentId, Number(studentId)));
 
@@ -53,6 +59,10 @@ router.post("/marks", authenticate, async (req, res): Promise<void> => {
 
   const [exam] = await db.select().from(examinationsTable).where(eq(examinationsTable.id, parsed.data.examinationId));
   if (!exam) { res.status(404).json({ error: "Examination not found" }); return; }
+  if (parsed.data.marksObtained < 0 || parsed.data.marksObtained > exam.totalMarks) {
+    res.status(400).json({ error: `Marks must be between 0 and ${exam.totalMarks}` });
+    return;
+  }
 
   const grade = parsed.data.grade ?? computeGrade(parsed.data.marksObtained, exam.totalMarks);
   const [mark] = await db.insert(marksTable).values({ ...parsed.data, marksObtained: String(parsed.data.marksObtained), grade }).returning();
@@ -67,6 +77,17 @@ router.patch("/marks/:id", authenticate, async (req, res): Promise<void> => {
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
   const parsed = UpdateMarkBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
+  if (parsed.data.marksObtained !== undefined) {
+    const [markExam] = await db.select({ totalMarks: examinationsTable.totalMarks })
+      .from(marksTable)
+      .innerJoin(examinationsTable, eq(marksTable.examinationId, examinationsTable.id))
+      .where(eq(marksTable.id, params.data.id));
+    if (!markExam) { res.status(404).json({ error: "Mark not found" }); return; }
+    if (parsed.data.marksObtained < 0 || parsed.data.marksObtained > markExam.totalMarks) {
+      res.status(400).json({ error: `Marks must be between 0 and ${markExam.totalMarks}` });
+      return;
+    }
+  }
 
   const updateData = {
     ...parsed.data,
@@ -83,6 +104,14 @@ router.get("/marks/report", authenticate, async (req, res): Promise<void> => {
 
   let examCondition: ReturnType<typeof eq> | undefined;
   if (examinationId) examCondition = eq(marksTable.examinationId, Number(examinationId));
+  const reportConditions: ReturnType<typeof eq>[] = [];
+  if (examCondition) reportConditions.push(examCondition);
+  if (semesterId) reportConditions.push(eq(examinationsTable.semesterId, Number(semesterId)));
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    reportConditions.push(eq(marksTable.studentId, ownStudentId));
+  }
 
   const rows = await db
     .select({
@@ -100,7 +129,7 @@ router.get("/marks/report", authenticate, async (req, res): Promise<void> => {
     .leftJoin(studentsTable, eq(marksTable.studentId, studentsTable.id))
     .leftJoin(usersTable, eq(studentsTable.userId, usersTable.id))
     .leftJoin(examinationsTable, eq(marksTable.examinationId, examinationsTable.id))
-    .where(examCondition);
+    .where(reportConditions.length > 0 ? and(...reportConditions) : undefined);
 
   // Group by student
   const studentMap = new Map<number, { studentId: number; studentName: string; rollNumber: string; results: { examinationId: number; examinationName: string; totalMarks: number; marksObtained: number; grade: string | null }[]; totalMarks: number; totalObtained: number }>();

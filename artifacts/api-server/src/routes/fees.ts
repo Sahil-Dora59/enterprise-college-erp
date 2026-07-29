@@ -3,6 +3,7 @@ import { eq, and, sql } from "drizzle-orm";
 import { db, feeRecordsTable, studentsTable, usersTable, semestersTable } from "@workspace/db";
 import { ListFeesQueryParams, CreateFeeRecordBody, GetFeeRecordParams, UpdateFeeRecordParams, UpdateFeeRecordBody, PayFeeParams, PayFeeBody, GetFeeSummaryQueryParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
+import { getStudentIdForUser } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -48,6 +49,11 @@ router.get("/fees", authenticate, async (req, res): Promise<void> => {
   const offset = (pageNum - 1) * limitNum;
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    conditions.push(eq(feeRecordsTable.studentId, ownStudentId));
+  }
   if (studentId) conditions.push(eq(feeRecordsTable.studentId, Number(studentId)));
   if (status) conditions.push(eq(feeRecordsTable.status, status as string));
   if (semesterId) conditions.push(eq(feeRecordsTable.semesterId, Number(semesterId)));
@@ -96,7 +102,12 @@ router.get("/fees/summary", authenticate, async (req, res): Promise<void> => {
   const parsed = GetFeeSummaryQueryParams.safeParse(req.query);
   const { semesterId } = parsed.data ?? {};
 
-  const where = semesterId ? eq(feeRecordsTable.semesterId, Number(semesterId)) : undefined;
+  let where: ReturnType<typeof eq> | undefined = semesterId ? eq(feeRecordsTable.semesterId, Number(semesterId)) : undefined;
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    where = where ? and(where, eq(feeRecordsTable.studentId, ownStudentId)) : eq(feeRecordsTable.studentId, ownStudentId);
+  }
 
   const [agg] = await db.select({
     totalDue: sql<number>`coalesce(sum(${feeRecordsTable.amount}::numeric), 0)::float`,
@@ -117,6 +128,10 @@ router.get("/fees/:id", authenticate, async (req, res): Promise<void> => {
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
   const full = await getFeeWithDetails(params.data.id);
   if (!full) { res.status(404).json({ error: "Fee record not found" }); return; }
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (full.studentId !== ownStudentId) { res.status(404).json({ error: "Fee record not found" }); return; }
+  }
   res.json(full);
 });
 

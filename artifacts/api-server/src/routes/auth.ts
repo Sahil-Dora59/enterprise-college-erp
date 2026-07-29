@@ -36,7 +36,7 @@ router.post("/auth/logout", (_req, res): void => {
 
 router.get("/auth/me", authenticate, async (req, res): Promise<void> => {
   const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.user!.userId));
-  if (!user) {
+  if (!user || !user.isActive) {
     res.status(401).json({ error: "User not found" });
     return;
   }

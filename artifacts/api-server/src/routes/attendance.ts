@@ -3,6 +3,7 @@ import { eq, and, sql } from "drizzle-orm";
 import { db, attendanceTable, studentsTable, usersTable, coursesTable } from "@workspace/db";
 import { ListAttendanceQueryParams, MarkAttendanceBody, BulkMarkAttendanceBody, GetAttendanceSummaryQueryParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
+import { getStudentIdForUser } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -15,6 +16,11 @@ router.get("/attendance", authenticate, async (req, res): Promise<void> => {
   const { courseId, studentId, date, month, year } = parsed.data ?? {};
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    conditions.push(eq(attendanceTable.studentId, ownStudentId));
+  }
   if (courseId) conditions.push(eq(attendanceTable.courseId, Number(courseId)));
   if (studentId) conditions.push(eq(attendanceTable.studentId, Number(studentId)));
   if (date) conditions.push(eq(attendanceTable.date, date as string));
@@ -72,6 +78,11 @@ router.get("/attendance/summary", authenticate, async (req, res): Promise<void> 
   const { courseId, studentId, semesterId } = parsed.data ?? {};
 
   const conditions: ReturnType<typeof eq>[] = [];
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId) { res.status(403).json({ error: "Student profile not found" }); return; }
+    conditions.push(eq(attendanceTable.studentId, ownStudentId));
+  }
   if (courseId) conditions.push(eq(attendanceTable.courseId, Number(courseId)));
   if (studentId) conditions.push(eq(attendanceTable.studentId, Number(studentId)));
 

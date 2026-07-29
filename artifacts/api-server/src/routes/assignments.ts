@@ -3,6 +3,7 @@ import { eq, and, sql } from "drizzle-orm";
 import { db, assignmentsTable, submissionsTable, coursesTable, facultyTable, usersTable, studentsTable } from "@workspace/db";
 import { ListAssignmentsQueryParams, CreateAssignmentBody, GetAssignmentParams, UpdateAssignmentParams, UpdateAssignmentBody, DeleteAssignmentParams, SubmitAssignmentParams, SubmitAssignmentBody, ListSubmissionsParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
+import { getStudentIdForUser } from "../lib/rbac";
 
 const router: IRouter = Router();
 
@@ -105,7 +106,16 @@ router.post("/assignments/:id/submit", authenticate, async (req, res): Promise<v
   if (!params.success) { res.status(400).json({ error: params.error.message }); return; }
   const parsed = SubmitAssignmentBody.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: parsed.error.message }); return; }
-  const [sub] = await db.insert(submissionsTable).values({ ...parsed.data, assignmentId: params.data.id }).returning();
+  let studentId = parsed.data.studentId;
+  if (req.user?.role === "student") {
+    const ownStudentId = await getStudentIdForUser(req.user.userId);
+    if (!ownStudentId || studentId !== ownStudentId) {
+      res.status(403).json({ error: "Students can only submit assignments for their own account" });
+      return;
+    }
+    studentId = ownStudentId;
+  }
+  const [sub] = await db.insert(submissionsTable).values({ ...parsed.data, studentId, assignmentId: params.data.id }).returning();
   res.status(201).json({ ...sub, marksObtained: sub.marksObtained ? Number(sub.marksObtained) : null, submittedAt: sub.submittedAt.toISOString(), createdAt: sub.createdAt.toISOString() });
 });
 
@@ -130,7 +140,11 @@ router.get("/assignments/:id/submissions", authenticate, async (req, res): Promi
     .from(submissionsTable)
     .leftJoin(studentsTable, eq(submissionsTable.studentId, studentsTable.id))
     .leftJoin(usersTable, eq(studentsTable.userId, usersTable.id))
-    .where(eq(submissionsTable.assignmentId, params.data.id));
+    .where(
+      req.user?.role === "student"
+        ? and(eq(submissionsTable.assignmentId, params.data.id), eq(submissionsTable.studentId, await getStudentIdForUser(req.user.userId) ?? -1))
+        : eq(submissionsTable.assignmentId, params.data.id),
+    );
 
   res.json(rows.map((r) => ({ ...r, marksObtained: r.marksObtained ? Number(r.marksObtained) : null, submittedAt: r.submittedAt.toISOString(), createdAt: r.createdAt.toISOString() })));
 });

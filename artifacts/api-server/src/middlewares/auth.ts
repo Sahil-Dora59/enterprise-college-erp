@@ -1,6 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import { verifyToken, type JwtPayload } from "../lib/jwt";
 import { getUserPermissions, permissionForRequest, type PermissionKey } from "../lib/rbac";
+import { db, usersTable } from "@workspace/db";
+import { eq } from "drizzle-orm";
 
 declare global {
   namespace Express {
@@ -10,7 +12,7 @@ declare global {
   }
 }
 
-export function authenticate(req: Request, res: Response, next: NextFunction): void {
+export async function authenticate(req: Request, res: Response, next: NextFunction): Promise<void> {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
     res.status(401).json({ error: "Unauthorized" });
@@ -19,7 +21,16 @@ export function authenticate(req: Request, res: Response, next: NextFunction): v
 
   const token = authHeader.slice(7);
   try {
-    req.user = verifyToken(token);
+    const tokenUser = verifyToken(token);
+    const [user] = await db
+      .select({ id: usersTable.id, email: usersTable.email, role: usersTable.role, isActive: usersTable.isActive })
+      .from(usersTable)
+      .where(eq(usersTable.id, tokenUser.userId));
+    if (!user || !user.isActive || user.email !== tokenUser.email) {
+      res.status(401).json({ error: "Invalid or inactive account" });
+      return;
+    }
+    req.user = { userId: user.id, email: user.email, role: user.role };
     next();
   } catch {
     res.status(401).json({ error: "Invalid or expired token" });

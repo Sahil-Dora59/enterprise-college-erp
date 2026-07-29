@@ -1,2 +1,3 @@
 - [Artifact build environment](artifact-build-environment.md) — manual Vite builds require the artifact workflow's PORT and BASE_PATH variables.
 - [ERP RBAC policy](erp-rbac-policy.md) — permissions are database-backed and enforced centrally before existing domain routes.
+- [ERP audit hardening](erp-audit-hardening.md) — ownership scopes must be enforced in every student-facing read/write route, not only navigation.

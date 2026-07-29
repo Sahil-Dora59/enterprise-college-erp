@@ -4,6 +4,7 @@ import {
   permissionsTable,
   rolePermissionsTable,
   rolesTable,
+  studentsTable,
   usersTable,
 } from "@workspace/db";
 
@@ -58,6 +59,14 @@ export async function getUserWithPermissions(userId: number) {
   const permissions = await getUserPermissions(userId);
   const { passwordHash: _passwordHash, ...safeUser } = user;
   return { ...safeUser, permissions };
+}
+
+export async function getStudentIdForUser(userId: number): Promise<number | null> {
+  const [student] = await db
+    .select({ id: studentsTable.id })
+    .from(studentsTable)
+    .where(eq(studentsTable.userId, userId));
+  return student?.id ?? null;
 }
 
 export function permissionForRequest(path: string, method: string): PermissionKey | null {
