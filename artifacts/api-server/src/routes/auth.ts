@@ -1,8 +1,9 @@
 import { Router, type IRouter } from "express";
-import { eq } from "drizzle-orm";
-import { db, usersTable } from "@workspace/db";
+import crypto from "node:crypto";
+import { and, eq, isNull, ne } from "drizzle-orm";
+import { authSessionsTable, db, usersTable } from "@workspace/db";
 import { LoginBody, ChangePasswordBody } from "@workspace/api-zod";
-import { signToken } from "../lib/jwt";
+import { signToken, TOKEN_TTL_SECONDS } from "../lib/jwt";
 import { verifyPassword, hashPassword } from "../lib/password";
 import { authenticate } from "../middlewares/auth";
 import { getUserWithPermissions } from "../lib/rbac";
@@ -25,12 +26,24 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     res.status(401).json({ error: "Account is inactive. Contact administrator." });
     return;
   }
-  const token = signToken({ userId: user.id, email: user.email, role: user.role });
+  const tokenId = crypto.randomUUID();
+  const token = signToken({ userId: user.id, email: user.email, role: user.role }, tokenId);
+  await db.insert(authSessionsTable).values({
+    userId: user.id,
+    tokenId,
+    expiresAt: new Date(Date.now() + TOKEN_TTL_SECONDS * 1000),
+  });
   const safeUser = await getUserWithPermissions(user.id);
   res.json({ token, user: { ...safeUser, createdAt: safeUser!.createdAt.toISOString() } });
 });
 
-router.post("/auth/logout", (_req, res): void => {
+router.post("/auth/logout", authenticate, async (req, res): Promise<void> => {
+  if (req.user?.jti) {
+    await db
+      .update(authSessionsTable)
+      .set({ revokedAt: new Date() })
+      .where(and(eq(authSessionsTable.tokenId, req.user.jti), isNull(authSessionsTable.revokedAt)));
+  }
   res.json({ message: "Logged out successfully" });
 });
 
@@ -58,6 +71,16 @@ router.post("/auth/change-password", authenticate, async (req, res): Promise<voi
   }
   const passwordHash = await hashPassword(newPassword);
   await db.update(usersTable).set({ passwordHash }).where(eq(usersTable.id, user.id));
+  await db
+    .update(authSessionsTable)
+    .set({ revokedAt: new Date() })
+    .where(
+      and(
+        eq(authSessionsTable.userId, user.id),
+        isNull(authSessionsTable.revokedAt),
+        ne(authSessionsTable.tokenId, req.user!.jti),
+      ),
+    );
   res.json({ message: "Password changed successfully" });
 });
 

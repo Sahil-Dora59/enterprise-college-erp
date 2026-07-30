@@ -13,3 +13,4 @@ export * from "./fees";
 export * from "./notices";
 export * from "./activity_log";
 export * from "./rbac";
+export * from "./auth_sessions";
