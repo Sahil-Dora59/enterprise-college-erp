@@ -2,13 +2,13 @@
 ## Production Readiness QA Report
 
 **Review date:** July 30, 2026
-**Review type:** Authentication/session hardening follow-up, AI Foundation verification, and production-readiness verification
+**Review type:** Authentication/session hardening follow-up, role-aware AI assistant verification, and production-readiness verification
 **Previous report:** July 29, 2026 — **86/100**
 **Scope:** Authentication, JWT validation, session lifecycle, logout, protected routes, RBAC/permissions, AI Foundation, OpenAPI contract, database integrity, security tooling, builds, and runtime health
 
 ## Executive summary
 
-The authentication and RBAC implementation has completed its hardening pass, and the additive AI Foundation vertical slice is implemented without rewriting existing ERP modules or route behavior. The system now combines strict JWT validation with database-backed, revocable sessions; logout invalidates the current session; password changes invalidate other sessions; protected requests revalidate both the user and session; permission lookup failures fail closed; and AI conversations are persisted with authenticated-user ownership boundaries.
+The authentication and RBAC implementation has completed its hardening pass, and the additive AI Foundation plus three role-aware built-in assistants are implemented without rewriting existing ERP modules or route behavior. The system now combines strict JWT validation with database-backed, revocable sessions; logout invalidates the current session; password changes invalidate other sessions; protected requests revalidate both the user and session; permission lookup failures fail closed; and AI conversations are persisted with authenticated-user ownership boundaries.
 
 The application is **conditionally production-ready for a controlled release**. No critical or high-severity findings were identified. The remaining conditions are primarily architectural and operational:
 
@@ -80,6 +80,10 @@ The application is **conditionally production-ready for a controlled release**. 
   - `ai.manage` is assigned to Super Admin and Admin.
   - Accountant and Librarian do not receive AI access by default.
 - Existing ERP UI navigation, route paths, response shapes, and module behavior remain unchanged outside the additive AI section.
+- When no external provider is configured, the provider-neutral service returns intelligent built-in responses rather than an error:
+  - Student: attendance, timetable, fees, results, assignments, notices, and general student help.
+  - Faculty: assignment descriptions, classroom notices, student emails, and faculty FAQs.
+  - Admin: official notices, announcements, simple text reports, and administrative FAQs.
 
 ## 3. OpenAPI and client contract verification
 
@@ -95,6 +99,7 @@ The application is **conditionally production-ready for a controlled release**. 
   - Message history and provider-neutral message sending
   - Conversation deletion
   - Placeholder AI settings read/update
+- The existing chat page automatically uses the authenticated user's role to select the assistant; no separate frontend chat implementation was introduced.
 
 ## 4. Runtime and live verification
 
@@ -120,6 +125,12 @@ Passed:
   - Logout succeeded and cleanup left `0` test conversations.
 - Unauthenticated AI conversation and settings endpoints return `401`.
 - AI database schema push completed with `ai_conversations`, `ai_messages`, and `ai_settings`.
+- Role-aware AI smoke coverage passed through the real API:
+  - Student prompts for all six requested academic-support areas returned matching built-in guidance.
+  - Faculty prompts for all four requested drafting/FAQ areas returned matching built-in content.
+  - Admin prompts for all four requested notice/announcement/report/FAQ areas returned matching built-in content.
+  - All responses retained `provider: "not_configured"` and made no external provider calls.
+  - Disposable users, conversations, and messages were fully cleaned up.
 - No new startup or runtime errors were found in the final workflow logs.
 
 The shared development database currently contains `31` users, all active. The session table contains `0` rows because no login credentials were used during this read-only verification pass; this avoids creating or mutating authenticated test sessions in the shared database.
@@ -175,18 +186,18 @@ Unauthenticated unknown API routes return `401` before route-not-found handling.
 |---|---:|---:|---:|---|
 | Authentication | 18/20 | 20/20 | +2 | Strict JWT claims, algorithm allow-list, expiration validation, database sessions, and server-side logout revocation |
 | RBAC and ownership security | 19/20 | 19/20 | 0 | Existing database-backed RBAC and ownership controls remain intact; permission failures now fail closed |
-| CRUD/API correctness | 17/20 | 18/20 | +1 | Existing routes preserved; typed AI conversation lifecycle and request validation verified |
+| CRUD/API correctness | 17/20 | 19/20 | +2 | Existing routes preserved; typed AI conversation lifecycle, request validation, and all role-specific built-in assistant capabilities verified |
 | Database integrity | 15/15 | 15/15 | 0 | Session and AI schemas applied; no orphaned sessions or smoke-test AI rows remained |
 | Security scanning and configuration | 9/10 | 10/10 | +1 | Rate limiting, Helmet, bounded bodies, security claims, session revocation, and clean scans |
 | Error handling and observability | 4/5 | 5/5 | +1 | Centralized sanitized JSON errors, request IDs, structured logs, and safe process shutdown |
 | Performance | 2/5 | 2/5 | 0 | Bundle size and dashboard/performance work remain |
 | Responsive UI and routing | 2/3 | 2/3 | 0 | AI routes and permission-aware navigation added; existing routing caveat remains |
 | Automated regression coverage | 0/2 | 0/2 | 0 | Automated test suite remains outstanding |
-| **Total** | **86/100** | **91/100** | **+5** | Hardening improvements and an additive, verified AI Foundation completed without existing ERP regressions |
+| **Total** | **86/100** | **92/100** | **+6** | Hardening improvements and an additive, role-aware AI assistant layer completed without existing ERP regressions |
 
 ## 8. Final production readiness score
 
-# **91 / 100 — Conditionally production-ready**
+# **92 / 100 — Conditionally production-ready**
 
 The application is suitable for a controlled production release after deployment-specific environment verification and operational sign-off. The prior authentication/session hardening blockers are closed:
 
@@ -194,6 +205,7 @@ The application is suitable for a controlled production release after deployment
 2. Centralized production error handling — **completed**
 3. Documented and enforced server-side session/token revocation — **completed**
 4. AI Foundation vertical slice with persisted, permissioned conversations — **completed**
+5. Role-aware built-in Student, Faculty, and Admin assistants — **completed**
 
 Recommended follow-up before a higher-confidence broad release:
 
