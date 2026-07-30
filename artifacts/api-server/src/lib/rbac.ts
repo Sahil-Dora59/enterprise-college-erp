@@ -37,6 +37,8 @@ export const PERMISSIONS = {
   noticesView: "notices.view",
   noticesManage: "notices.manage",
   settingsManage: "settings.manage",
+  aiView: "ai.view",
+  aiManage: "ai.manage",
 } as const;
 
 export type PermissionKey = (typeof PERMISSIONS)[keyof typeof PERMISSIONS];
@@ -88,5 +90,7 @@ export function permissionForRequest(path: string, method: string): PermissionKe
   if (normalized === "/fees" || normalized.startsWith("/fees/")) return write ? PERMISSIONS.feesManage : PERMISSIONS.feesView;
   if (normalized === "/notices" || normalized.startsWith("/notices/")) return write ? PERMISSIONS.noticesManage : PERMISSIONS.noticesView;
   if (normalized === "/settings" || normalized.startsWith("/settings/")) return PERMISSIONS.settingsManage;
+  if (normalized === "/ai/settings" || normalized.startsWith("/ai/settings/")) return PERMISSIONS.aiManage;
+  if (normalized === "/ai" || normalized.startsWith("/ai/")) return PERMISSIONS.aiView;
   return null;
 }

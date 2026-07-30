@@ -7,6 +7,14 @@
  */
 
 export * from './activityItem';
+export * from './aiConversation';
+export * from './aiConversationInput';
+export * from './aiMessage';
+export * from './aiMessageInput';
+export * from './aiMessageResponse';
+export * from './aiMessageRole';
+export * from './aiSettings';
+export * from './aiSettingsInput';
 export * from './assignment';
 export * from './assignmentInput';
 export * from './assignmentUpdate';

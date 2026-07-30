@@ -9,6 +9,74 @@ export interface HealthStatus {
   status: string;
 }
 
+export interface AiConversation {
+  id: number;
+  userId: number;
+  title: string;
+  assistantRole: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AiConversationInput {
+  /** @maxLength 120 */
+  title?: string;
+}
+
+export type AiMessageRole = typeof AiMessageRole[keyof typeof AiMessageRole];
+
+
+export const AiMessageRole = {
+  user: 'user',
+  assistant: 'assistant',
+  system: 'system',
+} as const;
+
+export interface AiMessage {
+  id: number;
+  conversationId: number;
+  role: AiMessageRole;
+  content: string;
+  createdAt: string;
+}
+
+export interface AiMessageInput {
+  /**
+     * @minLength 1
+     * @maxLength 4000
+     */
+  content: string;
+}
+
+export interface AiMessageResponse {
+  userMessage: AiMessage;
+  assistantMessage: AiMessage;
+  provider: string;
+  /** @nullable */
+  model: string | null;
+}
+
+export interface AiSettings {
+  id: number;
+  provider: string;
+  model: string;
+  systemPrompt: string;
+  isEnabled: boolean;
+  /** @nullable */
+  updatedBy: number | null;
+  updatedAt: string;
+}
+
+export interface AiSettingsInput {
+  /** @maxLength 50 */
+  provider: string;
+  /** @maxLength 120 */
+  model: string;
+  /** @maxLength 4000 */
+  systemPrompt: string;
+  isEnabled: boolean;
+}
+
 export interface LoginInput {
   email: string;
   password: string;

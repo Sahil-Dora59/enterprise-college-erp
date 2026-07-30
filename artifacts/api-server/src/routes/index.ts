@@ -17,6 +17,7 @@ import noticesRouter from "./notices";
 import dashboardRouter from "./dashboard";
 import { authenticate, authorizeRequest } from "../middlewares/auth";
 import rbacRouter from "./rbac";
+import aiRouter from "./ai";
 
 const router: IRouter = Router();
 
@@ -38,5 +39,6 @@ router.use(libraryRouter);
 router.use(feesRouter);
 router.use(noticesRouter);
 router.use(dashboardRouter);
+router.use(aiRouter);
 
 export default router;

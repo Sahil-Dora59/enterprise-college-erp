@@ -2,13 +2,13 @@
 ## Production Readiness QA Report
 
 **Review date:** July 30, 2026
-**Review type:** Authentication/session hardening follow-up and production-readiness verification
+**Review type:** Authentication/session hardening follow-up, AI Foundation verification, and production-readiness verification
 **Previous report:** July 29, 2026 — **86/100**
-**Scope:** Authentication, JWT validation, session lifecycle, logout, protected routes, RBAC/permissions, OpenAPI contract, database integrity, security tooling, builds, and runtime health
+**Scope:** Authentication, JWT validation, session lifecycle, logout, protected routes, RBAC/permissions, AI Foundation, OpenAPI contract, database integrity, security tooling, builds, and runtime health
 
 ## Executive summary
 
-The authentication and RBAC implementation has completed its hardening pass without UI changes or changes to existing route functionality. The system now combines strict JWT validation with database-backed, revocable sessions; logout invalidates the current session; password changes invalidate other sessions; protected requests revalidate both the user and session; and permission lookup failures fail closed.
+The authentication and RBAC implementation has completed its hardening pass, and the additive AI Foundation vertical slice is implemented without rewriting existing ERP modules or route behavior. The system now combines strict JWT validation with database-backed, revocable sessions; logout invalidates the current session; password changes invalidate other sessions; protected requests revalidate both the user and session; permission lookup failures fail closed; and AI conversations are persisted with authenticated-user ownership boundaries.
 
 The application is **conditionally production-ready for a controlled release**. No critical or high-severity findings were identified. The remaining conditions are primarily architectural and operational:
 
@@ -75,7 +75,11 @@ The application is **conditionally production-ready for a controlled release**. 
 - Explicit role checks continue to return `401` when unauthenticated and `403` when the role is not allowed.
 - Existing student ownership checks remain unchanged and continue to apply at API query/mutation boundaries.
 - Existing Super Admin restrictions remain unchanged.
-- No UI navigation, route paths, response shapes, or frontend behavior were changed.
+- AI access is database-backed:
+  - `ai.view` is assigned to Super Admin, Admin, Faculty, and Student.
+  - `ai.manage` is assigned to Super Admin and Admin.
+  - Accountant and Librarian do not receive AI access by default.
+- Existing ERP UI navigation, route paths, response shapes, and module behavior remain unchanged outside the additive AI section.
 
 ## 3. OpenAPI and client contract verification
 
@@ -86,6 +90,11 @@ The application is **conditionally production-ready for a controlled release**. 
   - `/auth/change-password`
 - The repository’s Orval code-generation command completed successfully from the updated specification.
 - Generated API clients and Zod artifacts remain type-safe.
+- Added typed AI endpoints for:
+  - Conversation listing and creation
+  - Message history and provider-neutral message sending
+  - Conversation deletion
+  - Placeholder AI settings read/update
 
 ## 4. Runtime and live verification
 
@@ -102,6 +111,15 @@ Passed:
 - Request IDs and structured request logging remain active.
 - Main frontend build completes successfully.
 - API production bundle build completes successfully.
+- AI Foundation authenticated smoke test passed:
+  - Student login received `ai.view`.
+  - Conversation creation returned `201`.
+  - User and assistant messages were persisted and reloaded.
+  - Provider response reported `not_configured` without making an external AI call.
+  - Conversation deletion returned `204`.
+  - Logout succeeded and cleanup left `0` test conversations.
+- Unauthenticated AI conversation and settings endpoints return `401`.
+- AI database schema push completed with `ai_conversations`, `ai_messages`, and `ai_settings`.
 - No new startup or runtime errors were found in the final workflow logs.
 
 The shared development database currently contains `31` users, all active. The session table contains `0` rows because no login credentials were used during this read-only verification pass; this avoids creating or mutating authenticated test sessions in the shared database.
@@ -113,8 +131,8 @@ All final automated checks completed without findings:
 - Dependency audit: `0` critical, `0` high, `0` moderate, `0` low, `0` informational
 - SAST scan: `0` findings
 - Privacy/dataflow scan: `0` findings
-- LSP diagnostics: clean
 - Workspace TypeScript checks: passed
+- LSP diagnostics: the editor service retained stale unresolved-import entries for the newly added AI page files, while the current TypeScript compiler and Vite production build both resolve and compile those files successfully.
 - API TypeScript check: passed
 - Frontend TypeScript check: passed
 - Mockup sandbox TypeScript check: passed
@@ -157,24 +175,25 @@ Unauthenticated unknown API routes return `401` before route-not-found handling.
 |---|---:|---:|---:|---|
 | Authentication | 18/20 | 20/20 | +2 | Strict JWT claims, algorithm allow-list, expiration validation, database sessions, and server-side logout revocation |
 | RBAC and ownership security | 19/20 | 19/20 | 0 | Existing database-backed RBAC and ownership controls remain intact; permission failures now fail closed |
-| CRUD/API correctness | 17/20 | 17/20 | 0 | Existing routes and response behavior preserved |
-| Database integrity | 15/15 | 15/15 | 0 | Session schema applied; no orphaned sessions found |
+| CRUD/API correctness | 17/20 | 18/20 | +1 | Existing routes preserved; typed AI conversation lifecycle and request validation verified |
+| Database integrity | 15/15 | 15/15 | 0 | Session and AI schemas applied; no orphaned sessions or smoke-test AI rows remained |
 | Security scanning and configuration | 9/10 | 10/10 | +1 | Rate limiting, Helmet, bounded bodies, security claims, session revocation, and clean scans |
 | Error handling and observability | 4/5 | 5/5 | +1 | Centralized sanitized JSON errors, request IDs, structured logs, and safe process shutdown |
 | Performance | 2/5 | 2/5 | 0 | Bundle size and dashboard/performance work remain |
-| Responsive UI and routing | 2/3 | 2/3 | 0 | UI was intentionally unchanged; existing routing caveat remains |
+| Responsive UI and routing | 2/3 | 2/3 | 0 | AI routes and permission-aware navigation added; existing routing caveat remains |
 | Automated regression coverage | 0/2 | 0/2 | 0 | Automated test suite remains outstanding |
-| **Total** | **86/100** | **90/100** | **+4** | Hardening improvements completed without functional regressions |
+| **Total** | **86/100** | **91/100** | **+5** | Hardening improvements and an additive, verified AI Foundation completed without existing ERP regressions |
 
 ## 8. Final production readiness score
 
-# **90 / 100 — Conditionally production-ready**
+# **91 / 100 — Conditionally production-ready**
 
 The application is suitable for a controlled production release after deployment-specific environment verification and operational sign-off. The prior authentication/session hardening blockers are closed:
 
 1. Authentication rate limiting — **completed**
 2. Centralized production error handling — **completed**
 3. Documented and enforced server-side session/token revocation — **completed**
+4. AI Foundation vertical slice with persisted, permissioned conversations — **completed**
 
 Recommended follow-up before a higher-confidence broad release:
 

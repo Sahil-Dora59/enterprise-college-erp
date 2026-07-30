@@ -1682,12 +1682,145 @@ paths:
                 items:
                   $ref: "#/components/schemas/ChartDataPoint"
 
+  # AI FOUNDATION
+  /ai/conversations:
+    get:
+      operationId: listAiConversations
+      tags: [ai]
+      summary: List the current user's AI conversations
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: AI conversations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiConversation"
+    post:
+      operationId: createAiConversation
+      tags: [ai]
+      summary: Create an AI conversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiConversationInput"
+      responses:
+        "201":
+          description: AI conversation created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiConversation"
+
+  /ai/conversations/{id}/messages:
+    get:
+      operationId: listAiMessages
+      tags: [ai]
+      summary: List messages in an AI conversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AiConversationId"
+      responses:
+        "200":
+          description: AI conversation messages
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AiMessage"
+        "404":
+          description: Conversation not found
+    post:
+      operationId: sendAiMessage
+      tags: [ai]
+      summary: Send a message to the provider-neutral AI service
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AiConversationId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiMessageInput"
+      responses:
+        "201":
+          description: User and assistant messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiMessageResponse"
+
+  /ai/conversations/{id}:
+    delete:
+      operationId: deleteAiConversation
+      tags: [ai]
+      summary: Delete an owned AI conversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/AiConversationId"
+      responses:
+        "204":
+          description: AI conversation deleted
+
+  /ai/settings:
+    get:
+      operationId: getAiSettings
+      tags: [ai]
+      summary: Get AI provider configuration placeholder
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: AI settings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiSettings"
+    put:
+      operationId: updateAiSettings
+      tags: [ai]
+      summary: Update AI provider configuration placeholder
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AiSettingsInput"
+      responses:
+        "200":
+          description: AI settings updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AiSettings"
+
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  parameters:
+    AiConversationId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     HealthStatus:
       type: object
@@ -1695,6 +1828,103 @@ components:
       properties:
         status:
           type: string
+
+    AiConversation:
+      type: object
+      required: [id, userId, title, assistantRole, createdAt, updatedAt]
+      properties:
+        id:
+          type: integer
+        userId:
+          type: integer
+        title:
+          type: string
+        assistantRole:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    AiConversationInput:
+      type: object
+      properties:
+        title:
+          type: string
+          maxLength: 120
+
+    AiMessage:
+      type: object
+      required: [id, conversationId, role, content, createdAt]
+      properties:
+        id:
+          type: integer
+        conversationId:
+          type: integer
+        role:
+          type: string
+          enum: [user, assistant, system]
+        content:
+          type: string
+        createdAt:
+          type: string
+
+    AiMessageInput:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+          minLength: 1
+          maxLength: 4000
+
+    AiMessageResponse:
+      type: object
+      required: [userMessage, assistantMessage, provider, model]
+      properties:
+        userMessage:
+          $ref: "#/components/schemas/AiMessage"
+        assistantMessage:
+          $ref: "#/components/schemas/AiMessage"
+        provider:
+          type: string
+        model:
+          type: ["string", "null"]
+
+    AiSettings:
+      type: object
+      required: [id, provider, model, systemPrompt, isEnabled, updatedBy, updatedAt]
+      properties:
+        id:
+          type: integer
+        provider:
+          type: string
+        model:
+          type: string
+        systemPrompt:
+          type: string
+        isEnabled:
+          type: boolean
+        updatedBy:
+          type: ["integer", "null"]
+        updatedAt:
+          type: string
+
+    AiSettingsInput:
+      type: object
+      required: [provider, model, systemPrompt, isEnabled]
+      properties:
+        provider:
+          type: string
+          maxLength: 50
+        model:
+          type: string
+          maxLength: 120
+        systemPrompt:
+          type: string
+          maxLength: 4000
+        isEnabled:
+          type: boolean
 
     # AUTH SCHEMAS
     LoginInput:

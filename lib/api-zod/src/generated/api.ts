@@ -1928,3 +1928,143 @@ export const GetAttendanceOverviewResponseItem = zod.object({
 export const GetAttendanceOverviewResponse = zod.array(GetAttendanceOverviewResponseItem)
 
 
+/**
+ * @summary List the current user's AI conversations
+ */
+export const ListAiConversationsResponseItem = zod.object({
+  "id": zod.number(),
+  "userId": zod.number(),
+  "title": zod.string(),
+  "assistantRole": zod.string(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+export const ListAiConversationsResponse = zod.array(ListAiConversationsResponseItem)
+
+
+/**
+ * @summary Create an AI conversation
+ */
+export const createAiConversationBodyTitleMax = 120;
+
+
+
+export const CreateAiConversationBody = zod.object({
+  "title": zod.string().max(createAiConversationBodyTitleMax).optional()
+})
+
+export const CreateAiConversationResponse = zod.object({
+  "id": zod.number(),
+  "userId": zod.number(),
+  "title": zod.string(),
+  "assistantRole": zod.string(),
+  "createdAt": zod.string(),
+  "updatedAt": zod.string()
+})
+
+
+/**
+ * @summary List messages in an AI conversation
+ */
+export const ListAiMessagesParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const ListAiMessagesResponseItem = zod.object({
+  "id": zod.number(),
+  "conversationId": zod.number(),
+  "role": zod.enum(['user', 'assistant', 'system']),
+  "content": zod.string(),
+  "createdAt": zod.string()
+})
+export const ListAiMessagesResponse = zod.array(ListAiMessagesResponseItem)
+
+
+/**
+ * @summary Send a message to the provider-neutral AI service
+ */
+export const SendAiMessageParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const sendAiMessageBodyContentMax = 4000;
+
+
+
+export const SendAiMessageBody = zod.object({
+  "content": zod.string().min(1).max(sendAiMessageBodyContentMax)
+})
+
+export const SendAiMessageResponse = zod.object({
+  "userMessage": zod.object({
+  "id": zod.number(),
+  "conversationId": zod.number(),
+  "role": zod.enum(['user', 'assistant', 'system']),
+  "content": zod.string(),
+  "createdAt": zod.string()
+}),
+  "assistantMessage": zod.object({
+  "id": zod.number(),
+  "conversationId": zod.number(),
+  "role": zod.enum(['user', 'assistant', 'system']),
+  "content": zod.string(),
+  "createdAt": zod.string()
+}),
+  "provider": zod.string(),
+  "model": zod.string().nullable()
+})
+
+
+/**
+ * @summary Delete an owned AI conversation
+ */
+export const DeleteAiConversationParams = zod.object({
+  "id": zod.coerce.number()
+})
+
+export const DeleteAiConversationResponse = zod.void()
+
+
+/**
+ * @summary Get AI provider configuration placeholder
+ */
+export const GetAiSettingsResponse = zod.object({
+  "id": zod.number(),
+  "provider": zod.string(),
+  "model": zod.string(),
+  "systemPrompt": zod.string(),
+  "isEnabled": zod.boolean(),
+  "updatedBy": zod.number().nullable(),
+  "updatedAt": zod.string()
+})
+
+
+/**
+ * @summary Update AI provider configuration placeholder
+ */
+export const updateAiSettingsBodyProviderMax = 50;
+
+export const updateAiSettingsBodyModelMax = 120;
+
+export const updateAiSettingsBodySystemPromptMax = 4000;
+
+
+
+export const UpdateAiSettingsBody = zod.object({
+  "provider": zod.string().max(updateAiSettingsBodyProviderMax),
+  "model": zod.string().max(updateAiSettingsBodyModelMax),
+  "systemPrompt": zod.string().max(updateAiSettingsBodySystemPromptMax),
+  "isEnabled": zod.boolean()
+})
+
+export const UpdateAiSettingsResponse = zod.object({
+  "id": zod.number(),
+  "provider": zod.string(),
+  "model": zod.string(),
+  "systemPrompt": zod.string(),
+  "isEnabled": zod.boolean(),
+  "updatedBy": zod.number().nullable(),
+  "updatedAt": zod.string()
+})
+
+

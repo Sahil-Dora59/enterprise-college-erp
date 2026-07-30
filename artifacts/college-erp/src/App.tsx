@@ -22,6 +22,9 @@ import Library from '@/pages/library';
 import Fees from '@/pages/fees';
 import Notices from '@/pages/notices';
 import Settings from '@/pages/settings';
+import AiDashboard from '@/pages/ai-dashboard';
+import AiChat from '@/pages/ai-chat';
+import AiSettings from '@/pages/ai-settings';
 import NotFound from '@/pages/not-found';
 import AccessDenied from '@/pages/access-denied';
 import { Loader2 } from 'lucide-react';
@@ -89,6 +92,9 @@ function Router() {
       <Route path="/library"><ProtectedRoute component={Library} path="/library" permission="library.view" /></Route>
       <Route path="/fees"><ProtectedRoute component={Fees} path="/fees" permission="fees.view" /></Route>
       <Route path="/notices"><ProtectedRoute component={Notices} path="/notices" permission="notices.view" /></Route>
+      <Route path="/ai"><ProtectedRoute component={AiDashboard} path="/ai" permission="ai.view" /></Route>
+      <Route path="/ai/chat"><ProtectedRoute component={AiChat} path="/ai/chat" permission="ai.view" /></Route>
+      <Route path="/ai/settings"><ProtectedRoute component={AiSettings} path="/ai/settings" permission="ai.manage" /></Route>
       <Route path="/settings"><ProtectedRoute component={Settings} path="/settings" permission="settings.manage" /></Route>
       
       <Route>
