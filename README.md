@@ -1,184 +1,184 @@
 # 🎓 Enterprise College ERP V9 Lite
 
-> A modern, enterprise-grade College ERP system with Role-Based Access Control (RBAC), built as a BCA Major Project.
+> A modern, secure, AI-enabled College Enterprise Resource Planning (ERP) System developed as a BCA Major Project.
 
 ![Status](https://img.shields.io/badge/Status-Active-success)
-![Version](https://img.shields.io/badge/Version-V9_Lite-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+![Version](https://img.shields.io/badge/Version-V9%20Lite-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-98%25-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 # 📖 Overview
 
-Enterprise College ERP V9 Lite is a full-stack College Enterprise Resource Planning (ERP) system designed to automate and manage academic and administrative operations.
+Enterprise College ERP V9 Lite is a full-stack web application designed to digitize and simplify college administration. The system provides secure authentication, role-based access control (RBAC), academic management modules, and a lightweight AI Assistant architecture for students, faculty, and administrators.
 
-The project focuses on providing a secure, scalable, and modular architecture suitable for educational institutions.
+The project focuses on scalability, modularity, and security while remaining suitable for educational institutions and academic demonstrations.
 
 ---
 
-# ✨ Features
+# ✨ Key Features
 
-## Authentication
+## 🔐 Authentication & Security
+
 - Secure Login
 - Logout
-- Session Management
 - Protected Routes
+- Role-Based Access Control (RBAC)
+- Session Management
+- Permission-Based Authorization
+- Secure Password Hashing
+- Production Security Hardening
 
-## Role-Based Access Control (RBAC)
+---
 
-- Super Admin
-- Admin
+## 👥 User Roles
+
+- Super Administrator
+- Administrator
 - Faculty
 - Student
 
-## Academic Modules
+---
 
+## 🎓 Academic Modules
+
+- Dashboard
 - Student Management
 - Faculty Management
-- Attendance Management
-- Course Management
-- Examination Module
-- Notice Board
-
-## Dashboard
-
-- Analytics Cards
-- Student Dashboard
-- Faculty Dashboard
-- Admin Dashboard
-
-## API
-
-- REST API
-- Type-safe Validation
-- Secure Endpoints
+- Departments
+- Courses
+- Semesters
+- Attendance
+- Examinations
+- Marks Management
+- Assignments
+- Library
+- Fees
+- Notices
+- Settings
 
 ---
 
-# 🛠 Tech Stack
+# 🤖 AI Features (Version 1)
 
-### Frontend
+## AI Student Assistant
+
+Provides guidance for:
+
+- Attendance
+- Timetable
+- Assignments
+- Results
+- Fees
+- Notices
+- Student FAQs
+
+---
+
+## AI Faculty Assistant
+
+Supports:
+
+- Assignment Description Generation
+- Classroom Notice Drafting
+- Student Email Drafting
+- Faculty FAQs
+
+---
+
+## AI Admin Assistant
+
+Supports:
+
+- Official Notice Drafting
+- Campus Announcements
+- Administrative FAQs
+- Simple Report Templates
+
+---
+
+## AI Architecture
+
+- Provider-neutral AI design
+- Modular AI services
+- Persistent conversation history
+- AI settings page
+- Role-aware AI Assistant
+- Ready for future LLM integration
+
+---
+
+# 🛡 Security Features
+
+- Role-Based Access Control
+- Secure Authentication
+- Session Validation
+- API Authorization
+- Server-side Validation
+- Centralized Error Handling
+- Audit-ready Architecture
+
+---
+
+# 🏗 Technology Stack
+
+## Frontend
 
 - React
 - TypeScript
-- Vite
+- Tailwind CSS
+- TanStack Query
 
-### Backend
+## Backend
 
 - Node.js
 - Express.js
+- TypeScript
 
-### Database
+## Database
 
 - PostgreSQL
 - Drizzle ORM
 
-### Validation
+## Development
 
-- Zod
-
-### Authentication
-
-- Session Authentication
-- RBAC
+- Replit
+- GitHub
+- Vite
 
 ---
 
 # 📂 Project Structure
 
 ```
-lib/
+client/
+server/
+shared/
+db/
 scripts/
 artifacts/
-package.json
-pnpm-lock.yaml
-tsconfig.json
-.replit
 ```
 
 ---
 
-# 🚀 Current Progress
-
-- ✅ Foundation
-- ✅ Authentication
-- ✅ Dashboard
-- ✅ Student Module
-- ✅ Faculty Module
-- ✅ Course Module
-- ✅ Attendance Module
-- ✅ Examination Module
-- ✅ Notice Module
-- ✅ RBAC
-- ✅ Enterprise Audit
-- ⏳ AI Module
-- ⏳ Production Deployment
-
----
-
-# 🔒 Security Features
-
-- Session Authentication
-- Role-Based Access Control
-- Input Validation
-- Protected APIs
-- Secure Routing
-
----
-
-# 📊 ERP Modules
-
-- Student Information System
-- Faculty Management
-- Attendance
-- Examination
-- Courses
-- Notices
-- Dashboard Analytics
-
----
-
-# 🤖 Upcoming AI Features
-
-- AI Student Assistant
-- AI Faculty Assistant
-- AI Admin Assistant
-- AI Dashboard
-- AI Search
-- AI Report Generator
-- AI Notice Generator
-- AI Assignment Generator
-- Conversation History
-- Provider-Configurable AI Integration
-
----
-
-# ⚙️ Installation
-
-Clone the repository:
+# 🚀 Installation
 
 ```bash
 git clone https://github.com/Sahil-Dora59/Enterprise_College_ERP_V9_Lite.git
-```
 
-Install dependencies:
+cd Enterprise_College_ERP_V9_Lite
 
-```bash
-pnpm install
-```
+npm install
 
-Run the application:
-
-```bash
-pnpm dev
+npm run dev
 ```
 
 ---
 
 # 📸 Screenshots
 
-> Add screenshots here.
+> Add screenshots here after final testing.
 
 - Login Page
 - Dashboard
@@ -186,19 +186,62 @@ pnpm dev
 - Faculty Module
 - Attendance
 - Examination
-- Notice Board
+- AI Student Assistant
+- AI Faculty Assistant
+- AI Admin Assistant
+- AI Settings
 
 ---
 
-# 🗺 Roadmap
+# 📊 Project Status
 
-- [x] Foundation
-- [x] Authentication
-- [x] RBAC
-- [x] Academic Modules
-- [x] Enterprise Audit
-- [ ] AI Module
-- [ ] Production Deployment
+| Module | Status |
+|---------|--------|
+| Authentication | ✅ |
+| RBAC | ✅ |
+| Student Management | ✅ |
+| Faculty Management | ✅ |
+| Attendance | ✅ |
+| Examination | ✅ |
+| Library | ✅ |
+| Fees | ✅ |
+| Notices | ✅ |
+| AI Foundation | ✅ |
+| AI Student Assistant | ✅ |
+| AI Faculty Assistant | ✅ |
+| AI Admin Assistant | ✅ |
+
+---
+
+# 🔮 Future Scope
+
+Future versions may include:
+
+- OpenAI / Gemini Integration
+- RAG PDF Chat
+- Voice Assistant
+- AI Analytics
+- OCR
+- Placement Portal
+- Mobile Application
+- Advanced Reports
+- AI Recommendation Engine
+
+---
+
+# 🎓 Academic Information
+
+**Project Title**
+
+Enterprise College ERP V9 Lite with Lightweight AI Assistants
+
+**Degree**
+
+Bachelor of Computer Applications (BCA)
+
+**Project Type**
+
+Major Project / Dissertation
 
 ---
 
@@ -206,19 +249,12 @@ pnpm dev
 
 **A Sahil Dora**
 
-BCA Major Project
-
-GitHub:
-https://github.com/Sahil-Dora59
+Bachelor of Computer Applications (BCA)
 
 ---
 
-# ⭐ Repository
+# 📜 License
 
-If you find this project useful, consider giving it a ⭐ on GitHub.
+This project is developed for academic and educational purposes.
 
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+MIT License
