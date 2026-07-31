@@ -12,6 +12,7 @@ const router: IRouter = Router();
 
 router.post("/auth/login", async (req, res): Promise<void> => {
   try {
+    console.log("LOGIN ROUTE HIT");
     const parsed = LoginBody.safeParse(req.body);
     if (!parsed.success) {
       res.status(400).json({ error: parsed.error.message });
