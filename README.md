@@ -99,126 +99,105 @@ README.md
 ```
 
 ---
-
 # 📸 Screenshots
 
-## 1. Login Page
-
+## 01. Login Page
 ![](docs/screenshots/01_Login_Page.png)
 
 ---
 
-## 2. Super Admin Dashboard
-
+## 02. Super Admin Dashboard
 ![](docs/screenshots/02_Super_Admin_Dashboard.png)
 
 ---
 
-## 3. System Command Center
-
+## 03. System Command Center
 ![](docs/screenshots/03_System_Command_Center.png)
 
 ---
 
-## 4. Student Management
-
+## 04. Student Management
 ![](docs/screenshots/04_Student_Management.png)
 
 ---
 
-## 5. Faculty Directory
-
+## 05. Faculty Directory
 ![](docs/screenshots/05_Faculty_Directory.png)
 
 ---
 
-## 6. Departments
-
+## 06. Departments
 ![](docs/screenshots/06_Departments.png)
 
 ---
 
-## 7. Courses
-
+## 07. Courses
 ![](docs/screenshots/07_Courses.png)
 
 ---
 
-## 8. Semesters
-
+## 08. Semesters
 ![](docs/screenshots/08_Semesters.png)
 
 ---
 
-## 9. Attendance
-
+## 09. Attendance
 ![](docs/screenshots/09_Attendance.png)
 
 ---
 
-## 10. Examination
-
-![](docs/screenshots/10_Examination.png)
+## 10. Examinations
+![](docs/screenshots/10_Examinations.png)
 
 ---
 
 ## 11. Library Management
-
 ![](docs/screenshots/11_Library_Management.png)
 
 ---
 
 ## 12. Fee Management
-
 ![](docs/screenshots/12_Fee_Management.png)
 
 ---
 
-## 13. Notice Board
-
-![](docs/screenshots/13_Notice_Board.png)
+## 13. Notices
+![](docs/screenshots/13_Notices.png)
 
 ---
 
 ## 14. AI Admin Assistant
-
 ![](docs/screenshots/14_AI_Admin_Assistant.png)
 
 ---
 
-## 15. AI Assistant Chat
-
-![](docs/screenshots/15_AI_Assistant_Chat.png)
-
----
-
-## 16. Reports & Analytics
-
-![](docs/screenshots/16_Reports_Analytics.png)
+## 15. Roles & Permissions (Page 1)
+![](docs/screenshots/15_Roles_And_Permissions_Page1.png)
 
 ---
 
-## 17. Roles & Permissions
-
-![](docs/screenshots/17_Roles_Permissions_1.png)
-
----
-
-## 18. Roles & Permissions
-
-![](docs/screenshots/18_Roles_Permissions_2.png)
+## 16. Roles & Permissions (Page 2)
+![](docs/screenshots/16_Roles_And_Permissions_Page2.png)
 
 ---
 
-## 19. Roles & Permissions
-
-![](docs/screenshots/19_Roles_Permissions_3.png)
+## 17. Roles & Permissions (Page 3)
+![](docs/screenshots/17_Roles_And_Permissions_Page3.png)
 
 ---
 
-## 20. Roles & Permissions
+## 18. Roles & Permissions (Page 4)
+![](docs/screenshots/18_Roles_And_Permissions_Page4.png)
 
-![](docs/screenshots/20_Roles_Permissions_4.png)
+---
+
+## 19. AI Assistant
+![](docs/screenshots/19_AI_Assistant.png)
+
+---
+
+## 20. Attendance Detailed View
+![](docs/screenshots/20_Attendance_Detailed_View.png)
 
 ---
 
