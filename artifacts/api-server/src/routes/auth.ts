@@ -11,30 +11,59 @@ import { getUserWithPermissions } from "../lib/rbac";
 const router: IRouter = Router();
 
 router.post("/auth/login", async (req, res): Promise<void> => {
-  const parsed = LoginBody.safeParse(req.body);
-  if (!parsed.success) {
-    res.status(400).json({ error: parsed.error.message });
-    return;
+  try {
+    const parsed = LoginBody.safeParse(req.body);
+    if (!parsed.success) {
+      res.status(400).json({ error: parsed.error.message });
+      return;
+    }
+
+    const { email, password } = parsed.data;
+
+    const [user] = await db
+      .select()
+      .from(usersTable)
+      .where(eq(usersTable.email, email));
+
+    if (!user || !(await verifyPassword(password, user.passwordHash))) {
+      res.status(401).json({ error: "Invalid email or password" });
+      return;
+    }
+
+    if (!user.isActive) {
+      res.status(401).json({ error: "Account is inactive. Contact administrator." });
+      return;
+    }
+
+    const tokenId = crypto.randomUUID();
+    const token = signToken(
+      { userId: user.id, email: user.email, role: user.role },
+      tokenId,
+    );
+
+    await db.insert(authSessionsTable).values({
+      userId: user.id,
+      tokenId,
+      expiresAt: new Date(Date.now() + TOKEN_TTL_SECONDS * 1000),
+    });
+
+    const safeUser = await getUserWithPermissions(user.id);
+
+    res.json({
+      token,
+      user: {
+        ...safeUser,
+        createdAt: safeUser!.createdAt.toISOString(),
+      },
+    });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+
+    res.status(500).json({
+      error: err instanceof Error ? err.message : String(err),
+      stack: err instanceof Error ? err.stack : undefined,
+    });
   }
-  const { email, password } = parsed.data;
-  const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email));
-  if (!user || !(await verifyPassword(password, user.passwordHash))) {
-    res.status(401).json({ error: "Invalid email or password" });
-    return;
-  }
-  if (!user.isActive) {
-    res.status(401).json({ error: "Account is inactive. Contact administrator." });
-    return;
-  }
-  const tokenId = crypto.randomUUID();
-  const token = signToken({ userId: user.id, email: user.email, role: user.role }, tokenId);
-  await db.insert(authSessionsTable).values({
-    userId: user.id,
-    tokenId,
-    expiresAt: new Date(Date.now() + TOKEN_TTL_SECONDS * 1000),
-  });
-  const safeUser = await getUserWithPermissions(user.id);
-  res.json({ token, user: { ...safeUser, createdAt: safeUser!.createdAt.toISOString() } });
 });
 
 router.post("/auth/logout", authenticate, async (req, res): Promise<void> => {
