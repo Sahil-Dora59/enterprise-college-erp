@@ -157,9 +157,9 @@ The platform provides secure academic management, administration, role-based acc
 
 ![Roles & Permissions](docs/screenshots/18_Roles_And_Permissions_Page4.png)
 
-### 19. Attendance Detailed View
+### 19. AI Assistant Chat
 
-![Attendance Detailed View](docs/screenshots/19_Attendance_Detailed_View.png)
+![AI Assistant Chat](docs/screenshots/19_AI_Assistant_Chat.png)
 
 ### 20. Attendance Detailed View (Page 2)
 
