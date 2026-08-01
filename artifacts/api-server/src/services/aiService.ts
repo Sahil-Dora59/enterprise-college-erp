@@ -42,7 +42,67 @@ function requestedSubject(message: string, fallback: string): string {
   return cleaned.length >= 3 && cleaned.length <= 120 ? cleaned : fallback;
 }
 
+function extractNumber(message: string, pattern: RegExp, fallback: number): number {
+  const match = message.match(pattern);
+  const value = match ? Number(match[1]) : fallback;
+  return Number.isInteger(value) && value > 0 && value <= 100 ? value : fallback;
+}
+
+function extractField(message: string, labels: string[], fallback: string): string {
+  for (const label of labels) {
+    const match = message.match(new RegExp(`${label}\\s*[:=-]\\s*([^,;\\n]+)`, "i"));
+    if (match?.[1]?.trim()) return match[1].trim().slice(0, 160);
+  }
+  return fallback;
+}
+
+function assignmentDraft(message: string): string {
+  const subject = extractField(message, ["subject", "topic", "course"], requestedSubject(message, "Course topic"));
+  const difficulty = extractField(message, ["difficulty", "level"], "Moderate");
+  const questions = extractNumber(message, /(?:number\s+of\s+questions|questions)\s*[:=-]?\s*(\d+)/i, 5);
+  const objectives = extractField(message, ["learning objectives", "objectives", "outcomes"], `understand and apply the core concepts of ${subject}`);
+  return [
+    `ASSIGNMENT: ${subject}`,
+    "",
+    `Difficulty: ${difficulty}`,
+    `Number of questions: ${questions}`,
+    `Learning objectives: ${objectives}`,
+    "",
+    "Instructions",
+    `Answer all ${questions} questions with clear reasoning, relevant examples, and references where required.`,
+    "",
+    "Questions",
+    ...Array.from({ length: questions }, (_, index) => `${index + 1}. Explain, apply, or evaluate an important concept related to ${subject}.`),
+    "",
+    "Submission",
+    "Submit one clearly labeled document with your name, course, answers, and references.",
+    "",
+    "Assessment",
+    "Conceptual accuracy (40%), application and reasoning (30%), clarity (20%), and originality/references (10%).",
+  ].join("\n");
+}
+
+function faqFallback(message: string): string {
+  const topics: Record<string, string> = {
+    admission: "Admissions: review the published eligibility criteria, application dates, required documents, and fee instructions. Contact the admissions office for an application-specific decision.",
+    attendance: "Attendance: review subject-wise attendance in the Attendance module. Attendance is generally calculated as attended classes divided by scheduled classes, multiplied by 100.",
+    fees: "Fees: use the Fees module to check charges, paid amounts, outstanding balances, due dates, and receipts. Contact Accounts with the transaction reference if a payment is missing.",
+    results: "Results: published marks and grades are available through the Marks or Examinations module. For a discrepancy, follow the institution's review or revaluation process.",
+    examinations: "Examinations: check official notices for schedules, rooms, eligibility, and instructions. Confirm the latest circular before an examination.",
+    library: "Library: use the Library module to review books, borrow records, due dates, and returns. Contact the library desk for renewal or lost-item guidance.",
+    hostel: "Hostel: contact the hostel office for availability, allocation, fees, residence rules, and maintenance requests. Follow the published application dates.",
+    scholarships: "Scholarships: review eligibility, deadlines, required documents, and renewal conditions in the official scholarship notice. Submit documents through the designated office.",
+  };
+  const topic = Object.keys(topics).find((key) => message.includes(key));
+  return topic
+    ? `UNIVERSITY FAQ — ${topic.toUpperCase()}\n\n${topics[topic]}\n\nFor a binding decision, confirm the current policy or notice with the responsible university office.`
+    : `UNIVERSITY FAQ\n\nI can answer common questions about admission, attendance, fees, results, examinations, library, hostel, and scholarships.\n\nTry: “What documents are needed for admission?” or “How do I renew a library book?”`;
+}
+
 function studentFallback(message: string): string {
+  if (includesAny(message, ["faq", "frequently asked", "university question", "admission", "hostel", "scholarship", "library"])) {
+    return faqFallback(message);
+  }
   if (includesAny(message, ["attendance", "absent", "presence", "present percentage"])) {
     return [
       "I can help with attendance.",
@@ -119,32 +179,14 @@ function studentFallback(message: string): string {
 
 function facultyFallback(message: string): string {
   if (includesAny(message, ["assignment description", "describe an assignment", "assignment brief", "assignment"])) {
-    const subject = requestedSubject(message, "Course topic");
-    return [
-      `Assignment Description: ${subject}`,
-      "",
-      "Objective",
-      `Students will demonstrate their understanding of ${subject} by applying the relevant concepts to a clear academic or practical problem.`,
-      "",
-      "Instructions",
-      "1. Review the course material and define the problem or question.",
-      "2. Explain the approach, supporting evidence, and assumptions.",
-      "3. Submit an organized response with references where appropriate.",
-      "",
-      "Deliverables",
-      "Submit one clearly labeled document including the student's name, course, approach, findings, and conclusion.",
-      "",
-      "Assessment criteria",
-      "Accuracy and understanding (40%), application and reasoning (30%), clarity and organization (20%), and references or originality (10%).",
-      "",
-      "Adjust the objective, deliverables, deadline, and rubric to match your course policy before publishing.",
-    ].join("\n");
+    return assignmentDraft(message);
   }
 
-  if (includesAny(message, ["classroom notice", "class notice", "notice to students", "class announcement"])) {
+  if (includesAny(message, ["circular", "event announcement", "event notice", "classroom notice", "class notice", "notice to students", "class announcement"])) {
     const subject = requestedSubject(message, "Upcoming class update");
+    const kind = includesAny(message, ["circular"]) ? "COLLEGE CIRCULAR" : includesAny(message, ["event"]) ? "EVENT ANNOUNCEMENT" : "CLASSROOM NOTICE";
     return [
-      "CLASSROOM NOTICE",
+      kind,
       "",
       `Subject: ${subject}`,
       "Dear Students,",
@@ -205,10 +247,11 @@ function facultyFallback(message: string): string {
 }
 
 function adminFallback(message: string): string {
-  if (includesAny(message, ["official notice", "formal notice", "institutional notice", "notice"])) {
+  if (includesAny(message, ["circular", "event announcement", "event notice", "official notice", "formal notice", "institutional notice", "notice"])) {
     const subject = requestedSubject(message, "Administrative update");
+    const kind = includesAny(message, ["circular"]) ? "COLLEGE CIRCULAR" : includesAny(message, ["event"]) ? "EVENT ANNOUNCEMENT" : "OFFICIAL NOTICE";
     return [
-      "OFFICIAL NOTICE",
+      kind,
       "",
       `Subject: ${subject}`,
       "Date: [DD Month YYYY]",
@@ -273,17 +316,7 @@ function adminFallback(message: string): string {
   }
 
   if (includesAny(message, ["faq", "frequently asked", "administrative help", "admin help", "policy", "registration", "admission"])) {
-    return [
-      "Common administrative guidance:",
-      "",
-      "• Notices: Use a dated official notice for policy, schedule, or process changes.",
-      "• Announcements: Use a campus announcement for general information that does not change a formal policy.",
-      "• Records: Verify the relevant student, faculty, finance, or academic records before communicating an outcome.",
-      "• Access: Grant administrative access through the existing role and permission process.",
-      "• Escalation: Route unresolved academic, financial, or welfare matters to the responsible office and record the follow-up.",
-      "",
-      "Tell me whether you need an official notice, announcement, report, or a specific administrative FAQ.",
-    ].join("\n");
+    return faqFallback(message);
   }
 
   return [
@@ -299,6 +332,12 @@ function adminFallback(message: string): string {
 }
 
 function builtInFallbackResponse(role: string, message: string): string {
+  if (
+    includesAny(message, ["faq", "frequently asked", "university question", "common university question"]) ||
+    /^(how|what|where|when|who|can|do|is|are).*(admission|attendance|fee|result|examination|library|hostel|scholarship)/.test(message)
+  ) {
+    return faqFallback(message);
+  }
   switch (role) {
     case "student":
       return studentFallback(message);

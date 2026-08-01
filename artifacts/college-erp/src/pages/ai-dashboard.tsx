@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { MessageSquare, Settings2, Sparkles, History } from "lucide-react";
+import { MessageSquare, Settings2, Sparkles, History, FileText, ClipboardList, HelpCircle } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -112,6 +112,23 @@ export default function AiDashboard() {
           </Card>
         )}
       </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Sparkles className="h-5 w-5 text-primary" /> AI Utilities</CardTitle>
+          <CardDescription>Start a focused built-in utility without leaving the existing AI chat.</CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-3 sm:grid-cols-3">
+          {[
+            { label: "Notice Generator", icon: FileText, prompt: "Create a professional college notice about " },
+            { label: "Assignment Generator", icon: ClipboardList, prompt: "Generate an assignment with subject: , difficulty: Moderate, questions: 5, learning objectives: " },
+            { label: "FAQ Assistant", icon: HelpCircle, prompt: "What are the common university FAQs about " },
+          ].map(({ label, icon: Icon, prompt }) => (
+            <Button key={label} asChild variant="outline" className="justify-start gap-2">
+              <Link href={`/ai/chat?prompt=${encodeURIComponent(prompt)}`}><Icon className="h-4 w-4" />{label}</Link>
+            </Button>
+          ))}
+        </CardContent>
+      </Card>
     </div>
   );
 }
