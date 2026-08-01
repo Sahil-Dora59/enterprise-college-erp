@@ -83,30 +83,87 @@ The platform provides secure academic management, administration, role-based acc
 
 ---
 
-# 📸 Screenshots
+## 📸 Screenshots
 
-Screenshots are available in:
+### 1. Login Page
 
-```
-docs/screenshots/
-```
+![Login Page](docs/screenshots/01_Login_Page.png)
 
-Examples include:
+### 2. Super Admin Dashboard
 
-- Login Page
-- Super Admin Dashboard
-- Student Management
-- Faculty Directory
-- Departments
-- Courses
-- Semesters
-- Attendance
-- Examination
-- Library
-- Fee Management
-- Notice Board
-- AI Assistant
-- Roles & Permissions
+![Super Admin Dashboard](docs/screenshots/02_Super_Admin_Dashboard.png)
+
+### 3. System Command Center
+
+![System Command Center](docs/screenshots/03_System_Command_Center.png)
+
+### 4. Student Management
+
+![Student Management](docs/screenshots/04_Student_Management.png)
+
+### 5. Faculty Directory
+
+![Faculty Directory](docs/screenshots/05_Faculty_Directory.png)
+
+### 6. Departments
+
+![Departments](docs/screenshots/06_Departments.png)
+
+### 7. Courses
+
+![Courses](docs/screenshots/07_Courses.png)
+
+### 8. Semesters
+
+![Semesters](docs/screenshots/08_Semesters.png)
+
+### 9. Attendance
+
+![Attendance](docs/screenshots/09_Attendance.png)
+
+### 10. Examinations
+
+![Examinations](docs/screenshots/10_Examinations.png)
+
+### 11. Library Management
+
+![Library Management](docs/screenshots/11_Library_Management.png)
+
+### 12. Fee Management
+
+![Fee Management](docs/screenshots/12_Fee_Management.png)
+
+### 13. Notice Board
+
+![Notice Board](docs/screenshots/13_Notices.png)
+
+### 14. AI Assistant
+
+![AI Assistant](docs/screenshots/14_AI_Admin_Assistant.png)
+
+### 15. Roles & Permissions
+
+![Roles & Permissions](docs/screenshots/15_Roles_And_Permissions_Page1.png)
+
+### 16. Roles & Permissions (Page 2)
+
+![Roles & Permissions](docs/screenshots/16_Roles_And_Permissions_Page2.png)
+
+### 17. Roles & Permissions (Page 3)
+
+![Roles & Permissions](docs/screenshots/17_Roles_And_Permissions_Page3.png)
+
+### 18. Roles & Permissions (Page 4)
+
+![Roles & Permissions](docs/screenshots/18_Roles_And_Permissions_Page4.png)
+
+### 19. Attendance Detailed View
+
+![Attendance Detailed View](docs/screenshots/19_Attendance_Detailed_View.png)
+
+### 20. Attendance Detailed View (Page 2)
+
+![Attendance Detailed View](docs/screenshots/20_Attendance_Detailed_View.png)
 
 ---
 
