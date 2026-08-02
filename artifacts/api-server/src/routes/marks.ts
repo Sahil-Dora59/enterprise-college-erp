@@ -154,4 +154,50 @@ router.get("/marks/report", authenticate, async (req, res): Promise<void> => {
   res.json(report);
 });
 
+router.get("/marks/analytics", authenticate, async (_req, res): Promise<void> => {
+  const rows = await db
+    .select({
+      marks: marksTable.marksObtained,
+      total: examinationsTable.totalMarks,
+      grade: marksTable.grade,
+      studentId: marksTable.studentId,
+      courseName: coursesTable.name,
+      courseCode: coursesTable.code,
+    })
+    .from(marksTable)
+    .leftJoin(examinationsTable, eq(marksTable.examinationId, examinationsTable.id))
+    .leftJoin(coursesTable, eq(examinationsTable.courseId, coursesTable.id));
+
+  const totals = rows.reduce((acc, row) => {
+    const marks = Number(row.marks);
+    const total = row.total ?? 0;
+    acc.total += 1;
+    acc.passed += total > 0 && marks / total >= 0.4 ? 1 : 0;
+    acc.backlogs += total > 0 && marks / total < 0.4 ? 1 : 0;
+    const grade = row.grade || computeGrade(marks, total);
+    acc.grades[grade] = (acc.grades[grade] || 0) + 1;
+    const key = row.courseCode || row.courseName || "Unknown";
+    const subject = acc.subjects[key] ||= { code: row.courseCode, name: row.courseName, total: 0, passed: 0 };
+    subject.total += 1;
+    if (total > 0 && marks / total >= 0.4) subject.passed += 1;
+    const student = acc.students[row.studentId] ||= { studentId: row.studentId, total: 0, obtained: 0 };
+    student.total += total;
+    student.obtained += marks;
+    return acc;
+  }, { total: 0, passed: 0, backlogs: 0, grades: {} as Record<string, number>, subjects: {} as Record<string, { code: string | null; name: string | null; total: number; passed: number }>, students: {} as Record<number, { studentId: number; total: number; obtained: number }> });
+
+  const topPerformers = Object.values(totals.students)
+    .map((student) => ({ ...student, percentage: student.total ? Math.round(student.obtained / student.total * 1000) / 10 : 0 }))
+    .sort((a, b) => b.percentage - a.percentage).slice(0, 10);
+  res.json({
+    totalMarks: totals.total,
+    passed: totals.passed,
+    backlogs: totals.backlogs,
+    passPercentage: totals.total ? Math.round(totals.passed / totals.total * 1000) / 10 : 0,
+    gradeDistribution: Object.entries(totals.grades).map(([grade, count]) => ({ grade, count })),
+    subjectAnalysis: Object.values(totals.subjects).map((subject) => ({ ...subject, passPercentage: subject.total ? Math.round(subject.passed / subject.total * 1000) / 10 : 0 })),
+    topPerformers,
+  });
+});
+
 export default router;

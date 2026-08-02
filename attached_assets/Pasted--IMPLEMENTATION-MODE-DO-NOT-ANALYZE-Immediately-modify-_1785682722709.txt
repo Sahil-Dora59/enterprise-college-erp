@@ -1,0 +1,271 @@
+🚨 IMPLEMENTATION MODE — DO NOT ANALYZE
+
+Immediately modify my EXISTING ERP Version 2.
+
+Continue from the existing project.
+
+Do NOT recreate the application.
+
+Do NOT stop after analysis.
+
+==================================================
+
+MISSION
+
+Build a complete Enterprise Examination & Results System.
+
+==================================================
+
+IMPLEMENT NOW
+
+Create:
+
+• Exam Sessions
+
+• Internal Exams
+
+• Mid Semester Exams
+
+• End Semester Exams
+
+• Practical Exams
+
+• Viva Exams
+
+• Supplementary Exams
+
+==================================================
+
+EXAM SCHEDULING
+
+Implement:
+
+• Exam Calendar
+
+• Exam Timetable
+
+• Hall Allocation
+
+• Invigilator Assignment
+
+==================================================
+
+QUESTION PAPERS
+
+Implement:
+
+• Question Bank
+
+• Upload Papers
+
+• Previous Papers
+
+• Version Control
+
+==================================================
+
+MARKS
+
+Implement:
+
+• Internal Marks
+
+• External Marks
+
+• Practical Marks
+
+• Viva Marks
+
+• Grace Marks
+
+• Bulk Upload
+
+• Marks Lock
+
+• Marks Verification
+
+==================================================
+
+RESULTS
+
+Generate:
+
+• Semester Results
+
+• SGPA
+
+• CGPA
+
+• Marksheet
+
+• Transcript
+
+• Rank List
+
+• Merit List
+
+==================================================
+
+STUDENT FEATURES
+
+Students can:
+
+View Timetable.
+
+Download Hall Ticket.
+
+View Results.
+
+Download Marksheet.
+
+Download Transcript.
+
+==================================================
+
+FACULTY FEATURES
+
+Faculty can:
+
+Create Exams.
+
+Enter Marks.
+
+Review Marks.
+
+Publish Results.
+
+==================================================
+
+ADMIN FEATURES
+
+Manage:
+
+Exam Rules.
+
+Exam Sessions.
+
+Publishing.
+
+Analytics.
+
+==================================================
+
+REPORTS
+
+Generate:
+
+Result Reports.
+
+Performance Reports.
+
+Hall Tickets.
+
+Transcripts.
+
+==================================================
+
+EXPORT
+
+PDF.
+
+Excel.
+
+CSV.
+
+Print.
+
+==================================================
+
+ANALYTICS
+
+Pass Percentage.
+
+Subject Analysis.
+
+Department Analysis.
+
+Top Performers.
+
+Backlogs.
+
+Grade Distribution.
+
+==================================================
+
+UI
+
+Professional Exam Dashboard.
+
+Modern Tables.
+
+Responsive Design.
+
+Validation.
+
+Loading States.
+
+==================================================
+
+API
+
+REST APIs.
+
+Validation.
+
+Pagination.
+
+Filtering.
+
+Authorization.
+
+==================================================
+
+DATABASE
+
+Improve exam tables.
+
+Maintain compatibility.
+
+==================================================
+
+TESTING
+
+Run application.
+
+Test exams.
+
+Test marks.
+
+Test results.
+
+Test SGPA.
+
+Test CGPA.
+
+Test reports.
+
+Fix compile errors.
+
+Fix runtime errors.
+
+Continue until everything works.
+
+==================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features completed.
+
+Bugs fixed.
+
+Application builds successfully.
