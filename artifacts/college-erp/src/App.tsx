@@ -35,6 +35,10 @@ import ExaminationDashboard from '@/pages/examination-dashboard';
 import Administration from '@/pages/administration';
 import StudentDashboard from '@/pages/student-dashboard';
 import Reports from '@/pages/reports';
+import AdmissionsPortal from '@/pages/admissions-portal';
+import AdmissionApply from '@/pages/admission-apply';
+import AdmissionTrack from '@/pages/admission-track';
+import AdmissionCrm from '@/pages/admission-crm';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -82,6 +86,9 @@ function Router() {
         {user ? <Redirect to={`/dashboard/${user.role}`} /> : <Login />}
       </Route>
       <Route path="/reset-password"><ResetPassword /></Route>
+      <Route path="/admissions"><AdmissionsPortal /></Route>
+      <Route path="/admissions/apply"><AdmissionApply /></Route>
+      <Route path="/admissions/track/:id"><AdmissionTrack /></Route>
 
       <Route path="/"><ProtectedRoute component={Dashboard} path="/" permission="dashboard.view" /></Route>
       {(["super_admin", "admin", "faculty", "student", "accountant", "librarian"] as const).map((role) => (
@@ -111,6 +118,7 @@ function Router() {
       <Route path="/ai/settings"><ProtectedRoute component={AiSettings} path="/ai/settings" permission="ai.manage" /></Route>
       <Route path="/settings"><ProtectedRoute component={Settings} path="/settings" permission="settings.manage" /></Route>
       <Route path="/demo"><ProtectedRoute component={DemoControlCenter} path="/demo" permission="dashboard.view" /></Route>
+      <Route path="/admissions/crm"><ProtectedRoute component={AdmissionCrm} path="/admissions/crm" permission="dashboard.view" /></Route>
       
       <Route>
         <Shell>

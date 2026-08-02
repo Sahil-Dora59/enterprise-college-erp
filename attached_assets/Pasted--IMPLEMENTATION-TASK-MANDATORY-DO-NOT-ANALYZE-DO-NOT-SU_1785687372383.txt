@@ -1,0 +1,536 @@
+🚨 IMPLEMENTATION TASK (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT STOP AFTER READING.
+
+Immediately continue modifying my EXISTING College ERP Version 2.
+
+Continue from the current architecture.
+
+Reuse existing authentication, database models, layouts, APIs, RBAC, notifications, AI, reporting and UI components.
+
+DO NOT recreate the project.
+
+DO NOT break existing functionality.
+
+Run the application after implementation.
+
+Fix all compile errors and runtime errors before stopping.
+
+========================================================
+
+MISSION
+
+Build a complete Enterprise Admission CRM and Applicant Portal.
+
+This is NOT a student registration system.
+
+This is the complete admission lifecycle used by real universities.
+
+========================================================
+
+PUBLIC APPLICANT PORTAL
+
+Create a public admission portal.
+
+No login required for viewing.
+
+Include:
+
+• Home
+• Admission Information
+• Eligibility
+• Programs
+• Fee Structure
+• Required Documents
+• FAQs
+• Contact Admission Office
+
+Create a professional landing page.
+
+========================================================
+
+ONLINE APPLICATION
+
+Create a multi-step application wizard.
+
+Steps:
+
+1. Personal Information
+
+2. Parent / Guardian Information
+
+3. Address
+
+4. Educational Qualification
+
+5. Course Selection
+
+6. Document Upload
+
+7. Review
+
+8. Declaration
+
+9. Submit
+
+Auto-save progress.
+
+Allow applicants to continue later.
+
+========================================================
+
+APPLICATION FEATURES
+
+Generate automatically:
+
+Application ID
+
+Reference Number
+
+Application Date
+
+Status
+
+Timestamp
+
+Support draft applications.
+
+Support editing before final submission.
+
+========================================================
+
+DOCUMENTS
+
+Upload:
+
+Passport Photo
+
+Signature
+
+10th Certificate
+
+12th Certificate
+
+Transfer Certificate
+
+Migration Certificate
+
+Identity Proof
+
+Category Certificate
+
+Income Certificate
+
+Other Documents
+
+Validate:
+
+File Size
+
+File Type
+
+Virus-safe upload architecture
+
+========================================================
+
+APPLICANT DASHBOARD
+
+After application submission provide:
+
+Application Status
+
+Submitted Documents
+
+Missing Documents
+
+Admission Timeline
+
+Messages
+
+Interview Schedule
+
+Entrance Test Status
+
+Offer Letter
+
+Admission Decision
+
+========================================================
+
+ADMISSION CRM
+
+Create a professional Admission Dashboard.
+
+Manage:
+
+Applications
+
+Search
+
+Filters
+
+Sorting
+
+Pagination
+
+Bulk Actions
+
+Application Assignment
+
+Review Queue
+
+Verification Queue
+
+Approval Queue
+
+Rejected Queue
+
+Waitlist
+
+========================================================
+
+APPLICATION REVIEW
+
+Admission Officers can:
+
+Open application
+
+Review documents
+
+Add comments
+
+Request corrections
+
+Approve
+
+Reject
+
+Waitlist
+
+Forward to another officer
+
+Maintain complete audit history.
+
+========================================================
+
+WORKFLOW
+
+Application Submitted
+
+↓
+
+Document Verification
+
+↓
+
+Eligibility Check
+
+↓
+
+Interview (optional)
+
+↓
+
+Entrance Test (optional)
+
+↓
+
+Final Review
+
+↓
+
+Approval / Rejection
+
+========================================================
+
+AUTO ACCOUNT CREATION
+
+When an application is APPROVED:
+
+Automatically create:
+
+Student Record
+
+Student Login Account
+
+Student ID
+
+Roll Number
+
+Registration Number
+
+Academic Session
+
+Department
+
+Program
+
+Semester
+
+Default Student Role
+
+Temporary Password
+
+Student Profile
+
+Link everything to the existing Student Information System.
+
+DO NOT duplicate data.
+
+========================================================
+
+FIRST LOGIN
+
+New students should:
+
+Login using temporary credentials.
+
+Be required to:
+
+Change Password
+
+Verify Email (architecture)
+
+Verify Mobile (architecture)
+
+Complete Profile
+
+========================================================
+
+NOTIFICATIONS
+
+Automatically generate notifications for:
+
+Application Submitted
+
+Documents Required
+
+Interview Scheduled
+
+Application Approved
+
+Application Rejected
+
+Student Account Created
+
+========================================================
+
+EMAIL / SMS ARCHITECTURE
+
+Prepare integration-ready services.
+
+Support:
+
+Email Templates
+
+SMS Templates
+
+WhatsApp-ready architecture
+
+Do not hardcode providers.
+
+========================================================
+
+SEARCH
+
+Global Applicant Search.
+
+Search by:
+
+Application ID
+
+Name
+
+Phone
+
+Email
+
+Program
+
+Status
+
+Reference Number
+
+========================================================
+
+REPORTS
+
+Generate:
+
+Applications by Day
+
+Applications by Program
+
+Approval Rate
+
+Rejected Applications
+
+Pending Applications
+
+Admission Funnel
+
+Conversion Rate
+
+Officer Performance
+
+========================================================
+
+EXPORT
+
+Support:
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+========================================================
+
+AI
+
+Integrate with the existing AI module.
+
+AI should assist with:
+
+Application summaries
+
+Missing document detection
+
+Eligibility insights
+
+Admission statistics
+
+Draft email generation
+
+========================================================
+
+RBAC
+
+Permissions:
+
+Super Admin
+
+Admin
+
+Admission Officer
+
+Secretary
+
+Viewer
+
+Only authorized users can review or approve applications.
+
+========================================================
+
+DATABASE
+
+Create normalized database structures.
+
+Maintain foreign-key relationships.
+
+Maintain compatibility with existing Student Information System.
+
+Avoid duplicate records.
+
+========================================================
+
+UI
+
+Enterprise quality.
+
+Professional dashboards.
+
+Responsive design.
+
+Dark Mode.
+
+Light Mode.
+
+Loading states.
+
+Empty states.
+
+Error states.
+
+Animations.
+
+========================================================
+
+TESTING
+
+Run the application.
+
+Test:
+
+Application submission
+
+Draft save
+
+Document upload
+
+Application review
+
+Approval
+
+Rejection
+
+Auto student creation
+
+Auto account creation
+
+Notifications
+
+RBAC
+
+Search
+
+Reports
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until every feature works correctly.
+
+========================================================
+
+STOP ONLY WHEN
+
+The complete Admission CRM is fully integrated with the existing ERP.
+
+The application builds successfully.
+
+========================================================
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+Database changes
+
+New APIs
+
+New Pages
+
+New Components
+
+RBAC changes
+
+Features implemented
+
+Bugs fixed
+
+Final confirmation:
+
+"Enterprise Admission CRM & Applicant Portal successfully implemented and fully integrated into ERP Version 2."

@@ -1,0 +1,16 @@
+import { useEffect, useState } from "react";
+import { Search, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+
+export default function AdmissionCrm() {
+  const { token } = useAuth(); const [rows, setRows] = useState<any[]>([]); const [search, setSearch] = useState(""); const { toast } = useToast();
+  const load = async () => { const response = await fetch(`/api/admissions/applications?search=${encodeURIComponent(search)}`, { headers: { Authorization: `Bearer ${token}` } }); if (response.ok) setRows(await response.json()); };
+  useEffect(() => { if (token) void load(); }, [token]);
+  const review = async (id: number, status: string) => { const response = await fetch(`/api/admissions/applications/${id}/review`, { method: "PATCH", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` }, body: JSON.stringify({ status }) }); if (response.ok) { toast({ title: `Application ${status}` }); void load(); } };
+  return <div className="space-y-6"><div><p className="text-sm font-semibold uppercase tracking-widest text-primary">Admissions operations</p><h1 className="text-3xl font-bold">Admission CRM</h1><p className="text-muted-foreground">Review, verify, and decide on applicant submissions.</p></div><div className="flex gap-2"><div className="relative max-w-md flex-1"><Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" /><Input className="pl-9" placeholder="Search application, applicant, email, reference" value={search} onChange={(e) => setSearch(e.target.value)} onKeyDown={(e) => e.key === "Enter" && load()} /></div><Button variant="outline" onClick={load}>Search</Button></div><Card><CardHeader><CardTitle>Application queue ({rows.length})</CardTitle></CardHeader><CardContent className="space-y-3">{rows.length ? rows.map((row) => <div className="flex flex-col gap-3 rounded-xl border p-4 md:flex-row md:items-center" key={row.id}><div className="min-w-0 flex-1"><p className="font-semibold">{row.applicantName}</p><p className="text-sm text-muted-foreground">{row.applicationId} · {row.referenceNumber} · {row.program}</p><p className="text-sm text-muted-foreground">{row.email} · {row.phone}</p></div><Badge variant="outline" className="w-fit capitalize">{row.status.replace("_"," ")}</Badge><div className="flex gap-2"><Button size="sm" variant="outline" onClick={() => review(row.id, "verification")}>Verify</Button><Button size="sm" onClick={() => review(row.id, "approved")}><CheckCircle2 className="mr-1 h-4 w-4" />Approve</Button><Button size="sm" variant="destructive" onClick={() => review(row.id, "rejected")}>Reject</Button></div></div>) : <p className="py-10 text-center text-muted-foreground">No applications found.</p>}</CardContent></Card></div>;
+}

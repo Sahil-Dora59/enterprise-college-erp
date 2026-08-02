@@ -3,7 +3,7 @@ import { Link, useLocation } from "wouter";
 import { 
   LayoutDashboard, Users, GraduationCap, Building2, BookOpen, 
   CalendarDays, ClipboardCheck, FileText, CheckCircle, 
-  FileEdit, Library, CreditCard, Bell, Settings, LogOut,
+   FileEdit, Library, CreditCard, Bell, Settings, LogOut,
    Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2, Layers3, BarChart3, BriefcaseBusiness, Search, Command, CheckCheck
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -52,6 +52,7 @@ const navItems: NavItem[] = [
   { title: "Notices", href: "/notices", icon: Bell, permission: "notices.view" },
   { title: "Report Center", href: "/reports", icon: FileText, permission: "dashboard.view" },
   { title: "AI Assistant", href: "/ai", icon: Bot, permission: "ai.view" },
+  { title: "Admissions CRM", href: "/admissions/crm", icon: Users, permission: "admissions.review" },
   { title: "Settings", href: "/settings", icon: Settings, permission: "settings.manage" },
 ];
 
