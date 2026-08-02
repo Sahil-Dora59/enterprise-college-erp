@@ -1,0 +1,297 @@
+🚨 HIGH PRIORITY IMPLEMENTATION TASK
+
+THIS IS A CODE IMPLEMENTATION TASK.
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT EXPLAIN.
+
+DO NOT CREATE A PLAN.
+
+Immediately modify my EXISTING College ERP Version 2 project.
+
+This is NOT a new feature.
+
+This is a RESTORATION + IMPROVEMENT task.
+
+====================================================
+
+MISSION
+
+Restore and improve the Enterprise Demo Switcher.
+
+The Demo Switcher previously existed but is no longer visible.
+
+Find the root cause.
+
+Restore it completely.
+
+Do NOT stop until it is fully functional.
+
+====================================================
+
+ROOT CAUSE ANALYSIS
+
+Identify why the Demo Switcher disappeared.
+
+Possible causes include:
+
+• Hidden by configuration
+• Broken routing
+• Missing component
+• Conditional rendering
+• Feature flag
+• Permission issue
+• Layout refactor
+• Build optimization
+• Import issue
+• CSS issue
+• State management issue
+
+Fix the actual cause instead of creating a duplicate implementation.
+
+====================================================
+
+DEMO SWITCHER
+
+Create a floating enterprise button.
+
+Visible ONLY when:
+
+DEMO_MODE=true
+
+Hidden completely when:
+
+DEMO_MODE=false
+
+====================================================
+
+BUTTON
+
+Professional Floating Action Button.
+
+Always visible.
+
+Bottom Right.
+
+High z-index.
+
+Responsive.
+
+Dark Mode.
+
+Light Mode.
+
+Glassmorphism / Enterprise UI.
+
+====================================================
+
+WHEN CLICKED
+
+Open a modern dropdown.
+
+Show:
+
+👑 Super Admin
+
+🛡 Admin
+
+🗂 Secretary
+
+👨‍🏫 Faculty
+
+🎓 Student
+
+💰 Accountant
+
+📚 Librarian
+
+Each role should display:
+
+Avatar
+
+Role Icon
+
+Name
+
+Current Status
+
+====================================================
+
+ROLE SWITCHING
+
+One click.
+
+Instant switching.
+
+NO LOGIN.
+
+NO PASSWORD.
+
+NO LOGOUT.
+
+NO PAGE REFRESH if possible.
+
+Immediately update:
+
+Dashboard
+
+Sidebar
+
+Permissions
+
+Navbar
+
+Profile
+
+Routes
+
+Notifications
+
+Widgets
+
+====================================================
+
+CURRENT USER
+
+Always display:
+
+Current User
+
+Current Role
+
+Demo Badge
+
+====================================================
+
+PROFILE MENU
+
+Integrate Demo Switcher inside profile dropdown.
+
+AND keep floating button.
+
+Both should work.
+
+====================================================
+
+DEMO MODE
+
+Demo Mode ON
+
+Floating Button Visible
+
+Role Switching Enabled
+
+Demo Badge Visible
+
+Demo Users Available
+
+Demo Mode OFF
+
+Floating Button Hidden
+
+Demo Users Disabled
+
+Normal Authentication Only
+
+====================================================
+
+DEMO USERS
+
+Verify all demo accounts exist.
+
+If missing recreate them.
+
+Super Admin
+
+Admin
+
+Secretary
+
+Faculty
+
+Student
+
+Accountant
+
+Librarian
+
+Each account must contain realistic sample data.
+
+====================================================
+
+UI
+
+Professional animations.
+
+Smooth dropdown.
+
+Hover effects.
+
+Keyboard accessible.
+
+Responsive.
+
+====================================================
+
+TESTING
+
+Run application.
+
+Enable Demo Mode.
+
+Verify floating button appears.
+
+Verify dropdown opens.
+
+Switch every role.
+
+Verify:
+
+Dashboard changes.
+
+Sidebar changes.
+
+Permissions change.
+
+Profile changes.
+
+Navigation updates.
+
+Disable Demo Mode.
+
+Verify button disappears.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+====================================================
+
+STOP ONLY WHEN
+
+The Demo Switcher works exactly like an enterprise SaaS application.
+
+====================================================
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+Root cause found
+
+Root cause fixed
+
+Features restored
+
+Bugs fixed
+
+Final confirmation:
+
+"The Enterprise Demo Switcher has been fully restored and verified."

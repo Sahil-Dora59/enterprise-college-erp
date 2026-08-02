@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
-const roles = ["super_admin", "admin", "faculty", "student", "accountant", "librarian"];
+const roles = ["super_admin", "admin", "secretary", "faculty", "student", "accountant", "librarian"];
 export default function DemoControlCenter() {
   const { user, demoEnabled, switchDemoRole } = useAuth();
   if (!demoEnabled) return null;

@@ -56,7 +56,7 @@ const navItems: NavItem[] = [
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
-  const { user, logout, hasPermission, demoEnabled } = useAuth();
+  const { user, logout, hasPermission, demoEnabled, switchDemoRole } = useAuth();
   const [location, setLocation] = useLocation();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
@@ -207,12 +207,13 @@ export function Shell({ children }: { children: ReactNode }) {
                     <span className="text-xs capitalize text-muted-foreground">
                       {user.role.replace("_", " ")}
                     </span>
+                     {demoEnabled && <Badge variant="secondary" className="mt-1 w-fit text-[10px]">DEMO MODE</Badge>}
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                  <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><UserRound className="mr-2 h-4 w-4" />My Profile</span></Link></DropdownMenuItem>
                  <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><Settings className="mr-2 h-4 w-4" />Settings</span></Link></DropdownMenuItem>
-                 {demoEnabled && <DropdownMenuItem asChild><Link href="/demo"><span className="flex w-full cursor-pointer items-center"><FlaskConical className="mr-2 h-4 w-4" />Demo Switcher</span></Link></DropdownMenuItem>}
+                  {demoEnabled && <><DropdownMenuSeparator /><DropdownMenuLabel className="text-xs text-muted-foreground">Switch demo role</DropdownMenuLabel>{["super_admin", "admin", "secretary", "faculty", "student", "accountant", "librarian"].map((role) => <DropdownMenuItem key={role} onClick={() => void switchDemoRole(role)} className="cursor-pointer capitalize"><FlaskConical className="mr-2 h-4 w-4 text-primary" />{role.replace("_", " ")}{user.role === role && <CheckCheck className="ml-auto h-4 w-4 text-primary" />}</DropdownMenuItem>)}<DropdownMenuItem asChild><Link href="/demo"><span className="flex w-full cursor-pointer items-center"><FlaskConical className="mr-2 h-4 w-4" />Open Demo Center</span></Link></DropdownMenuItem></>}
           <DropdownMenuItem onClick={() => { const dark = !document.documentElement.classList.contains("dark"); document.documentElement.classList.toggle("dark", dark); localStorage.setItem("erp_theme", dark ? "dark" : "light"); }}><Moon className="mr-2 h-4 w-4" />Theme</DropdownMenuItem>
                  <DropdownMenuItem disabled><Languages className="mr-2 h-4 w-4" />Language <span className="ml-auto text-xs text-muted-foreground">Soon</span></DropdownMenuItem>
                  <DropdownMenuItem onClick={() => window.open("mailto:it-support@college.edu")}><CircleHelp className="mr-2 h-4 w-4" />Help</DropdownMenuItem>

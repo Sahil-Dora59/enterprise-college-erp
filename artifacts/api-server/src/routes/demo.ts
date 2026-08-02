@@ -8,12 +8,13 @@ import { signToken, TOKEN_TTL_SECONDS } from "../lib/jwt";
 import { getUserWithPermissions } from "../lib/rbac";
 
 const router: IRouter = Router();
-const roles = ["super_admin", "admin", "faculty", "student", "accountant", "librarian"] as const;
+const roles = ["super_admin", "admin", "secretary", "faculty", "student", "accountant", "librarian"] as const;
 const demoEnabled = () => process.env.NODE_ENV !== "production" && process.env.DEMO_MODE === "true";
 const demoPassword = "Demo@12345";
 const demoUsers = [
   { role: "super_admin", name: "Dr. Maya Iyer", email: "superadmin.demo@college.edu", department: "Administration", designation: "Super Administrator", avatarUrl: "https://i.pravatar.cc/160?img=47" },
   { role: "admin", name: "Arjun Mehta", email: "admin.demo@college.edu", department: "Administration", designation: "ERP Administrator", avatarUrl: "https://i.pravatar.cc/160?img=12" },
+  { role: "secretary", name: "Kavya Nair", email: "secretary.demo@college.edu", department: "Academic Office", designation: "Executive Secretary", avatarUrl: "https://i.pravatar.cc/160?img=48" },
   { role: "faculty", name: "Dr. Priya Sharma", email: "faculty.demo@college.edu", department: "Computer Science", designation: "Associate Professor", avatarUrl: "https://i.pravatar.cc/160?img=32" },
   { role: "student", name: "Aarav Kapoor", email: "student.demo@college.edu", department: "Computer Science", designation: "B.Tech • Semester 6", avatarUrl: "https://i.pravatar.cc/160?img=11" },
   { role: "accountant", name: "Neha Verma", email: "accountant.demo@college.edu", department: "Finance", designation: "Senior Accountant", avatarUrl: "https://i.pravatar.cc/160?img=44" },
