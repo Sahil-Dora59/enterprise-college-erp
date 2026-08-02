@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { hashPassword } from "../lib/password";
+import { authenticateApplicant } from "./applicant-auth";
 
 const router: IRouter = Router();
 const statuses = ["draft", "submitted", "verification", "review", "approved", "rejected", "waitlisted", "correction_requested"] as const;
@@ -61,6 +62,11 @@ router.get("/admissions/applications/:applicationId/dashboard", async (req, res)
   res.json({ application: view(application), documents, missingDocuments: required.filter((type) => !documents.some((doc) => doc.documentType === type)), events, interviews, tests, notifications });
 });
 
+async function assertApplicantOwns(applicationId: string, applicantId: number) {
+  const [row] = await db.select().from(admissionApplicationsTable).where(and(eq(admissionApplicationsTable.applicationId, applicationId), eq(admissionApplicationsTable.applicantId, applicantId)));
+  return row;
+}
+
 router.post("/admissions/applications/:applicationId/documents", async (req, res): Promise<void> => {
   const { documentType, fileName, mimeType, fileData } = req.body ?? {};
   if (!documentTypes.includes(documentType) || typeof fileName !== "string" || typeof mimeType !== "string" || typeof fileData !== "string") { res.status(400).json({ error: "Document type, file name, MIME type, and base64 file data are required." }); return; }
@@ -69,6 +75,8 @@ router.post("/admissions/applications/:applicationId/documents", async (req, res
   if (!["image/jpeg", "image/png", "application/pdf"].includes(mimeType)) { res.status(415).json({ error: "Only PDF, JPEG, and PNG documents are supported." }); return; }
   const [application] = await db.select().from(admissionApplicationsTable).where(eq(admissionApplicationsTable.applicationId, req.params.applicationId));
   if (!application) { res.status(404).json({ error: "Application not found" }); return; }
+  const [duplicate] = await db.select().from(admissionDocumentsTable).where(and(eq(admissionDocumentsTable.applicationId, application.id), eq(admissionDocumentsTable.documentType, documentType)));
+  if (duplicate) { res.status(409).json({ error: "A document of this type already exists. Replace it instead." }); return; }
   await fs.mkdir(storageDir, { recursive: true });
   const storageKey = `${application.applicationId}/${crypto.randomUUID()}-${path.basename(fileName)}`;
   const fullPath = path.join(storageDir, storageKey);
@@ -77,16 +85,50 @@ router.post("/admissions/applications/:applicationId/documents", async (req, res
   res.status(201).json(document);
 });
 
-router.get("/admissions/documents/:id/download", async (req, res): Promise<void> => {
+router.put("/admissions/applications/:applicationId/documents/:documentType", async (req, res): Promise<void> => {
+  const { fileName, mimeType, fileData } = req.body ?? {};
+  const [application] = await db.select().from(admissionApplicationsTable).where(eq(admissionApplicationsTable.applicationId, req.params.applicationId));
+  if (!application || typeof fileName !== "string" || typeof mimeType !== "string" || typeof fileData !== "string") { res.status(400).json({ error: "Valid application and document payload required." }); return; }
+  const buffer = Buffer.from(fileData, "base64");
+  if (buffer.length > 5 * 1024 * 1024 || !["image/jpeg", "image/png", "application/pdf"].includes(mimeType)) { res.status(400).json({ error: "Unsupported document or file size." }); return; }
+  const [old] = await db.select().from(admissionDocumentsTable).where(and(eq(admissionDocumentsTable.applicationId, application.id), eq(admissionDocumentsTable.documentType, req.params.documentType)));
+  if (old) { await db.delete(admissionDocumentsTable).where(eq(admissionDocumentsTable.id, old.id)); await fs.rm(path.join(storageDir, old.storageKey), { force: true }); }
+  await fs.mkdir(path.join(storageDir, application.applicationId), { recursive: true });
+  const storageKey = `${application.applicationId}/${crypto.randomUUID()}-${path.basename(fileName)}`;
+  await fs.writeFile(path.join(storageDir, storageKey), buffer);
+  const [document] = await db.insert(admissionDocumentsTable).values({ applicationId: application.id, documentType: req.params.documentType, fileName: path.basename(fileName), mimeType, fileSize: buffer.length, storageKey }).returning();
+  res.json(document);
+});
+
+router.get("/admissions/documents/:id/download", authenticateApplicant, async (req, res): Promise<void> => {
   const [document] = await db.select().from(admissionDocumentsTable).where(eq(admissionDocumentsTable.id, Number(req.params.id)));
   if (!document) { res.status(404).json({ error: "Document not found" }); return; }
+  const [owned] = await db.select({ id: admissionApplicationsTable.id }).from(admissionApplicationsTable).where(and(eq(admissionApplicationsTable.id, document.applicationId), eq(admissionApplicationsTable.applicantId, req.applicantId!)));
+  if (!owned && !canReview(req)) { res.status(403).json({ error: "Document access denied" }); return; }
   res.download(path.join(storageDir, document.storageKey), document.fileName);
 });
 
-router.delete("/admissions/documents/:id", async (req, res): Promise<void> => {
-  const [document] = await db.delete(admissionDocumentsTable).where(eq(admissionDocumentsTable.id, Number(req.params.id))).returning();
+router.delete("/admissions/documents/:id", authenticateApplicant, async (req, res): Promise<void> => {
+  const [document] = await db.select().from(admissionDocumentsTable).where(eq(admissionDocumentsTable.id, Number(req.params.id)));
   if (!document) { res.status(404).json({ error: "Document not found" }); return; }
+  const [owned] = await db.select({ id: admissionApplicationsTable.id }).from(admissionApplicationsTable).where(and(eq(admissionApplicationsTable.id, document.applicationId), eq(admissionApplicationsTable.applicantId, req.applicantId!)));
+  if (!owned) { res.status(403).json({ error: "Document access denied" }); return; }
+  await db.delete(admissionDocumentsTable).where(eq(admissionDocumentsTable.id, document.id));
   await fs.rm(path.join(storageDir, document.storageKey), { force: true }); res.sendStatus(204);
+});
+
+router.get("/admissions/applications/:applicationId/export.csv", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [application] = await db.select().from(admissionApplicationsTable).where(eq(admissionApplicationsTable.applicationId, String(req.params.applicationId)));
+  if (!application) { res.status(404).json({ error: "Application not found" }); return; }
+  res.type("text/csv").send(["application_id,reference_number,applicant_name,email,program,status", [application.applicationId, application.referenceNumber, application.applicantName, application.email, application.program, application.status].map((v) => `"${String(v).replaceAll('"', '""')}"`).join(",")].join("\n"));
+});
+
+router.get("/admissions/applications/:applicationId/letter", async (req, res): Promise<void> => {
+  const [application] = await db.select().from(admissionApplicationsTable).where(eq(admissionApplicationsTable.applicationId, String(req.params.applicationId)));
+  if (!application) { res.status(404).json({ error: "Application not found" }); return; }
+  const title = application.status === "approved" ? "Offer and Admission Letter" : application.status === "rejected" ? "Admission Decision Letter" : "Admission Status Letter";
+  res.json({ referenceNumber: `LETTER-${application.referenceNumber}`, format: "printable-html", title, content: `${title}\n\nApplicant: ${application.applicantName}\nApplication: ${application.applicationId}\nProgram: ${application.program}\nStatus: ${application.status}` });
 });
 
 router.get("/admissions/applications/:applicationId", async (req, res): Promise<void> => {
