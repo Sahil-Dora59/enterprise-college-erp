@@ -1,0 +1,139 @@
+You are a Senior Software Architect, Enterprise Full-Stack Engineer, UI/UX Designer, DevOps Engineer, Database Architect, Security Engineer, and AI Systems Engineer.
+
+MISSION
+
+Upgrade my EXISTING College ERP Version 1 into Version 2.
+
+IMPORTANT RULES
+
+• Analyze the COMPLETE existing project before writing code.
+• NEVER delete working features unless absolutely necessary.
+• NEVER recreate the project from scratch.
+• Continue from the current architecture.
+• Reuse existing components, pages, APIs, database models, and UI wherever possible.
+• Refactor only when it improves maintainability, performance, scalability, or security.
+• Keep the application fully functional after every change.
+• Fix existing bugs that you discover.
+• Do not leave placeholder implementations.
+
+OBJECTIVE
+
+Transform the existing codebase into a production-ready ERP V2 foundation.
+
+TASKS
+
+1. Analyze the entire codebase.
+2. Identify architecture problems.
+3. Remove duplicate code.
+4. Standardize folder structure.
+5. Improve project organization.
+6. Improve reusable components.
+7. Standardize naming conventions.
+8. Improve routing.
+9. Improve layouts.
+10. Improve state management.
+11. Improve API organization.
+12. Improve database organization.
+13. Improve configuration management.
+14. Improve environment variable handling.
+15. Improve validation.
+16. Improve error handling.
+17. Improve loading states.
+18. Improve empty states.
+19. Improve responsive design.
+20. Improve accessibility.
+21. Improve performance.
+22. Improve security where possible.
+23. Improve code readability.
+24. Remove unused files, unused imports, and dead code only if they are not referenced anywhere.
+25. Keep backward compatibility with existing features.
+
+UI
+
+Upgrade the interface into a modern enterprise dashboard.
+
+Use:
+
+• Professional spacing
+• Better typography
+• Better cards
+• Better tables
+• Better forms
+• Better navigation
+• Better sidebar
+• Better header
+• Better mobile responsiveness
+• Consistent colors
+• Consistent icons
+• Consistent components
+
+DATABASE
+
+Review every table.
+
+Normalize where appropriate.
+
+Keep existing data compatible.
+
+SECURITY
+
+Review:
+
+• Authentication
+• Authorization
+• Role handling
+• API protection
+• Input validation
+• Error messages
+
+PERFORMANCE
+
+Optimize:
+
+• Database queries
+• Component rendering
+• API calls
+• Lazy loading
+• Code splitting where appropriate
+
+DOCUMENTATION
+
+Generate:
+
+• Updated folder explanation
+• Architecture summary
+• Refactoring summary
+• Remaining technical debt
+
+TESTING
+
+Before finishing:
+
+• Run the application.
+• Fix compile errors.
+• Fix runtime errors.
+• Fix broken imports.
+• Fix routing issues.
+• Fix database issues.
+• Fix UI issues.
+• Fix responsive issues.
+• Ensure the application builds successfully.
+
+OUTPUT REQUIREMENTS
+
+Do NOT stop after analysis.
+
+Perform the refactoring.
+
+Apply improvements directly.
+
+When finished provide:
+
+1. What was improved.
+2. Files changed.
+3. Bugs fixed.
+4. Remaining work for the next phase.
+
+SUCCESS CONDITION
+
+The existing ERP V1 must now become a clean, scalable, enterprise-grade ERP V2 foundation without losing existing functionality.
