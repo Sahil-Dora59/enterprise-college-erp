@@ -21,7 +21,6 @@ function strongPassword(password: string) {
 
 router.post("/auth/login", async (req, res): Promise<void> => {
   try {
-    console.log("LOGIN ROUTE HIT");
     const parsed = LoginBody.safeParse(req.body);
     if (!parsed.success) {
       res.status(400).json({ error: parsed.error.message });
@@ -77,12 +76,8 @@ router.post("/auth/login", async (req, res): Promise<void> => {
       },
     });
   } catch (err) {
-    console.error("LOGIN ERROR:", err);
-
-    res.status(500).json({
-      error: err instanceof Error ? err.message : String(err),
-      stack: err instanceof Error ? err.stack : undefined,
-    });
+    req.log?.error({ err }, "Login failed unexpectedly");
+    res.status(500).json({ error: "Unable to sign in right now. Please try again later." });
   }
 });
 

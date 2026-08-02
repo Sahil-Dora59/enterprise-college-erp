@@ -1,0 +1,323 @@
+🚨 CRITICAL IMPLEMENTATION TASK
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+Immediately continue working on the EXISTING ERP Version 2 project.
+
+This is a FULL PROJECT AUDIT.
+
+Your ONLY goal is to make the entire ERP production-stable before adding new features.
+
+==================================================
+
+MISSION
+
+Pretend this ERP is going live tomorrow for a real university.
+
+Review EVERYTHING.
+
+Do not add new features.
+
+Only improve quality.
+
+==================================================
+
+PERFORM A COMPLETE AUDIT
+
+Review every:
+
+Page
+
+Component
+
+Route
+
+API
+
+Database Model
+
+Migration
+
+Utility
+
+Layout
+
+Dashboard
+
+Authentication Flow
+
+Authorization
+
+Role Permission
+
+Sidebar
+
+Navbar
+
+Search
+
+Tables
+
+Forms
+
+Charts
+
+Reports
+
+AI Module
+
+Notifications
+
+Settings
+
+==================================================
+
+FIX EVERYTHING
+
+Compile Errors
+
+Runtime Errors
+
+Broken Imports
+
+Broken Components
+
+Broken APIs
+
+Broken Database Queries
+
+Broken Relationships
+
+Broken Authentication
+
+Broken Role Permissions
+
+Broken Navigation
+
+Broken Buttons
+
+Broken Forms
+
+Broken Tables
+
+Broken Filters
+
+Broken Search
+
+Broken Pagination
+
+Broken Dashboard Widgets
+
+Broken Reports
+
+Broken Charts
+
+Broken AI Features
+
+Broken Notifications
+
+Broken Exports
+
+Broken Responsive Layouts
+
+Broken Animations
+
+Broken Dark Mode
+
+Broken Theme
+
+Broken Empty States
+
+Broken Loading States
+
+Broken Validation
+
+Broken Error Messages
+
+Broken Toasts
+
+Memory Leaks
+
+Duplicate Code
+
+Unused Code
+
+Unused Imports
+
+Unused Files
+
+==================================================
+
+PERFORMANCE
+
+Improve:
+
+Lazy Loading
+
+API Speed
+
+Database Queries
+
+Caching
+
+Rendering
+
+Bundle Size
+
+Search Speed
+
+Pagination
+
+==================================================
+
+SECURITY
+
+Verify:
+
+Authentication
+
+Authorization
+
+RBAC
+
+Protected Routes
+
+Protected APIs
+
+JWT Handling
+
+Session Handling
+
+Input Validation
+
+Password Security
+
+CSRF
+
+XSS
+
+SQL Injection
+
+==================================================
+
+RESPONSIVE DESIGN
+
+Review every page on:
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+Fix every UI issue.
+
+==================================================
+
+ACCESSIBILITY
+
+Improve:
+
+Keyboard Navigation
+
+Focus States
+
+ARIA Labels
+
+Semantic HTML
+
+Contrast
+
+==================================================
+
+TEST EVERYTHING
+
+Automatically test:
+
+Every User Role
+
+Every Dashboard
+
+Every Page
+
+Every API
+
+Every Module
+
+Every Form
+
+Every Search
+
+Every Report
+
+Every Export
+
+Every Notification
+
+Every AI Feature
+
+Every Authentication Flow
+
+Every Route
+
+==================================================
+
+KEEP FIXING
+
+If you find an issue...
+
+Fix it immediately.
+
+Continue scanning.
+
+Do not stop after fixing one issue.
+
+Repeat until there are no critical issues remaining.
+
+==================================================
+
+FINAL VALIDATION
+
+Run the application.
+
+Ensure:
+
+Zero compile errors.
+
+Zero runtime errors.
+
+Zero broken imports.
+
+Zero broken routes.
+
+Zero broken pages.
+
+Zero critical bugs.
+
+Everything builds successfully.
+
+==================================================
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+Total bugs fixed
+
+Performance improvements
+
+Security improvements
+
+Project health summary
+
+Final confirmation:
+
+"The ERP has passed the Quality Gate and is ready for the next development phase."

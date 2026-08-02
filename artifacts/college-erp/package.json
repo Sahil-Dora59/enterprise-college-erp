@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts --host 0.0.0.0",
-    "fullstack": "VITE_DEMO_MODE=${VITE_DEMO_MODE:-true} DEMO_MODE=${DEMO_MODE:-true} pnpm run build && DEMO_MODE=${DEMO_MODE:-true} pnpm --filter @workspace/api-server run dev",
+    "fullstack": "VITE_DEMO_MODE=${VITE_DEMO_MODE:-false} DEMO_MODE=${DEMO_MODE:-false} pnpm run build && DEMO_MODE=${DEMO_MODE:-false} pnpm --filter @workspace/api-server run dev",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
