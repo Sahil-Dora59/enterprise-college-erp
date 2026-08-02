@@ -1,0 +1,391 @@
+🚨 FINAL CONTINUATION TASK
+
+THIS IS THE FINAL PHASE OF PROMPT 11.
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT REBUILD EXISTING FEATURES.
+
+The Admission CRM foundation is already implemented.
+
+Continue from the existing codebase.
+
+Reuse all existing APIs, database schema, authentication, RBAC, layouts, notifications, AI infrastructure, Student Information System and UI components.
+
+Implement ONLY the remaining functionality listed below.
+
+Run the application.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Stop only when every remaining item is completed.
+
+========================================================
+
+MISSION
+
+Complete the remaining Enterprise Admission CRM experience.
+
+No unfinished admission functionality should remain.
+
+========================================================
+
+1. ENTERPRISE DOCUMENT EXPERIENCE
+
+Replace the temporary upload experience.
+
+Implement:
+
+• True multipart/form-data uploads
+
+• Drag & Drop upload
+
+• Multiple file upload
+
+• Upload queue
+
+• Upload progress
+
+• Retry upload
+
+• Cancel upload
+
+• Replace document
+
+• Preview before upload
+
+• Preview after upload
+
+• Upload history
+
+• Verification status
+
+• Reviewer comments
+
+• Verified / Pending / Rejected badges
+
+========================================================
+
+2. APPLICANT PORTAL
+
+Create complete Applicant Portal pages.
+
+Implement:
+
+• Applicant Login page
+
+• Applicant Registration page
+
+• Forgot Password page
+
+• Reset Password page
+
+• Remember Me
+
+• Persistent browser session
+
+• Session restore
+
+• Secure logout
+
+========================================================
+
+3. PROFILE COMPLETION
+
+Create editable Applicant Profile.
+
+Support:
+
+Personal Details
+
+Parent Details
+
+Education
+
+Address
+
+Documents
+
+Course Preferences
+
+Completion Percentage
+
+Missing Information
+
+Completion Checklist
+
+Prevent final admission until required profile data exists.
+
+========================================================
+
+4. INTERVIEW MANAGEMENT
+
+Create complete interview module.
+
+Interview Calendar
+
+Interview Schedule
+
+Interview Assignment
+
+Interview Result
+
+Interview Notes
+
+Interview Feedback
+
+Interview Status
+
+Interview Notifications
+
+========================================================
+
+5. ENTRANCE TEST
+
+Create:
+
+Entrance Test Schedule
+
+Test Center
+
+Seat Allocation
+
+Result
+
+Marks
+
+Rank
+
+Eligibility Decision
+
+========================================================
+
+6. EXPORTS
+
+Generate:
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+Admission Letter PDF
+
+Offer Letter PDF
+
+Waitlist Letter PDF
+
+Rejection Letter PDF
+
+========================================================
+
+7. COMMUNICATION
+
+Create provider-independent services.
+
+Support:
+
+Email
+
+SMS
+
+WhatsApp
+
+Notification Templates
+
+Delivery Queue
+
+Retry Queue
+
+Future provider integration
+
+Do NOT hardcode providers.
+
+========================================================
+
+8. ADMISSION AI
+
+Integrate with the existing AI module.
+
+Generate:
+
+Application Summary
+
+Eligibility Analysis
+
+Missing Document Detection
+
+Suggested Decision
+
+Risk Analysis
+
+Admission Statistics
+
+Officer Notes
+
+========================================================
+
+9. ANALYTICS
+
+Create Admission Analytics Dashboard.
+
+Display:
+
+Applications
+
+Approvals
+
+Rejections
+
+Pending
+
+Waitlisted
+
+Conversion Funnel
+
+Officer Performance
+
+Average Review Time
+
+Application Trends
+
+Program Popularity
+
+========================================================
+
+10. PENDING ACADEMIC ASSIGNMENT
+
+Complete fallback workflow.
+
+If Department,
+
+Course,
+
+Semester,
+
+or Academic Session
+
+cannot be mapped:
+
+Create Pending Assignment Queue.
+
+Notify Admission Officer.
+
+Allow later completion.
+
+Never lose applicant data.
+
+Never duplicate student accounts.
+
+========================================================
+
+11. ACCESS CONTROL
+
+Review all Applicant permissions.
+
+Applicants may only:
+
+View their own profile.
+
+View their own documents.
+
+View their own application.
+
+Download their own files.
+
+Access their own dashboard.
+
+Verify ownership on every endpoint.
+
+========================================================
+
+12. UI POLISH
+
+Enterprise animations.
+
+Responsive.
+
+Dark Mode.
+
+Light Mode.
+
+Professional loading states.
+
+Professional empty states.
+
+Professional error states.
+
+========================================================
+
+13. TESTING
+
+Run the application.
+
+Test every remaining Admission feature.
+
+Test Applicant Portal.
+
+Test Interview workflow.
+
+Test Entrance Test.
+
+Test Upload UX.
+
+Test PDF generation.
+
+Test Exports.
+
+Test AI.
+
+Test Analytics.
+
+Test RBAC.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Repeat testing until every feature works.
+
+========================================================
+
+STOP ONLY WHEN
+
+The Admission CRM contains no remaining enterprise functionality from Prompt 11.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+Features Completed
+
+Bugs Fixed
+
+Remaining Work
+
+If Remaining Work contains any Admission CRM feature, continue implementing instead of stopping.
+
+Final confirmation:
+
+"Prompt 11 is fully completed. The Enterprise Admission CRM has no remaining implementation work and is ready for Prompt 12."

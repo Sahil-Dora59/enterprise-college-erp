@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, ilike, or } from "drizzle-orm";
-import { admissionApplicationsTable, admissionDocumentsTable, admissionEventsTable, admissionInterviewsTable, admissionNotificationsTable, admissionTestsTable, applicantAccountsTable, db, departmentsTable, semestersTable, studentsTable, usersTable } from "@workspace/db";
+import { admissionAcademicAssignmentsTable, admissionApplicationsTable, admissionDeliveryQueueTable, admissionDocumentsTable, admissionEventsTable, admissionInterviewsTable, admissionNotificationsTable, admissionTestsTable, applicantAccountsTable, db, departmentsTable, semestersTable, studentsTable, usersTable } from "@workspace/db";
 import { authenticate } from "../middlewares/auth";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
@@ -179,6 +179,55 @@ router.get("/admissions/reports", staff, async (req, res): Promise<void> => {
   const byProgram = Object.entries(rows.reduce<Record<string, number>>((acc, row) => { acc[row.program] = (acc[row.program] ?? 0) + 1; return acc; }, {})).map(([program, count]) => ({ program, count }));
   const total = rows.length; const approved = rows.filter((row) => row.status === "approved").length;
   res.json({ total, approved, rejected: rows.filter((row) => row.status === "rejected").length, pending: rows.filter((row) => !["approved", "rejected"].includes(row.status)).length, approvalRate: total ? Math.round(approved / total * 100) : 0, byProgram, funnel: statuses.map((status) => ({ status, count: rows.filter((row) => row.status === status).length })) });
+});
+
+router.get("/admissions/analytics", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const rows = await db.select().from(admissionApplicationsTable);
+  const approved = rows.filter((r) => r.status === "approved").length;
+  const byProgram = Object.entries(rows.reduce<Record<string, number>>((a, r) => { a[r.program] = (a[r.program] ?? 0) + 1; return a; }, {})).map(([program, count]) => ({ program, count }));
+  res.json({ applications: rows.length, approvals: approved, rejections: rows.filter((r) => r.status === "rejected").length, pending: rows.filter((r) => !["approved", "rejected"].includes(r.status)).length, waitlisted: rows.filter((r) => r.status === "waitlisted").length, conversionRate: rows.length ? Math.round(approved / rows.length * 100) : 0, byProgram, funnel: statuses.map((status) => ({ status, count: rows.filter((r) => r.status === status).length })) });
+});
+
+router.post("/admissions/applications/:id/interview", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [interview] = await db.insert(admissionInterviewsTable).values({ applicationId: Number(req.params.id), scheduledAt: new Date(req.body.scheduledAt), mode: req.body.mode ?? "online", status: "scheduled", notes: req.body.notes ?? null }).returning();
+  res.status(201).json(interview);
+});
+
+router.patch("/admissions/interviews/:id", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [interview] = await db.update(admissionInterviewsTable).set({ status: req.body.status, notes: req.body.notes, result: req.body.result }).where(eq(admissionInterviewsTable.id, Number(req.params.id))).returning();
+  if (!interview) { res.status(404).json({ error: "Interview not found" }); return; } res.json(interview);
+});
+
+router.post("/admissions/applications/:id/test", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [test] = await db.insert(admissionTestsTable).values({ applicationId: Number(req.params.id), scheduledAt: new Date(req.body.scheduledAt), testCenter: req.body.testCenter ?? null, seatNumber: req.body.seatNumber ?? null }).returning();
+  res.status(201).json(test);
+});
+
+router.patch("/admissions/tests/:id", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [test] = await db.update(admissionTestsTable).set({ score: req.body.score == null ? null : Number(req.body.score), result: req.body.result, eligibilityDecision: req.body.eligibilityDecision }).where(eq(admissionTestsTable.id, Number(req.params.id))).returning();
+  if (!test) { res.status(404).json({ error: "Test not found" }); return; } res.json(test);
+});
+
+router.get("/admissions/academic-assignments", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  res.json(await db.select().from(admissionAcademicAssignmentsTable).where(eq(admissionAcademicAssignmentsTable.status, "pending")));
+});
+
+router.post("/admissions/applications/:id/academic-assignment", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [assignment] = await db.insert(admissionAcademicAssignmentsTable).values({ applicationId: Number(req.params.id), departmentId: req.body.departmentId ?? null, courseId: req.body.courseId ?? null, semesterId: req.body.semesterId ?? null, academicSession: req.body.academicSession ?? null, notes: req.body.notes ?? null }).returning();
+  res.status(201).json(assignment);
+});
+
+router.post("/admissions/delivery-queue", staff, async (req, res): Promise<void> => {
+  if (!canReview(req)) { res.status(403).json({ error: "Admission review permission required" }); return; }
+  const [item] = await db.insert(admissionDeliveryQueueTable).values({ applicationId: req.body.applicationId ?? null, channel: req.body.channel, template: req.body.template, recipient: req.body.recipient, payload: req.body.payload ?? {} }).returning();
+  res.status(201).json(item);
 });
 
 export default router;

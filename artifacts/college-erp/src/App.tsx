@@ -39,6 +39,9 @@ import AdmissionsPortal from '@/pages/admissions-portal';
 import AdmissionApply from '@/pages/admission-apply';
 import AdmissionTrack from '@/pages/admission-track';
 import AdmissionCrm from '@/pages/admission-crm';
+import ApplicantLogin from '@/pages/applicant-login';
+import ApplicantRegister from '@/pages/applicant-register';
+import AdmissionAnalytics from '@/pages/admission-analytics';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -88,6 +91,10 @@ function Router() {
       <Route path="/reset-password"><ResetPassword /></Route>
       <Route path="/admissions"><AdmissionsPortal /></Route>
       <Route path="/admissions/apply"><AdmissionApply /></Route>
+      <Route path="/admissions/login"><ApplicantLogin /></Route>
+      <Route path="/admissions/register"><ApplicantRegister /></Route>
+      <Route path="/admissions/forgot-password"><ApplicantRegister /></Route>
+      <Route path="/admissions/dashboard"><AdmissionTrack /></Route>
       <Route path="/admissions/track/:id"><AdmissionTrack /></Route>
 
       <Route path="/"><ProtectedRoute component={Dashboard} path="/" permission="dashboard.view" /></Route>
@@ -119,6 +126,7 @@ function Router() {
       <Route path="/settings"><ProtectedRoute component={Settings} path="/settings" permission="settings.manage" /></Route>
       <Route path="/demo"><ProtectedRoute component={DemoControlCenter} path="/demo" permission="dashboard.view" /></Route>
       <Route path="/admissions/crm"><ProtectedRoute component={AdmissionCrm} path="/admissions/crm" permission="dashboard.view" /></Route>
+      <Route path="/admissions/analytics"><ProtectedRoute component={AdmissionAnalytics} path="/admissions/analytics" permission="dashboard.view" /></Route>
       
       <Route>
         <Shell>
