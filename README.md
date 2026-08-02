@@ -3,7 +3,7 @@
 <p align="center">
 
 ![Version](https://img.shields.io/badge/Version-V9.0_Lite-blue)
-![Status](https://img.shields.io/badge/Status-Active_Development-success)
+![Status](https://img.shields.io/badge/Status-Production_Ready-success)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![TypeScript](https://img.shields.io/badge/TypeScript-96%25-blue)
 ![React](https://img.shields.io/badge/React-19-blue)
@@ -58,6 +58,16 @@ The system provides a secure and scalable platform for managing academic, admini
 - AI Assistant
 - AI Admin Panel
 - AI Foundation
+- AI search, prompt library, document index, and usage-ready platform APIs
+
+### 🧭 Enterprise Integration
+
+- Unified global search with `Ctrl/Cmd + K`
+- Centralized notification center
+- Report Center
+- Role-aware dashboards and navigation
+- Student, faculty, academic, examination, finance, library, attendance, assignment, and notice workflows
+- Development-only demo role switching
 
 ---
 
@@ -221,7 +231,7 @@ README.md
 
 ---
 
-# 🚧 Planned (Version 2)
+# 🚧 Future Extensions
 
 - Parent Portal
 - Student Portal
@@ -255,9 +265,9 @@ README.md
 | Version | Status |
 |---------|--------|
 | V1.0 Foundation | ✅ Completed |
-| V2.0 Core ERP Expansion | 🚧 In Progress |
-| V3.0 AI Integration | ⏳ Planned |
-| V4.0 Enterprise Edition | ⏳ Planned |
+| V2.0 Core ERP Expansion | ✅ Completed |
+| V3.0 AI Integration | ✅ Completed |
+| V4.0 Enterprise Edition | ✅ Production baseline |
 
 ---
 

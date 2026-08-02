@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { ComponentType, useEffect } from 'react';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
@@ -40,7 +40,7 @@ import { Loader2 } from 'lucide-react';
 const queryClient = new QueryClient();
 
 // A component that handles auth checking and shell wrapping
-function ProtectedRoute({ component: Component, permission, ...rest }: { component: any, path: string, permission?: string }) {
+function ProtectedRoute({ component: Component, permission, ...rest }: { component: ComponentType<any>, path: string, permission?: string }) {
   const { user, isLoading, hasPermission } = useAuth();
 
   if (isLoading) {

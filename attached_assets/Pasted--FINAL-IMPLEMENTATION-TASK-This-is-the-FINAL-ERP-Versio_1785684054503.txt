@@ -1,0 +1,247 @@
+🚨 FINAL IMPLEMENTATION TASK
+
+This is the FINAL ERP Version 2 upgrade.
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+Immediately continue modifying the project.
+
+======================================================
+
+MISSION
+
+Transform this ERP into a production-ready enterprise application.
+
+Pretend this system will be deployed to a real university tomorrow.
+
+======================================================
+
+PERFORM A COMPLETE PROJECT AUDIT
+
+Review every page.
+
+Review every API.
+
+Review every database model.
+
+Review every component.
+
+Review every route.
+
+Review every dashboard.
+
+Review every module.
+
+======================================================
+
+FIX EVERYTHING
+
+Compile errors
+
+Runtime errors
+
+Broken imports
+
+Broken routes
+
+Broken buttons
+
+Broken forms
+
+Broken tables
+
+Broken dashboards
+
+Broken APIs
+
+Broken validation
+
+Broken permissions
+
+Broken responsiveness
+
+Broken animations
+
+Broken themes
+
+Memory leaks
+
+Duplicate code
+
+Unused code
+
+======================================================
+
+OPTIMIZATION
+
+Improve:
+
+Performance
+
+Lazy Loading
+
+Code Splitting
+
+Database Queries
+
+Caching
+
+Search
+
+Pagination
+
+Rendering
+
+Bundle Size
+
+======================================================
+
+SECURITY
+
+Verify:
+
+Authentication
+
+Authorization
+
+RBAC
+
+Input Validation
+
+Password Security
+
+XSS Protection
+
+SQL Injection Protection
+
+CSRF Protection
+
+Session Security
+
+======================================================
+
+RESPONSIVE DESIGN
+
+Review every page on:
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+Fix every UI issue.
+
+======================================================
+
+ACCESSIBILITY
+
+Improve:
+
+Keyboard navigation
+
+Focus states
+
+Contrast
+
+ARIA labels
+
+Semantic HTML
+
+======================================================
+
+DOCUMENTATION
+
+Generate:
+
+Updated README
+
+Installation Guide
+
+Environment Variables Guide
+
+API Documentation
+
+Folder Structure Documentation
+
+Deployment Guide
+
+======================================================
+
+FINAL TEST
+
+Run the project.
+
+Test every page.
+
+Test every API.
+
+Test every role.
+
+Test every module.
+
+Test AI.
+
+Test Finance.
+
+Test Library.
+
+Test Exams.
+
+Test Attendance.
+
+Test Reports.
+
+Test Notifications.
+
+Fix everything found.
+
+Repeat until there are no critical issues.
+
+======================================================
+
+SUCCESS CONDITION
+
+The ERP must:
+
+Build successfully.
+
+Run without critical errors.
+
+Be responsive.
+
+Be secure.
+
+Be optimized.
+
+Be production-ready.
+
+Feel like a commercial enterprise ERP.
+
+======================================================
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+Documentation created
+
+Bugs fixed
+
+Performance improvements
+
+Security improvements
+
+Final project health report
+
+Confirmation:
+
+"ERP Version 2 is production-ready and builds successfully."
