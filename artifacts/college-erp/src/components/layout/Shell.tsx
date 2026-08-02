@@ -1,10 +1,10 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { 
   LayoutDashboard, Users, GraduationCap, Building2, BookOpen, 
   CalendarDays, ClipboardCheck, FileText, CheckCircle, 
   FileEdit, Library, CreditCard, Bell, Settings, LogOut,
-   Menu, X, Bot, FlaskConical
+   Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 interface NavItem {
   title: string;
@@ -49,6 +53,8 @@ const navItems: NavItem[] = [
 export function Shell({ children }: { children: ReactNode }) {
   const { user, logout, hasPermission, demoEnabled } = useAuth();
   const [location, setLocation] = useLocation();
+  const [logoutOpen, setLogoutOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   if (!user) return null; // Or a loading spinner, but Auth wrapper should handle it
 
@@ -56,8 +62,15 @@ export function Shell({ children }: { children: ReactNode }) {
   if (demoEnabled) filteredNav.push({ title: "Demo Center", href: "/demo", icon: FlaskConical, permission: "dashboard.view" });
 
   const handleLogout = async () => {
-    await logout();
-    setLocation("/login");
+    setIsSigningOut(true);
+    try {
+      localStorage.setItem("erp_theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+      await logout();
+      setLocation("/login");
+    } finally {
+      setIsSigningOut(false);
+      setLogoutOpen(false);
+    }
   };
 
   const SidebarContent = () => (
@@ -91,7 +104,7 @@ export function Shell({ children }: { children: ReactNode }) {
             <span className="text-sm font-medium truncate">{user.name}</span>
             <span className="text-xs text-sidebar-foreground/60 truncate capitalize">{user.role.replace('_', ' ')}</span>
           </div>
-          <Button variant="ghost" size="icon" className="h-8 w-8 text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10" onClick={handleLogout} aria-label="Log out">
+           <Button variant="ghost" size="icon" className="h-8 w-8 text-sidebar-foreground/70 hover:text-destructive hover:bg-destructive/10" onClick={() => setLogoutOpen(true)} aria-label="Open sign out confirmation">
             <LogOut className="h-4 w-4" />
           </Button>
         </div>
@@ -160,13 +173,14 @@ export function Shell({ children }: { children: ReactNode }) {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleLogout}
-                  className="cursor-pointer text-destructive focus:text-destructive"
-                >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Log out
-                </DropdownMenuItem>
+                 <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><UserRound className="mr-2 h-4 w-4" />My Profile</span></Link></DropdownMenuItem>
+                 <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><Settings className="mr-2 h-4 w-4" />Settings</span></Link></DropdownMenuItem>
+                 {demoEnabled && <DropdownMenuItem asChild><Link href="/demo"><span className="flex w-full cursor-pointer items-center"><FlaskConical className="mr-2 h-4 w-4" />Demo Switcher</span></Link></DropdownMenuItem>}
+                 <DropdownMenuItem onClick={() => document.documentElement.classList.toggle("dark")}><Moon className="mr-2 h-4 w-4" />Theme</DropdownMenuItem>
+                 <DropdownMenuItem disabled><Languages className="mr-2 h-4 w-4" />Language <span className="ml-auto text-xs text-muted-foreground">Soon</span></DropdownMenuItem>
+                 <DropdownMenuItem onClick={() => window.open("mailto:it-support@college.edu")}><CircleHelp className="mr-2 h-4 w-4" />Help</DropdownMenuItem>
+                 <DropdownMenuSeparator />
+                 <DropdownMenuItem onClick={() => setLogoutOpen(true)} className="cursor-pointer text-destructive focus:text-destructive"><LogOut className="mr-2 h-4 w-4" />Sign out</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -177,6 +191,22 @@ export function Shell({ children }: { children: ReactNode }) {
           {children}
         </main>
       </div>
+      <AlertDialog open={logoutOpen} onOpenChange={setLogoutOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2"><LogOut className="h-5 w-5 text-destructive" />Sign out</AlertDialogTitle>
+            <AlertDialogDescription>
+              You are signed in as <span className="font-semibold text-foreground">{user.name}</span> ({user.role.replace("_", " ")}). Are you sure you want to sign out? You will return to the login page.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isSigningOut}>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={(event) => { event.preventDefault(); void handleLogout(); }} disabled={isSigningOut} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              {isSigningOut && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}{isSigningOut ? "Signing you out..." : "Sign out"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
