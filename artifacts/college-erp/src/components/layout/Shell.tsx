@@ -1,10 +1,10 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { 
   LayoutDashboard, Users, GraduationCap, Building2, BookOpen, 
   CalendarDays, ClipboardCheck, FileText, CheckCircle, 
   FileEdit, Library, CreditCard, Bell, Settings, LogOut,
-   Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2, Layers3, BarChart3, BriefcaseBusiness
+   Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2, Layers3, BarChart3, BriefcaseBusiness, Search, Command, CheckCheck
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -50,6 +50,7 @@ const navItems: NavItem[] = [
   { title: "Fees", href: "/fees", icon: CreditCard, permission: "fees.view" },
   { title: "Administration", href: "/administration", icon: BriefcaseBusiness, permission: "fees.view" },
   { title: "Notices", href: "/notices", icon: Bell, permission: "notices.view" },
+  { title: "Report Center", href: "/reports", icon: FileText, permission: "dashboard.view" },
   { title: "AI Assistant", href: "/ai", icon: Bot, permission: "ai.view" },
   { title: "Settings", href: "/settings", icon: Settings, permission: "settings.manage" },
 ];
@@ -59,7 +60,29 @@ export function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") { event.preventDefault(); setSearchOpen(true); }
+      if (event.key === "Escape") setSearchOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+  useEffect(() => {
+    const token = localStorage.getItem("erp_token") || sessionStorage.getItem("erp_token");
+    fetch("/api/notices", { headers: { Authorization: `Bearer ${token}` } }).then((response) => response.ok ? response.json() : []).then((items) => setNotifications(items.slice(0, 5))).catch(() => setNotifications([]));
+  }, [location]);
+  useEffect(() => {
+    if (search.trim().length < 2) { setSearchResults([]); return; }
+    const token = localStorage.getItem("erp_token") || sessionStorage.getItem("erp_token");
+    fetch(`/api/ai/search?q=${encodeURIComponent(search)}`, { headers: { Authorization: `Bearer ${token}` } }).then((response) => response.ok ? response.json() : []).then(setSearchResults).catch(() => setSearchResults([]));
+  }, [search]);
 
   if (!user) return null; // Or a loading spinner, but Auth wrapper should handle it
 
@@ -146,10 +169,18 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" className="hidden sm:flex gap-2 text-muted-foreground">
-              <Bell className="h-4 w-4" />
-              <Badge variant="secondary" className="px-1.5 py-0.5 text-[10px] font-bold bg-primary/10 text-primary border-none">3</Badge>
+            <Button variant="outline" size="sm" className="hidden sm:flex gap-2 text-muted-foreground" onClick={() => setSearchOpen(true)}>
+              <Search className="h-4 w-4" /> Search <kbd className="rounded border px-1 text-[10px]">⌘K</kbd>
             </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-2 text-muted-foreground">
+              <Bell className="h-4 w-4" />
+                  <Badge variant="secondary" className="px-1.5 py-0.5 text-[10px] font-bold bg-primary/10 text-primary border-none">{notifications.length}</Badge>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-80"><DropdownMenuLabel>Notification Center</DropdownMenuLabel><DropdownMenuSeparator />{notifications.length ? notifications.map((notice) => <DropdownMenuItem key={notice.id} asChild><Link href="/notices"><span className="flex w-full items-start gap-2"><Bell className="mt-0.5 h-4 w-4 text-primary" /><span><span className="block font-medium">{notice.title}</span><span className="text-xs text-muted-foreground">{notice.priority} priority</span></span></span></Link></DropdownMenuItem>) : <DropdownMenuItem disabled>No new notifications</DropdownMenuItem>}<DropdownMenuSeparator /><DropdownMenuItem onClick={() => toast({ title: "Notifications marked as read" })}><CheckCheck className="mr-2 h-4 w-4" />Mark all as read</DropdownMenuItem></DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -213,6 +244,7 @@ export function Shell({ children }: { children: ReactNode }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+      {searchOpen && <div className="fixed inset-0 z-50 bg-background/80 p-4 backdrop-blur-sm" onClick={() => setSearchOpen(false)}><div className="mx-auto mt-16 max-w-2xl rounded-xl border bg-card p-4 shadow-2xl" onClick={(event) => event.stopPropagation()}><div className="flex items-center gap-2 border-b pb-3"><Command className="h-5 w-5 text-primary" /><input autoFocus value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search students, faculty, courses, notices, documents..." className="flex-1 bg-transparent text-sm outline-none" /><kbd className="rounded border px-2 py-1 text-xs">Esc</kbd></div><div className="max-h-80 overflow-y-auto py-3">{search.length < 2 ? <p className="py-8 text-center text-sm text-muted-foreground">Type at least two characters to search the enterprise workspace.</p> : searchResults.length ? searchResults.map((result) => <button key={`${result.type}-${result.id}`} onClick={() => { setSearchOpen(false); if (result.type === "conversation") setLocation(`/ai/chat?conversation=${result.id}`); else if (result.type === "prompt" || result.type === "document") setLocation("/ai"); }} className="flex w-full items-center justify-between rounded-lg p-3 text-left hover:bg-muted"><span className="font-medium">{result.label || result.title || result.name}</span><Badge variant="outline">{result.type}</Badge></button>) : <p className="py-8 text-center text-sm text-muted-foreground">No matching records found.</p>}</div></div></div>}
     </div>
   );
 }

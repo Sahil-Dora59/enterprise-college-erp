@@ -34,6 +34,7 @@ import AcademicManagement from '@/pages/academic-management';
 import ExaminationDashboard from '@/pages/examination-dashboard';
 import Administration from '@/pages/administration';
 import StudentDashboard from '@/pages/student-dashboard';
+import Reports from '@/pages/reports';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -103,6 +104,7 @@ function Router() {
       <Route path="/library"><ProtectedRoute component={Library} path="/library" permission="library.view" /></Route>
       <Route path="/fees"><ProtectedRoute component={Fees} path="/fees" permission="fees.view" /></Route>
       <Route path="/administration"><ProtectedRoute component={Administration} path="/administration" permission="fees.view" /></Route>
+      <Route path="/reports"><ProtectedRoute component={Reports} path="/reports" permission="dashboard.view" /></Route>
       <Route path="/notices"><ProtectedRoute component={Notices} path="/notices" permission="notices.view" /></Route>
       <Route path="/ai"><ProtectedRoute component={AiDashboard} path="/ai" permission="ai.view" /></Route>
       <Route path="/ai/chat"><ProtectedRoute component={AiChat} path="/ai/chat" permission="ai.view" /></Route>

@@ -1,0 +1,235 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT EXPLAIN.
+
+DO NOT CREATE A PLAN.
+
+DO NOT STOP AFTER READING.
+
+Immediately continue modifying my EXISTING ERP Version 2.
+
+Continue from the existing architecture.
+
+Reuse everything already implemented.
+
+======================================================
+
+MISSION
+
+Integrate every ERP module into one seamless enterprise application.
+
+Nothing should feel like separate modules.
+
+Everything must work together.
+
+======================================================
+
+IMPLEMENT NOW
+
+GLOBAL SEARCH
+
+Implement one enterprise search capable of searching:
+
+Students
+
+Faculty
+
+Employees
+
+Courses
+
+Subjects
+
+Departments
+
+Fees
+
+Library
+
+Books
+
+Attendance
+
+Results
+
+Assignments
+
+Documents
+
+Notices
+
+======================================================
+
+NOTIFICATION CENTER
+
+Create one centralized notification system.
+
+Support:
+
+Real-time notifications
+
+Unread counter
+
+Priority notifications
+
+Read/Unread
+
+Mark all as read
+
+Role-based notifications
+
+======================================================
+
+COMMUNICATION
+
+Implement:
+
+Announcement System
+
+Notice Board
+
+Email Templates
+
+SMS-ready architecture
+
+WhatsApp-ready architecture
+
+Broadcast messages
+
+Role-specific announcements
+
+======================================================
+
+ANALYTICS
+
+Create dashboards for:
+
+Super Admin
+
+Admin
+
+Faculty
+
+Student
+
+Accountant
+
+Librarian
+
+Charts
+
+KPIs
+
+Attendance
+
+Performance
+
+Revenue
+
+Library
+
+Admissions
+
+Examination
+
+======================================================
+
+REPORT CENTER
+
+Centralize every report.
+
+Search reports.
+
+Filter reports.
+
+Generate reports.
+
+Export reports.
+
+======================================================
+
+SETTINGS
+
+Create one enterprise Settings module.
+
+Institute Settings
+
+Academic Settings
+
+Email Settings
+
+Notification Settings
+
+Security Settings
+
+AI Settings
+
+Theme Settings
+
+======================================================
+
+USER EXPERIENCE
+
+Improve:
+
+Navigation
+
+Transitions
+
+Loading
+
+Error Pages
+
+Empty States
+
+Quick Actions
+
+Global Search
+
+Keyboard Shortcuts
+
+======================================================
+
+TEST EVERYTHING
+
+Run the application.
+
+Navigate every page.
+
+Test every module.
+
+Test every role.
+
+Fix every broken page.
+
+Fix every broken API.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+======================================================
+
+STOP ONLY WHEN:
+
+Every module works together.
+
+The project builds successfully.
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+APIs updated
+
+Integration completed
+
+Bugs fixed
+
+Application builds successfully.
