@@ -1,0 +1,261 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT:
+- Summarize
+- Explain requirements
+- Create a plan
+- Stop after analysis
+
+Immediately modify the EXISTING ERP Version 2 project.
+
+Continue from the current codebase.
+
+Reuse existing database models, APIs, layouts, components, and routing.
+
+Do not recreate the project.
+
+=================================================
+
+MISSION
+
+Build a complete Enterprise Student Information System (SIS).
+
+=================================================
+
+IMPLEMENT NOW
+
+Create or improve:
+
+• Student Registration
+• Student Admission
+• Student Profile
+• Student Dashboard
+• Student ID Generation
+• Roll Number Generation
+• Registration Number Generation
+• Student Search
+• Advanced Filters
+• Student List
+• Student Details
+• Student Edit
+• Student Transfer
+• Student Archive
+• Active / Inactive / Alumni Status
+
+=================================================
+
+PROFILE
+
+Support:
+
+• Personal Details
+
+• Academic Details
+
+• Parent Details
+
+• Guardian Details
+
+• Contact Information
+
+• Address
+
+• Blood Group
+
+• DOB
+
+• Gender
+
+• Category
+
+• Nationality
+
+• Photo Upload
+
+• Document Upload
+
+=================================================
+
+ACADEMIC
+
+Integrate with:
+
+Departments
+
+Programs
+
+Courses
+
+Semesters
+
+Sections
+
+Batches
+
+Academic Years
+
+=================================================
+
+STUDENT DASHBOARD
+
+Show:
+
+Attendance
+
+Assignments
+
+Upcoming Exams
+
+Recent Notices
+
+Fee Status
+
+Academic Progress
+
+Calendar
+
+Quick Actions
+
+Profile Completion
+
+=================================================
+
+DOCUMENTS
+
+Support:
+
+Identity Documents
+
+Certificates
+
+Mark Sheets
+
+Passport Photo
+
+Transfer Certificate
+
+Migration Certificate
+
+Other Documents
+
+=================================================
+
+SEARCH
+
+Support search by:
+
+Name
+
+Roll Number
+
+Registration Number
+
+Department
+
+Semester
+
+Section
+
+Batch
+
+Status
+
+=================================================
+
+TABLES
+
+Professional tables with:
+
+Sorting
+
+Filtering
+
+Pagination
+
+Bulk Selection
+
+Bulk Actions
+
+Export PDF
+
+Export Excel
+
+Print
+
+=================================================
+
+API
+
+Create clean REST APIs.
+
+Validation.
+
+Authorization.
+
+Pagination.
+
+Filtering.
+
+Searching.
+
+=================================================
+
+DATABASE
+
+Improve relationships with:
+
+Attendance
+
+Fees
+
+Examinations
+
+Assignments
+
+Courses
+
+Departments
+
+Semesters
+
+=================================================
+
+TESTING
+
+Run application.
+
+Test student creation.
+
+Test edit.
+
+Test dashboard.
+
+Test uploads.
+
+Test filters.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+=================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs added.
+
+Features completed.
+
+Bugs fixed.
+
+Application builds successfully.

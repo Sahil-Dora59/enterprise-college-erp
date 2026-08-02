@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { eq, and, ilike, sql } from "drizzle-orm";
-import { db, studentsTable, usersTable, departmentsTable, semestersTable, coursesTable, facultyTable } from "@workspace/db";
+import { db, studentsTable, usersTable, departmentsTable, semestersTable, coursesTable, facultyTable, attendanceTable, feeRecordsTable, examinationsTable, assignmentsTable, noticesTable } from "@workspace/db";
 import { ListStudentsQueryParams, CreateStudentBody, GetStudentParams, UpdateStudentParams, UpdateStudentBody, DeleteStudentParams, GetStudentCoursesParams } from "@workspace/api-zod";
 import { authenticate } from "../middlewares/auth";
 import { hashPassword } from "../lib/password";
@@ -39,7 +39,13 @@ async function buildStudentQuery(conditions: ReturnType<typeof and>[], limitNum:
 }
 
 function fmtStudent(r: Awaited<ReturnType<typeof buildStudentQuery>>[number]) {
-  return { ...r, createdAt: r.createdAt.toISOString() };
+  return {
+    ...r,
+    registrationNumber: `REG-${new Date(r.admissionDate).getFullYear()}-${String(r.id).padStart(5, "0")}`,
+    studentId: `STU-${String(r.id).padStart(6, "0")}`,
+    status: r.isActive ? "active" : "inactive",
+    createdAt: r.createdAt.toISOString(),
+  };
 }
 
 router.get("/students", authenticate, async (req, res): Promise<void> => {
@@ -54,6 +60,13 @@ router.get("/students", authenticate, async (req, res): Promise<void> => {
   if (departmentId) conditions.push(eq(studentsTable.departmentId, Number(departmentId)));
   if (semesterId) conditions.push(eq(studentsTable.semesterId, Number(semesterId)));
   if (search) conditions.push(ilike(usersTable.name, `%${search}%`));
+  const status = typeof req.query.status === "string" ? req.query.status : undefined;
+  if (status === "active") conditions.push(eq(studentsTable.isActive, true));
+  if (status === "inactive" || status === "alumni") conditions.push(eq(studentsTable.isActive, false));
+  if (search && /^REG-|^STU-/i.test(search)) {
+    const numeric = Number(search.replace(/\D/g, ""));
+    if (numeric > 0) conditions.push(eq(studentsTable.id, numeric));
+  }
 
   const where = conditions.length > 0 ? and(...conditions) : undefined;
 
@@ -131,6 +144,49 @@ router.delete("/students/:id", authenticate, async (req, res): Promise<void> => 
   const [s] = await db.delete(studentsTable).where(eq(studentsTable.id, params.data.id)).returning();
   if (!s) { res.status(404).json({ error: "Student not found" }); return; }
   res.sendStatus(204);
+});
+
+router.post("/students/:id/transfer", authenticate, async (req, res): Promise<void> => {
+  if (req.user?.role === "student") { res.status(403).json({ error: "Students cannot transfer records" }); return; }
+  const id = Number(req.params.id);
+  const { departmentId, semesterId, rollNumber } = req.body ?? {};
+  if (!Number.isInteger(id) || !departmentId || !semesterId) { res.status(400).json({ error: "Department and semester are required" }); return; }
+  const [student] = await db.update(studentsTable).set({ departmentId: Number(departmentId), semesterId: Number(semesterId), ...(rollNumber ? { rollNumber: String(rollNumber) } : {}) }).where(eq(studentsTable.id, id)).returning();
+  if (!student) { res.status(404).json({ error: "Student not found" }); return; }
+  res.json({ id: student.id, status: "transferred", departmentId: student.departmentId, semesterId: student.semesterId });
+});
+
+router.post("/students/:id/archive", authenticate, async (req, res): Promise<void> => {
+  if (req.user?.role === "student") { res.status(403).json({ error: "Students cannot archive records" }); return; }
+  const id = Number(req.params.id);
+  const [student] = await db.update(studentsTable).set({ isActive: false }).where(eq(studentsTable.id, id)).returning();
+  if (!student) { res.status(404).json({ error: "Student not found" }); return; }
+  await db.update(usersTable).set({ isActive: false }).where(eq(usersTable.id, student.userId));
+  res.json({ id, status: "archived" });
+});
+
+router.get("/students/:id/dashboard", authenticate, async (req, res): Promise<void> => {
+  const id = Number(req.params.id);
+  const [student] = await db.select().from(studentsTable).where(eq(studentsTable.id, id));
+  if (!student || (req.user?.role === "student" && student.userId !== req.user.userId)) { res.status(404).json({ error: "Student not found" }); return; }
+  const [attendance, fees, exams, assignments, notices] = await Promise.all([
+    db.select({ total: sql<number>`count(*)::int`, present: sql<number>`count(*) filter (where ${attendanceTable.status} = 'present')::int` }).from(attendanceTable).where(eq(attendanceTable.studentId, id)),
+    db.select({ amount: feeRecordsTable.amount, paidAmount: feeRecordsTable.paidAmount, status: feeRecordsTable.status }).from(feeRecordsTable).where(eq(feeRecordsTable.studentId, id)),
+    db.select({ id: examinationsTable.id, name: examinationsTable.name, examDate: examinationsTable.examDate, type: examinationsTable.type }).from(examinationsTable).where(eq(examinationsTable.semesterId, student.semesterId)),
+    db.select({ id: assignmentsTable.id, title: assignmentsTable.title, dueDate: assignmentsTable.dueDate, courseId: assignmentsTable.courseId }).from(assignmentsTable).where(eq(assignmentsTable.status, "active")),
+    db.select({ id: noticesTable.id, title: noticesTable.title, priority: noticesTable.priority, publishedAt: noticesTable.publishedAt }).from(noticesTable).where(eq(noticesTable.isActive, true)).limit(5),
+  ]);
+  const totalFees = fees.reduce((sum, fee) => sum + Number(fee.amount), 0);
+  const paidFees = fees.reduce((sum, fee) => sum + Number(fee.paidAmount ?? 0), 0);
+  res.json({
+    studentId: id,
+    attendance: { total: attendance[0]?.total ?? 0, present: attendance[0]?.present ?? 0, percentage: attendance[0]?.total ? Math.round((attendance[0].present / attendance[0].total) * 1000) / 10 : 0 },
+    fees: { total: totalFees, paid: paidFees, outstanding: Math.max(0, totalFees - paidFees) },
+    upcomingExams: exams,
+    assignments,
+    notices: notices.map((notice) => ({ ...notice, publishedAt: notice.publishedAt.toISOString() })),
+    profileCompletion: [student.rollNumber, student.departmentId, student.semesterId, student.admissionDate, student.dateOfBirth, student.address, student.guardianName, student.guardianPhone].filter(Boolean).length / 8 * 100,
+  });
 });
 
 router.get("/students/:id/courses", authenticate, async (req, res): Promise<void> => {
