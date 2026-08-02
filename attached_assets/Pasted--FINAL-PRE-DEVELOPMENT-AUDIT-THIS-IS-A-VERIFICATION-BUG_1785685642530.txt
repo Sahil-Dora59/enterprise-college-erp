@@ -1,0 +1,390 @@
+🚨 FINAL PRE-DEVELOPMENT AUDIT
+
+THIS IS A VERIFICATION + BUG FIX TASK.
+
+DO NOT ADD NEW FEATURES.
+
+DO NOT REDESIGN THE PROJECT.
+
+DO NOT REFACTOR FOR THE SAKE OF REFACTORING.
+
+YOUR ONLY GOAL IS TO FIND EVERY FAULT, VERIFY IT, FIX IT IF POSSIBLE, AND REPORT ANY REMAINING ISSUES.
+
+====================================================
+
+MISSION
+
+Treat this ERP as if a real university will begin using it tomorrow.
+
+Do NOT assume anything works because the code exists.
+
+Actually execute and verify every workflow.
+
+====================================================
+
+VERIFY THE ENTIRE APPLICATION
+
+Audit every module.
+
+Audit every page.
+
+Audit every component.
+
+Audit every route.
+
+Audit every API.
+
+Audit every database model.
+
+Audit every user role.
+
+Audit every permission.
+
+Audit every workflow.
+
+====================================================
+
+VERIFY AUTHENTICATION
+
+Login
+
+Logout
+
+Remember Me
+
+Forgot Password
+
+Session Restore
+
+Session Expiration
+
+Protected Routes
+
+Protected APIs
+
+Demo Mode
+
+Demo Switcher
+
+Role Switching
+
+====================================================
+
+VERIFY USER ROLES
+
+Super Admin
+
+Admin
+
+Secretary
+
+Faculty
+
+Student
+
+Accountant
+
+Librarian
+
+Verify each role only sees the modules and actions it is authorized to access.
+
+====================================================
+
+VERIFY EVERY MODULE
+
+Dashboard
+
+Students
+
+Faculty
+
+Academics
+
+Courses
+
+Departments
+
+Subjects
+
+Attendance
+
+Assignments
+
+Timetable
+
+Examinations
+
+Results
+
+Marks
+
+Fees
+
+Accounting
+
+Payroll
+
+Library
+
+Hostel
+
+Transport
+
+Inventory
+
+Reports
+
+Notifications
+
+AI
+
+Settings
+
+Profile
+
+====================================================
+
+VERIFY CRUD
+
+For every module verify:
+
+Create
+
+Read
+
+Update
+
+Delete
+
+Search
+
+Filter
+
+Sorting
+
+Pagination
+
+Export
+
+Print
+
+Bulk Actions
+
+====================================================
+
+VERIFY UI
+
+Open every page.
+
+Check:
+
+Broken buttons
+
+Broken links
+
+Broken navigation
+
+Missing icons
+
+Broken images
+
+Responsive issues
+
+Alignment
+
+Spacing
+
+Typography
+
+Dark Mode
+
+Light Mode
+
+Loading States
+
+Empty States
+
+Validation Messages
+
+Error Messages
+
+Animations
+
+====================================================
+
+VERIFY DATABASE
+
+Check:
+
+Relationships
+
+Foreign Keys
+
+Indexes
+
+CRUD
+
+Duplicate Records
+
+Orphan Records
+
+Migrations
+
+====================================================
+
+VERIFY API
+
+Execute every endpoint.
+
+Verify:
+
+Authentication
+
+Authorization
+
+Validation
+
+Status Codes
+
+Error Responses
+
+Database Writes
+
+Database Reads
+
+====================================================
+
+VERIFY PERFORMANCE
+
+Find:
+
+Slow Pages
+
+Slow Queries
+
+Duplicate Requests
+
+Large Components
+
+Large Bundles
+
+Memory Leaks
+
+Infinite Renders
+
+====================================================
+
+VERIFY SECURITY
+
+Authentication
+
+RBAC
+
+JWT
+
+Sessions
+
+Input Validation
+
+SQL Injection
+
+XSS
+
+CSRF
+
+Rate Limiting
+
+Sensitive Data Exposure
+
+====================================================
+
+VERIFY ACCESSIBILITY
+
+Keyboard Navigation
+
+Focus States
+
+ARIA Labels
+
+Contrast
+
+Semantic HTML
+
+====================================================
+
+AUTOMATICALLY FIX
+
+Compile Errors
+
+Runtime Errors
+
+Broken Imports
+
+Broken Routes
+
+Broken APIs
+
+Broken Components
+
+Broken UI
+
+Broken Database Queries
+
+Broken Validation
+
+Broken Permissions
+
+Broken Responsive Layouts
+
+====================================================
+
+DO NOT HIDE ISSUES.
+
+IF SOMETHING CANNOT BE FIXED AUTOMATICALLY,
+
+ADD IT TO A REMAINING ISSUES LIST.
+
+====================================================
+
+FINAL REPORT
+
+Provide ONLY:
+
+1. Executive Summary
+
+2. Total Issues Found
+
+3. Critical Issues
+
+4. High Priority Issues
+
+5. Medium Priority Issues
+
+6. Low Priority Issues
+
+7. Issues Automatically Fixed
+
+8. Remaining Issues Requiring Manual Work
+
+9. Files Modified
+
+10. APIs Verified
+
+11. Pages Verified
+
+12. Modules Verified
+
+13. Security Findings
+
+14. Performance Findings
+
+15. Final Project Health Score (0–100)
+
+16. Production Readiness Score (0–100)
+
+17. Overall Recommendation:
+- Ready for Prompt 11
+- OR
+- Additional fixes required before Prompt 11
+
+Do not finish until every module has been verified and every automatically fixable issue has been fixed.
