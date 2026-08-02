@@ -98,7 +98,7 @@ router.get("/auth/me", authenticate, async (req, res): Promise<void> => {
     return;
   }
   const safeUser = await getUserWithPermissions(user.id);
-  res.json({ ...safeUser, createdAt: safeUser!.createdAt.toISOString() });
+  res.json({ ...safeUser, createdAt: safeUser!.createdAt.toISOString(), mustChangePassword: user.mustChangePassword, emailVerified: user.emailVerified, phoneVerified: user.phoneVerified });
 });
 
 router.post("/auth/change-password", authenticate, async (req, res): Promise<void> => {
@@ -118,7 +118,7 @@ router.post("/auth/change-password", authenticate, async (req, res): Promise<voi
     return;
   }
   const passwordHash = await hashPassword(newPassword);
-  await db.update(usersTable).set({ passwordHash }).where(eq(usersTable.id, user.id));
+  await db.update(usersTable).set({ passwordHash, mustChangePassword: false }).where(eq(usersTable.id, user.id));
   await db
     .update(authSessionsTable)
     .set({ revokedAt: new Date() })

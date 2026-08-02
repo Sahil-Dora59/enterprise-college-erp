@@ -1,0 +1,427 @@
+🚨 CONTINUATION IMPLEMENTATION TASK (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+THIS IS NOT A NEW FEATURE.
+
+THIS IS THE CONTINUATION OF PROMPT 11.
+
+The Admission CRM foundation already exists.
+
+DO NOT recreate existing pages, APIs, database tables or components.
+
+Continue from the current codebase and COMPLETE ONLY the remaining functionality listed below.
+
+Run the application after implementation.
+
+Fix every compile error and runtime error before stopping.
+
+========================================================
+
+MISSION
+
+Complete the Enterprise Admission CRM so it behaves like a real university admission system.
+
+Everything must integrate with the existing ERP.
+
+========================================================
+
+IMPLEMENT THE REMAINING FEATURES
+
+========================================================
+
+1. REAL DOCUMENT MANAGEMENT
+
+Implement real document uploads.
+
+Support:
+
+• Passport Photo
+
+• Signature
+
+• 10th Certificate
+
+• 12th Certificate
+
+• Transfer Certificate
+
+• Migration Certificate
+
+• Identity Proof
+
+• Category Certificate
+
+• Income Certificate
+
+• Other Documents
+
+Implement:
+
+• File Type Validation
+
+• File Size Validation
+
+• Upload Progress
+
+• Replace Document
+
+• Delete Document
+
+• Preview Document
+
+• Download Document
+
+Create storage abstraction so cloud storage can be added later.
+
+========================================================
+
+2. APPLICANT DASHBOARD
+
+Create a professional Applicant Dashboard.
+
+Display:
+
+Application Progress
+
+Application Timeline
+
+Uploaded Documents
+
+Missing Documents
+
+Notifications
+
+Messages
+
+Interview Status
+
+Entrance Test Status
+
+Offer Letter
+
+Admission Decision
+
+Profile Completion
+
+========================================================
+
+3. APPLICATION WORKFLOW
+
+Complete the workflow.
+
+Application Submitted
+
+↓
+
+Document Verification
+
+↓
+
+Eligibility Verification
+
+↓
+
+Interview (optional)
+
+↓
+
+Entrance Test (optional)
+
+↓
+
+Final Review
+
+↓
+
+Approval / Rejection / Waitlist
+
+↓
+
+Student Account Creation
+
+========================================================
+
+4. AUTOMATIC STUDENT CREATION
+
+When an application is APPROVED:
+
+Automatically create:
+
+Student Record
+
+Student Profile
+
+Student Login
+
+Student ID
+
+Roll Number
+
+Registration Number
+
+Academic Session
+
+Department
+
+Program
+
+Semester
+
+Default Student Role
+
+Temporary Password
+
+Link everything with the existing Student Information System.
+
+Do NOT duplicate data.
+
+========================================================
+
+5. FIRST LOGIN
+
+On first login require:
+
+Password Change
+
+Email Verification Architecture
+
+Mobile Verification Architecture
+
+Profile Completion
+
+========================================================
+
+6. OFFER LETTERS
+
+Generate:
+
+Offer Letter
+
+Admission Letter
+
+Rejection Letter
+
+Waitlist Letter
+
+Downloadable PDF architecture.
+
+========================================================
+
+7. INTERVIEW
+
+Create:
+
+Interview Schedule
+
+Interview Status
+
+Interview Notes
+
+Interview Result
+
+Interview Notifications
+
+========================================================
+
+8. ENTRANCE TEST
+
+Create:
+
+Exam Schedule
+
+Result
+
+Score
+
+Eligibility Decision
+
+========================================================
+
+9. NOTIFICATIONS
+
+Generate notifications for:
+
+Application Submitted
+
+Documents Required
+
+Interview Scheduled
+
+Entrance Test
+
+Application Approved
+
+Application Rejected
+
+Waitlisted
+
+Offer Letter Ready
+
+Student Account Created
+
+========================================================
+
+10. EMAIL / SMS ARCHITECTURE
+
+Create provider-independent services.
+
+Support:
+
+Email Templates
+
+SMS Templates
+
+WhatsApp Templates
+
+No hardcoded providers.
+
+========================================================
+
+11. REPORTS
+
+Generate:
+
+Applications by Day
+
+Applications by Month
+
+Applications by Program
+
+Approval Rate
+
+Rejection Rate
+
+Pending Applications
+
+Admission Funnel
+
+Officer Performance
+
+========================================================
+
+12. EXPORTS
+
+Support:
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+========================================================
+
+13. AI
+
+Integrate with the existing AI Module.
+
+Generate:
+
+Application Summary
+
+Eligibility Summary
+
+Missing Document Detection
+
+Suggested Approval Notes
+
+Admission Analytics
+
+========================================================
+
+14. RBAC
+
+Create persisted Admission permissions.
+
+Admission Officer
+
+Admission Manager
+
+Admission Viewer
+
+Secretary
+
+Admin
+
+Super Admin
+
+========================================================
+
+15. END-TO-END TESTING
+
+Run the complete workflow.
+
+Test:
+
+Application
+
+Upload
+
+Review
+
+Approval
+
+Rejection
+
+Waitlist
+
+Student Creation
+
+Student Login
+
+Notifications
+
+Reports
+
+Exports
+
+RBAC
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until every feature works.
+
+========================================================
+
+STOP ONLY WHEN
+
+The Admission CRM is fully completed.
+
+There must be NO remaining implementation work.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+Features Completed
+
+Bugs Fixed
+
+Remaining Work
+
+If "Remaining Work" is not EMPTY, continue implementing instead of stopping.
+
+Final confirmation:
+
+"The Enterprise Admission CRM is fully implemented with no remaining functionality from Prompt 11."

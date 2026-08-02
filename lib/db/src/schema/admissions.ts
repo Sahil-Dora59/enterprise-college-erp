@@ -37,4 +37,46 @@ export const admissionEventsTable = pgTable("admission_events", {
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
+export const admissionDocumentsTable = pgTable("admission_documents", {
+  id: serial("id").primaryKey(),
+  applicationId: integer("application_id").notNull().references(() => admissionApplicationsTable.id, { onDelete: "cascade" }),
+  documentType: text("document_type").notNull(),
+  fileName: text("file_name").notNull(),
+  mimeType: text("mime_type").notNull(),
+  fileSize: integer("file_size").notNull(),
+  storageKey: text("storage_key").notNull().unique(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const admissionInterviewsTable = pgTable("admission_interviews", {
+  id: serial("id").primaryKey(),
+  applicationId: integer("application_id").notNull().references(() => admissionApplicationsTable.id, { onDelete: "cascade" }),
+  scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(),
+  mode: text("mode").notNull().default("online"),
+  status: text("status").notNull().default("scheduled"),
+  notes: text("notes"),
+  result: text("result"),
+});
+
+export const admissionTestsTable = pgTable("admission_tests", {
+  id: serial("id").primaryKey(),
+  applicationId: integer("application_id").notNull().references(() => admissionApplicationsTable.id, { onDelete: "cascade" }),
+  scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(),
+  score: integer("score"),
+  result: text("result"),
+  eligibilityDecision: text("eligibility_decision"),
+});
+
+export const admissionNotificationsTable = pgTable("admission_notifications", {
+  id: serial("id").primaryKey(),
+  applicationId: integer("application_id").references(() => admissionApplicationsTable.id, { onDelete: "cascade" }),
+  recipientEmail: text("recipient_email").notNull(),
+  channel: text("channel").notNull().default("in_app"),
+  template: text("template").notNull(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  readAt: timestamp("read_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export type AdmissionApplication = typeof admissionApplicationsTable.$inferSelect;
