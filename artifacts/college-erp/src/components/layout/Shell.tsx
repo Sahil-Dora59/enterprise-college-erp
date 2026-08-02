@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { DemoSwitcher } from "@/components/demo/DemoSwitcher";
+import { useToast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,6 +56,7 @@ export function Shell({ children }: { children: ReactNode }) {
   const [location, setLocation] = useLocation();
   const [logoutOpen, setLogoutOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const { toast } = useToast();
 
   if (!user) return null; // Or a loading spinner, but Auth wrapper should handle it
 
@@ -66,6 +68,7 @@ export function Shell({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem("erp_theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
       await logout();
+      toast({ title: "Successfully signed out", description: "Your session has been securely closed." });
       setLocation("/login");
     } finally {
       setIsSigningOut(false);
@@ -176,7 +179,7 @@ export function Shell({ children }: { children: ReactNode }) {
                  <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><UserRound className="mr-2 h-4 w-4" />My Profile</span></Link></DropdownMenuItem>
                  <DropdownMenuItem asChild><Link href="/settings"><span className="flex w-full cursor-pointer items-center"><Settings className="mr-2 h-4 w-4" />Settings</span></Link></DropdownMenuItem>
                  {demoEnabled && <DropdownMenuItem asChild><Link href="/demo"><span className="flex w-full cursor-pointer items-center"><FlaskConical className="mr-2 h-4 w-4" />Demo Switcher</span></Link></DropdownMenuItem>}
-                 <DropdownMenuItem onClick={() => document.documentElement.classList.toggle("dark")}><Moon className="mr-2 h-4 w-4" />Theme</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => { const dark = !document.documentElement.classList.contains("dark"); document.documentElement.classList.toggle("dark", dark); localStorage.setItem("erp_theme", dark ? "dark" : "light"); }}><Moon className="mr-2 h-4 w-4" />Theme</DropdownMenuItem>
                  <DropdownMenuItem disabled><Languages className="mr-2 h-4 w-4" />Language <span className="ml-auto text-xs text-muted-foreground">Soon</span></DropdownMenuItem>
                  <DropdownMenuItem onClick={() => window.open("mailto:it-support@college.edu")}><CircleHelp className="mr-2 h-4 w-4" />Help</DropdownMenuItem>
                  <DropdownMenuSeparator />

@@ -1,0 +1,161 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT:
+- Summarize this prompt.
+- Explain requirements.
+- Analyze without coding.
+- Ask for confirmation.
+- Create a plan.
+- Rebuild the project.
+
+Immediately start modifying the EXISTING ERP Version 2 project.
+
+Your goal is to transform the current project into an Enterprise-grade ERP foundation.
+
+Continue from the existing codebase.
+
+Reuse existing pages, components, database models, routes, layouts and APIs whenever possible.
+
+=================================================
+
+IMPLEMENT NOW
+
+Upgrade the overall architecture.
+
+Refactor only where necessary.
+
+Improve project organization.
+
+Improve folder structure.
+
+Improve reusable components.
+
+Improve routing.
+
+Improve layouts.
+
+Improve dashboard architecture.
+
+Improve sidebar architecture.
+
+Improve navbar.
+
+Improve state management.
+
+Improve API organization.
+
+Improve database organization.
+
+Improve configuration handling.
+
+Improve validation.
+
+Improve loading states.
+
+Improve error handling.
+
+Improve responsive design.
+
+Improve accessibility.
+
+Improve typography.
+
+Improve spacing.
+
+Improve cards.
+
+Improve forms.
+
+Improve tables.
+
+Improve color consistency.
+
+Improve dark mode.
+
+Improve theme management.
+
+Improve performance.
+
+Improve security.
+
+Remove duplicate code.
+
+Remove dead code.
+
+Remove unused imports.
+
+Remove unused files only if completely unused.
+
+Keep backward compatibility.
+
+=================================================
+
+PROJECT STANDARD
+
+The application should feel like:
+
+Microsoft 365
+
+Google Workspace
+
+Oracle ERP
+
+SAP
+
+Salesforce
+
+NOT like a university project.
+
+=================================================
+
+QUALITY
+
+Everything must remain responsive.
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+=================================================
+
+AFTER IMPLEMENTATION
+
+Run the application.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Fix every routing issue.
+
+Fix every import issue.
+
+Fix every UI issue.
+
+Fix every responsive issue.
+
+Continue until the application builds successfully.
+
+=================================================
+
+DO NOT STOP AFTER ANALYSIS.
+
+STOP ONLY AFTER IMPLEMENTATION IS COMPLETE.
+
+=================================================
+
+OUTPUT ONLY
+
+Files modified
+
+Files created
+
+Bugs fixed
+
+Architecture improvements
+
+Confirmation that the project builds successfully.

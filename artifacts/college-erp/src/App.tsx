@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
@@ -109,6 +110,13 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("erp_theme");
+    if (savedTheme === "dark" || savedTheme === "light") {
+      document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

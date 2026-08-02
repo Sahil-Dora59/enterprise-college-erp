@@ -47,6 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const onSessionExpired = () => clearSession();
+    window.addEventListener("erp:session-expired", onSessionExpired);
+    return () => window.removeEventListener("erp:session-expired", onSessionExpired);
+  }, []);
+
+  useEffect(() => {
     if (!token || isUserLoading || user) return;
     clearSession();
   }, [token, isUserLoading, user]);
