@@ -1,0 +1,193 @@
+```text
+You are continuing the EXISTING College ERP Version 2 project.
+
+IMPORTANT RULES
+
+• Analyze the current codebase before making changes.
+• Continue from the existing architecture.
+• Never recreate the project.
+• Never remove working features.
+• Reuse existing components, APIs, database models, layouts, utilities, and styling.
+• Maintain backward compatibility.
+• Keep the application functional after every change.
+• Fix any issues before completing the task.
+
+MISSION
+
+Build a production-ready Student Information System (SIS) fully integrated into the existing ERP V2.
+
+STUDENT MODULE
+
+Implement or improve:
+
+• Student Registration
+• Student Admission
+• Student Profile
+• Student Dashboard
+• Student ID Generation
+• Roll Number Generation
+• Registration Number Management
+• Student Search
+• Advanced Filters
+• Student List
+• Student Details
+• Student Edit
+• Student Archive/Transfer
+• Student Status (Active, Inactive, Alumni)
+
+PROFILE
+
+Support:
+
+• Personal Details
+• Academic Details
+• Contact Details
+• Parent/Guardian Information
+• Address
+• Blood Group
+• Date of Birth
+• Gender
+• Category
+• Photo Upload
+• Documents Upload
+
+ACADEMIC
+
+Integrate:
+
+• Department
+• Program
+• Course
+• Semester
+• Section
+• Batch
+• Academic Year
+
+DASHBOARD
+
+Student dashboard should include:
+
+• Attendance Summary
+• Assignment Summary
+• Upcoming Exams
+• Recent Notices
+• Fee Status
+• Academic Progress
+• Quick Actions
+• Profile Completion
+• Calendar
+
+DOCUMENT MANAGEMENT
+
+Allow uploading and managing:
+
+• Aadhaar/ID
+• Certificates
+• Mark Sheets
+• Passport Photo
+• Other Documents
+
+SEARCH
+
+Support:
+
+• Name
+• Roll Number
+• Registration Number
+• Department
+• Semester
+• Section
+• Status
+• Batch
+
+TABLES
+
+Professional tables with:
+
+• Pagination
+• Sorting
+• Filtering
+• Export (PDF/Excel)
+• Bulk Selection
+• Bulk Actions
+
+UI
+
+Create professional pages:
+
+• Student Dashboard
+• Student List
+• Student Details
+• Student Profile
+• Add Student
+• Edit Student
+• Student Documents
+
+Use:
+
+• Responsive design
+• Enterprise cards
+• Modern tables
+• Reusable forms
+• Loading states
+• Empty states
+• Validation
+• Success/Error messages
+
+DATABASE
+
+Review and improve student-related models.
+
+Maintain compatibility with existing data.
+
+Create proper relationships with:
+
+• Departments
+• Courses
+• Semesters
+• Attendance
+• Fees
+• Exams
+• Assignments
+
+API
+
+Ensure:
+
+• Clean REST APIs
+• Validation
+• Authorization
+• Proper error handling
+• Pagination support
+• Search support
+
+TESTING
+
+Before finishing:
+
+• Test student creation.
+• Test profile editing.
+• Test document upload.
+• Test search.
+• Test filters.
+• Test exports.
+• Test dashboard.
+• Test mobile responsiveness.
+• Fix compile/runtime errors.
+• Fix broken imports.
+• Ensure the project builds successfully.
+
+OUTPUT
+
+When complete provide:
+
+1. Features implemented
+2. Files created/updated
+3. Bugs fixed
+4. Database changes
+5. Remaining work for Prompt 4
+
+SUCCESS CONDITION
+
+The Student Information System must be enterprise-grade, fully integrated with ERP V2, secure, responsive, scalable, and production-ready without breaking any existing functionality.
+```
