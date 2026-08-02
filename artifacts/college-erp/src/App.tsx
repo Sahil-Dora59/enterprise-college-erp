@@ -30,6 +30,7 @@ import NotFound from '@/pages/not-found';
 import AccessDenied from '@/pages/access-denied';
 import DemoControlCenter from '@/pages/demo-control-center';
 import ResetPassword from '@/pages/reset-password';
+import AcademicManagement from '@/pages/academic-management';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -88,6 +89,7 @@ function Router() {
       <Route path="/faculty/:id"><ProtectedRoute component={FacultyProfile} path="/faculty/:id" permission="faculty.view" /></Route>
       <Route path="/departments"><ProtectedRoute component={Departments} path="/departments" permission="departments.view" /></Route>
       <Route path="/courses"><ProtectedRoute component={Courses} path="/courses" permission="courses.view" /></Route>
+      <Route path="/academics"><ProtectedRoute component={AcademicManagement} path="/academics" permission="courses.view" /></Route>
       <Route path="/semesters"><ProtectedRoute component={Semesters} path="/semesters" permission="semesters.view" /></Route>
       <Route path="/attendance"><ProtectedRoute component={Attendance} path="/attendance" permission="attendance.view" /></Route>
       <Route path="/examinations"><ProtectedRoute component={Examinations} path="/examinations" permission="examinations.view" /></Route>

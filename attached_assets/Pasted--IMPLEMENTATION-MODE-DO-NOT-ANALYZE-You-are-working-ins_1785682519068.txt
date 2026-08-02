@@ -1,0 +1,241 @@
+🚨 IMPLEMENTATION MODE — DO NOT ANALYZE
+
+You are working inside my EXISTING College ERP Version 2 project.
+
+DO NOT:
+
+• Explain this prompt
+• Summarize requirements
+• Create a roadmap
+• Stop after analysis
+• Ask for confirmation
+
+Immediately modify the existing project.
+
+Reuse the current codebase.
+
+Do NOT recreate the project.
+
+Do NOT remove working functionality.
+
+==================================================
+
+MISSION
+
+Build a complete Enterprise Academic Management System.
+
+==================================================
+
+IMPLEMENT NOW
+
+Create or improve:
+
+• Departments
+• Programs
+• Courses
+• Subjects
+• Academic Years
+• Academic Sessions
+• Semesters
+• Sections
+• Batches
+• Credit System
+• Subject Credits
+• Subject Types
+• Elective Subjects
+
+==================================================
+
+COURSE MANAGEMENT
+
+Implement:
+
+• Course CRUD
+• Subject CRUD
+• Semester Mapping
+• Faculty Assignment
+• Student Enrollment
+• Curriculum Management
+• Course Archive
+
+==================================================
+
+TIMETABLE
+
+Implement:
+
+• Timetable Generator
+
+• Faculty Timetable
+
+• Student Timetable
+
+• Classroom Allocation
+
+• Lab Allocation
+
+• Time Slot Management
+
+• Conflict Detection
+
+==================================================
+
+ATTENDANCE
+
+Implement:
+
+• Daily Attendance
+
+• Subject Attendance
+
+• Class Attendance
+
+• Faculty Attendance Entry
+
+• Student Attendance View
+
+• Attendance Reports
+
+• Low Attendance Alerts
+
+• Bulk Attendance
+
+==================================================
+
+ASSIGNMENTS
+
+Implement:
+
+• Assignment Creation
+
+• Assignment Submission
+
+• Due Dates
+
+• Marks
+
+• Faculty Feedback
+
+• Assignment History
+
+==================================================
+
+ACADEMIC CALENDAR
+
+Implement:
+
+• Holidays
+
+• Events
+
+• Academic Schedule
+
+• Assignment Deadlines
+
+• Semester Timeline
+
+==================================================
+
+REPORTS
+
+Generate:
+
+• Attendance Reports
+
+• Subject Reports
+
+• Faculty Workload
+
+• Assignment Reports
+
+==================================================
+
+EXPORT
+
+Support:
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+==================================================
+
+UI
+
+Create enterprise pages.
+
+Professional tables.
+
+Responsive forms.
+
+Modern dashboards.
+
+Loading states.
+
+Validation.
+
+==================================================
+
+API
+
+Implement clean REST APIs.
+
+Validation.
+
+Pagination.
+
+Filtering.
+
+Search.
+
+==================================================
+
+DATABASE
+
+Improve relationships.
+
+Keep compatibility.
+
+==================================================
+
+TESTING
+
+Run application.
+
+Test attendance.
+
+Test timetable.
+
+Test assignments.
+
+Test reports.
+
+Fix compile errors.
+
+Fix runtime errors.
+
+Continue until everything works.
+
+==================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features completed.
+
+Bugs fixed.
+
+Application builds successfully.
