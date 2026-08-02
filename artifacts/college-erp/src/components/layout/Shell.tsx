@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, GraduationCap, Building2, BookOpen, 
   CalendarDays, ClipboardCheck, FileText, CheckCircle, 
   FileEdit, Library, CreditCard, Bell, Settings, LogOut,
-   Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2, Layers3, BarChart3
+   Menu, X, Bot, FlaskConical, Moon, Languages, CircleHelp, UserRound, Loader2, Layers3, BarChart3, BriefcaseBusiness
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -48,6 +48,7 @@ const navItems: NavItem[] = [
   { title: "Assignments", href: "/assignments", icon: FileEdit, permission: "assignments.view" },
   { title: "Library", href: "/library", icon: Library, permission: "library.view" },
   { title: "Fees", href: "/fees", icon: CreditCard, permission: "fees.view" },
+  { title: "Administration", href: "/administration", icon: BriefcaseBusiness, permission: "fees.view" },
   { title: "Notices", href: "/notices", icon: Bell, permission: "notices.view" },
   { title: "AI Assistant", href: "/ai", icon: Bot, permission: "ai.view" },
   { title: "Settings", href: "/settings", icon: Settings, permission: "settings.manage" },

@@ -1,0 +1,242 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+STOP PLANNING.
+STOP ANALYZING.
+DO NOT SUMMARIZE.
+
+Immediately modify my EXISTING ERP Version 2 project.
+
+Continue from the current codebase.
+
+Do NOT recreate the application.
+
+Do NOT remove working features.
+
+Implement everything below directly into the project.
+
+==================================================
+
+MISSION
+
+Build all remaining Enterprise Administrative Modules.
+
+==================================================
+
+IMPLEMENT NOW
+
+FINANCE
+
+Implement:
+
+• Fee Categories
+• Fee Structure
+• Fee Collection
+• Fee Receipts
+• Fee Due Tracking
+• Discounts
+• Scholarships
+• Fine Management
+• Installments
+• Refunds
+• Fee Dashboard
+• Payment History
+
+==================================================
+
+ACCOUNTING
+
+Implement:
+
+• Income
+• Expenses
+• Ledger
+• Cash Book
+• Bank Book
+• Journal Entries
+• Trial Balance
+• Profit & Loss
+• Balance Sheet
+
+==================================================
+
+PAYROLL
+
+Implement:
+
+• Salary Structure
+• Payslips
+• Salary Processing
+• Allowances
+• Deductions
+• Payroll Reports
+
+==================================================
+
+LIBRARY
+
+Implement:
+
+• Book Catalog
+• Categories
+• Authors
+• Publishers
+• Book Issue
+• Book Return
+• Book Renewal
+• Fine Calculation
+• Reservation
+• Lost Books
+• Library Dashboard
+
+==================================================
+
+HOSTEL
+
+Implement:
+
+• Hostel Buildings
+• Rooms
+• Bed Allocation
+• Student Allocation
+• Visitor Log
+• Complaints
+• Hostel Dashboard
+
+==================================================
+
+TRANSPORT
+
+Implement:
+
+• Vehicles
+• Drivers
+• Routes
+• Stops
+• Student Allocation
+• Maintenance
+• Transport Dashboard
+
+==================================================
+
+INVENTORY
+
+Implement:
+
+• Inventory
+• Assets
+• Vendors
+• Purchases
+• Stock
+• Asset Allocation
+• Low Stock Alerts
+• Inventory Dashboard
+
+==================================================
+
+REPORTS
+
+Generate:
+
+Finance Reports
+
+Fee Reports
+
+Payroll Reports
+
+Library Reports
+
+Hostel Reports
+
+Transport Reports
+
+Inventory Reports
+
+==================================================
+
+EXPORT
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+==================================================
+
+UI
+
+Enterprise dashboards
+
+Responsive design
+
+Professional tables
+
+Modern forms
+
+Loading states
+
+Validation
+
+==================================================
+
+API
+
+Create or improve REST APIs.
+
+Validation.
+
+Pagination.
+
+Filtering.
+
+Search.
+
+Authorization.
+
+==================================================
+
+DATABASE
+
+Improve relationships.
+
+Maintain compatibility.
+
+==================================================
+
+TESTING
+
+Run the application.
+
+Test every module.
+
+Fix compile errors.
+
+Fix runtime errors.
+
+Continue until everything works.
+
+==================================================
+
+DO NOT STOP AFTER ANALYSIS.
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+==================================================
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features completed.
+
+Bugs fixed.
+
+Confirm the application builds successfully.
