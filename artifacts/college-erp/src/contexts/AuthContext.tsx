@@ -1,4 +1,5 @@
-import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useGetMe, useLogin, User, LoginInput, useLogout, getGetMeQueryKey } from '@workspace/api-client-react';
 
 interface AuthContextType {
@@ -9,12 +10,16 @@ interface AuthContextType {
   isLoading: boolean;
   hasPermission: (permission: string) => boolean;
   isRole: (...roles: string[]) => boolean;
+  demoEnabled: boolean;
+  switchDemoRole: (role: string) => Promise<User>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const [token, setToken] = useState<string | null>(localStorage.getItem('erp_token'));
+  const demoEnabled = import.meta.env.VITE_DEMO_MODE === 'true';
   
   const { data: user, isLoading: isUserLoading } = useGetMe({
     query: { enabled: !!token, queryKey: getGetMeQueryKey() }
@@ -42,6 +47,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const switchDemoRole = async (role: string) => {
+    if (!demoEnabled) throw new Error("Demo mode is disabled");
+    const response = await fetch(`/api/demo/switch/${encodeURIComponent(role)}`, { method: "POST" });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Unable to switch demo role");
+    localStorage.setItem("erp_token", result.token);
+    setToken(result.token);
+    queryClient.setQueryData(getGetMeQueryKey(), result.user);
+    await queryClient.invalidateQueries();
+    return result.user as User;
+  };
+
   const isLoading = isUserLoading && !!token;
 
   const currentUser = user || null;
@@ -49,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isRole = (...roles: string[]) => currentUser ? roles.includes(currentUser.role) : false;
 
   return (
-    <AuthContext.Provider value={{ user: currentUser, token, login, logout, isLoading, hasPermission, isRole }}>
+    <AuthContext.Provider value={{ user: currentUser, token, login, logout, isLoading, hasPermission, isRole, demoEnabled, switchDemoRole }}>
       {children}
     </AuthContext.Provider>
   );

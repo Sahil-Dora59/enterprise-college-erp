@@ -18,11 +18,13 @@ import dashboardRouter from "./dashboard";
 import { authenticate, authorizeRequest } from "../middlewares/auth";
 import rbacRouter from "./rbac";
 import aiRouter from "./ai";
+import demoRouter from "./demo";
 
 const router: IRouter = Router();
 
 router.use(healthRouter);
 router.use(authRouter);
+router.use(demoRouter);
 router.use(authenticate, authorizeRequest);
 router.use(rbacRouter);
 router.use(usersRouter);

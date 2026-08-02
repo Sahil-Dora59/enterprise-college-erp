@@ -27,6 +27,7 @@ import AiChat from '@/pages/ai-chat';
 import AiSettings from '@/pages/ai-settings';
 import NotFound from '@/pages/not-found';
 import AccessDenied from '@/pages/access-denied';
+import DemoControlCenter from '@/pages/demo-control-center';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -96,6 +97,7 @@ function Router() {
       <Route path="/ai/chat"><ProtectedRoute component={AiChat} path="/ai/chat" permission="ai.view" /></Route>
       <Route path="/ai/settings"><ProtectedRoute component={AiSettings} path="/ai/settings" permission="ai.manage" /></Route>
       <Route path="/settings"><ProtectedRoute component={Settings} path="/settings" permission="settings.manage" /></Route>
+      <Route path="/demo"><ProtectedRoute component={DemoControlCenter} path="/demo" permission="dashboard.view" /></Route>
       
       <Route>
         <Shell>

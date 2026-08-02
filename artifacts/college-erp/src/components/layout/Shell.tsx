@@ -4,13 +4,14 @@ import {
   LayoutDashboard, Users, GraduationCap, Building2, BookOpen, 
   CalendarDays, ClipboardCheck, FileText, CheckCircle, 
   FileEdit, Library, CreditCard, Bell, Settings, LogOut,
-  Menu, X, Bot
+   Menu, X, Bot, FlaskConical
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { DemoSwitcher } from "@/components/demo/DemoSwitcher";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,12 +47,13 @@ const navItems: NavItem[] = [
 ];
 
 export function Shell({ children }: { children: ReactNode }) {
-  const { user, logout, hasPermission } = useAuth();
+  const { user, logout, hasPermission, demoEnabled } = useAuth();
   const [location, setLocation] = useLocation();
 
   if (!user) return null; // Or a loading spinner, but Auth wrapper should handle it
 
   const filteredNav = navItems.filter(item => hasPermission(item.permission));
+  if (demoEnabled) filteredNav.push({ title: "Demo Center", href: "/demo", icon: FlaskConical, permission: "dashboard.view" });
 
   const handleLogout = async () => {
     await logout();
@@ -103,6 +105,7 @@ export function Shell({ children }: { children: ReactNode }) {
       <div className="hidden md:block w-64 shrink-0 border-r border-sidebar-border h-screen sticky top-0">
         <SidebarContent />
       </div>
+      <DemoSwitcher />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
