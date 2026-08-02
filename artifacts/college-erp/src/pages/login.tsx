@@ -27,6 +27,7 @@ export default function Login() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotEmail, setForgotEmail] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
   const form = useForm<LoginForm>({
@@ -49,6 +50,21 @@ export default function Login() {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const requestReset = async () => {
+    const email = forgotEmail || form.getValues("email");
+    if (!z.string().email().safeParse(email).success) {
+      toast({ title: "Enter your email first", description: "Use your institution email to request a reset.", variant: "destructive" });
+      return;
+    }
+    try {
+      const response = await fetch("/api/auth/forgot-password", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }) });
+      const result = await response.json();
+      toast({ title: "Reset request received", description: result.message });
+    } catch {
+      toast({ title: "Unable to contact authentication service", variant: "destructive" });
     }
   };
 
@@ -109,7 +125,7 @@ export default function Login() {
                     </FormItem>
                   )}
                 />
-                <div className="flex items-center justify-between pt-2"><label className="flex items-center gap-2 text-sm text-muted-foreground"><Checkbox checked={rememberMe} onCheckedChange={(checked) => setRememberMe(checked === true)} />Remember me</label><button type="button" className="text-sm font-medium text-primary hover:underline" onClick={() => toast({ title: "Contact IT Support", description: "Password reset assistance is available through your institution's IT team." })}>Forgot password?</button></div>
+                <div className="flex items-center justify-between pt-2"><label className="flex items-center gap-2 text-sm text-muted-foreground"><Checkbox checked={rememberMe} onCheckedChange={(checked) => setRememberMe(checked === true)} />Remember me</label><button type="button" className="text-sm font-medium text-primary hover:underline" onClick={() => { setForgotEmail(form.getValues("email")); void requestReset(); }}>Forgot password?</button></div>
                 <Button type="submit" className="w-full mt-4 h-11" disabled={isSubmitting}>
                   {isSubmitting ? (
                     <>

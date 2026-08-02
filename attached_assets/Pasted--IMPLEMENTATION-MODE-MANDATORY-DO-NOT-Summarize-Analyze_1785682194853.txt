@@ -1,0 +1,227 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT:
+
+Summarize.
+
+Analyze only.
+
+Explain requirements.
+
+Create a roadmap.
+
+Immediately modify the EXISTING ERP Version 2 project.
+
+Continue from the existing codebase.
+
+=================================================
+
+MISSION
+
+Build a complete Enterprise Authentication & User Management System.
+
+=================================================
+
+IMPLEMENT NOW
+
+Improve Login.
+
+Improve Logout.
+
+Improve Remember Me.
+
+Improve Session Management.
+
+Improve Session Restore.
+
+Improve Session Expiration.
+
+Improve Route Protection.
+
+Improve API Protection.
+
+Implement secure Forgot Password.
+
+Implement Reset Password.
+
+Implement Change Password.
+
+Implement Password Strength Meter.
+
+Implement Account Lock after repeated failed logins.
+
+Improve Validation.
+
+Improve Error Messages.
+
+Improve Success Messages.
+
+=================================================
+
+USER MANAGEMENT
+
+Create complete User Management.
+
+User List.
+
+User Details.
+
+User Profile.
+
+Edit User.
+
+Delete User.
+
+Deactivate User.
+
+Activate User.
+
+Avatar Upload.
+
+Profile Photo.
+
+Last Login.
+
+User Activity Timeline.
+
+Search.
+
+Filters.
+
+Pagination.
+
+Bulk Actions.
+
+=================================================
+
+RBAC
+
+Implement complete Role Based Access Control.
+
+Roles:
+
+Super Admin
+
+Admin
+
+Secretary
+
+Faculty
+
+Student
+
+Accountant
+
+Librarian
+
+Role Management.
+
+Permission Management.
+
+Route Permissions.
+
+Sidebar Permissions.
+
+API Permissions.
+
+Create Read Update Delete permissions.
+
+=================================================
+
+PROFILE
+
+Professional Profile Page.
+
+Personal Information.
+
+Contact Information.
+
+Password Change.
+
+Notification Preferences.
+
+Profile Picture.
+
+=================================================
+
+SECURITY
+
+Improve:
+
+Authentication.
+
+Authorization.
+
+Password Hashing.
+
+Validation.
+
+Session Security.
+
+XSS Protection.
+
+SQL Injection Protection.
+
+CSRF Protection.
+
+=================================================
+
+UI
+
+Professional Login.
+
+Professional User Pages.
+
+Professional Role Pages.
+
+Professional Permission Pages.
+
+Responsive.
+
+Enterprise Design.
+
+=================================================
+
+TESTING
+
+Run application.
+
+Test Login.
+
+Test Logout.
+
+Test Every Role.
+
+Test Route Protection.
+
+Test API Protection.
+
+Test Password Reset.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+=================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+=================================================
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features implemented.
+
+Bugs fixed.
+
+Confirmation that the project builds successfully.

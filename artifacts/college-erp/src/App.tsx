@@ -29,6 +29,7 @@ import AiSettings from '@/pages/ai-settings';
 import NotFound from '@/pages/not-found';
 import AccessDenied from '@/pages/access-denied';
 import DemoControlCenter from '@/pages/demo-control-center';
+import ResetPassword from '@/pages/reset-password';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -75,6 +76,7 @@ function Router() {
       <Route path="/login">
         {user ? <Redirect to={`/dashboard/${user.role}`} /> : <Login />}
       </Route>
+      <Route path="/reset-password"><ResetPassword /></Route>
 
       <Route path="/"><ProtectedRoute component={Dashboard} path="/" permission="dashboard.view" /></Route>
       {(["super_admin", "admin", "faculty", "student", "accountant", "librarian"] as const).map((role) => (
