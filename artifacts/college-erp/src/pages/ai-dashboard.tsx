@@ -1,9 +1,12 @@
 import { Link } from "wouter";
-import { MessageSquare, Settings2, Sparkles, History, FileText, ClipboardList, HelpCircle } from "lucide-react";
+import { MessageSquare, Settings2, Sparkles, History, FileText, ClipboardList, HelpCircle, Search, Star, Upload } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useListAiConversations } from "@workspace/api-client-react";
+import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
 
 export function getAssistantName(role?: string) {
   switch (role) {
@@ -20,6 +23,30 @@ export default function AiDashboard() {
   const assistantName = getAssistantName(user?.role);
   const canManageSettings = hasPermission("ai.manage");
   const conversationsQuery = useListAiConversations();
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<any[]>([]);
+  const [prompts, setPrompts] = useState<any[]>([]);
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [promptTitle, setPromptTitle] = useState("");
+  const [promptText, setPromptText] = useState("");
+  const authHeaders = { Authorization: `Bearer ${localStorage.getItem("erp_token") || sessionStorage.getItem("erp_token")}` };
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/ai/prompts", { headers: authHeaders }).then((r) => r.ok ? r.json() : []),
+      fetch("/api/ai/documents", { headers: authHeaders }).then((r) => r.ok ? r.json() : []),
+    ]).then(([loadedPrompts, loadedDocuments]) => { setPrompts(loadedPrompts); setDocuments(loadedDocuments); });
+  }, []);
+  const search = async (value: string) => {
+    setQuery(value);
+    if (value.trim().length < 2) { setResults([]); return; }
+    const response = await fetch(`/api/ai/search?q=${encodeURIComponent(value)}`, { headers: authHeaders });
+    if (response.ok) setResults(await response.json());
+  };
+  const savePrompt = async () => {
+    if (!promptTitle.trim() || !promptText.trim()) return;
+    const response = await fetch("/api/ai/prompts", { method: "POST", headers: { ...authHeaders, "Content-Type": "application/json" }, body: JSON.stringify({ title: promptTitle, prompt: promptText }) });
+    if (response.ok) { setPrompts([await response.json(), ...prompts]); setPromptTitle(""); setPromptText(""); }
+  };
 
   return (
     <div className="space-y-6">
@@ -29,6 +56,13 @@ export default function AiDashboard() {
           Your intelligent assistant for campus resources and operations.
         </p>
       </div>
+      <Card>
+        <CardHeader><CardTitle className="flex items-center gap-2"><Search className="h-5 w-5 text-primary" />AI Search</CardTitle><CardDescription>Search your AI conversations, prompt library, and indexed documents.</CardDescription></CardHeader>
+        <CardContent className="space-y-3">
+          <Input value={query} onChange={(event) => void search(event.target.value)} placeholder="Search AI knowledge..." />
+          {results.length > 0 && <div className="grid gap-2 sm:grid-cols-2">{results.map((result) => <div key={`${result.type}-${result.id}`} className="rounded-md border p-2 text-sm"><Badge variant="outline">{result.type}</Badge><span className="ml-2">{result.name || result.title}</span></div>)}</div>}
+        </CardContent>
+      </Card>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card className="flex flex-col">
@@ -111,6 +145,10 @@ export default function AiDashboard() {
             </CardFooter>
           </Card>
         )}
+      </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        <Card><CardHeader><CardTitle className="flex items-center gap-2"><Star className="h-5 w-5 text-primary" />Prompt Library</CardTitle><CardDescription>Save reusable prompts for notices, reports, assignments, and study notes.</CardDescription></CardHeader><CardContent className="space-y-3"><Input value={promptTitle} onChange={(event) => setPromptTitle(event.target.value)} placeholder="Prompt title" /><Input value={promptText} onChange={(event) => setPromptText(event.target.value)} placeholder="Prompt template" /><Button onClick={() => void savePrompt()} disabled={!promptTitle.trim() || !promptText.trim()}>Save prompt</Button><div className="space-y-2">{prompts.slice(0, 4).map((prompt) => <div key={prompt.id} className="rounded-md border p-2 text-sm"><span className="font-medium">{prompt.title}</span><span className="ml-2 text-muted-foreground">{prompt.category}</span></div>)}</div></CardContent></Card>
+        <Card><CardHeader><CardTitle className="flex items-center gap-2"><Upload className="h-5 w-5 text-primary" />Document AI index</CardTitle><CardDescription>PDF-ready document metadata and extracted keyword architecture.</CardDescription></CardHeader><CardContent><div className="mb-3 flex items-center gap-2 text-sm text-muted-foreground"><FileText className="h-4 w-4" />{documents.length} indexed documents</div><p className="text-sm text-muted-foreground">Upload and OCR processing can attach extracted text to this index without changing the AI provider boundary.</p></CardContent></Card>
       </div>
       <Card>
         <CardHeader>

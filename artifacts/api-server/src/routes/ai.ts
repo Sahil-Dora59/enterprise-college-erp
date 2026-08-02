@@ -1,9 +1,12 @@
 import { Router, type IRouter } from "express";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import {
   aiConversationsTable,
   aiMessagesTable,
   aiSettingsTable,
+  aiPromptTemplatesTable,
+  aiDocumentsTable,
+  aiUsageLogsTable,
   db,
 } from "@workspace/db";
 import {
@@ -122,6 +125,67 @@ router.delete("/ai/conversations/:id", async (req, res): Promise<void> => {
   }
   await db.delete(aiConversationsTable).where(eq(aiConversationsTable.id, conversationId));
   res.sendStatus(204);
+});
+
+router.patch("/ai/conversations/:id", async (req, res): Promise<void> => {
+  const conversationId = parseId(req.params.id);
+  if (!conversationId) { res.status(400).json({ error: "Invalid conversation id" }); return; }
+  const conversation = await getOwnedConversation(conversationId, req.user!.userId);
+  if (!conversation) { res.status(404).json({ error: "Conversation not found" }); return; }
+  const title = typeof req.body?.title === "string" ? req.body.title.trim().slice(0, 120) : undefined;
+  const isPinned = typeof req.body?.isPinned === "boolean" ? req.body.isPinned : undefined;
+  if (!title && isPinned === undefined) { res.status(400).json({ error: "Title or pin state is required" }); return; }
+  const [updated] = await db.update(aiConversationsTable).set({ ...(title ? { title } : {}), ...(isPinned === undefined ? {} : { isPinned }) }).where(eq(aiConversationsTable.id, conversationId)).returning();
+  res.json(updated);
+});
+
+router.get("/ai/prompts", async (req, res): Promise<void> => {
+  const prompts = await db.select().from(aiPromptTemplatesTable).where(eq(aiPromptTemplatesTable.userId, req.user!.userId)).orderBy(desc(aiPromptTemplatesTable.updatedAt)).limit(100);
+  res.json(prompts);
+});
+
+router.post("/ai/prompts", async (req, res): Promise<void> => {
+  const { title, prompt, category = "general" } = req.body ?? {};
+  if (typeof title !== "string" || !title.trim() || typeof prompt !== "string" || !prompt.trim()) { res.status(400).json({ error: "Title and prompt are required" }); return; }
+  const [created] = await db.insert(aiPromptTemplatesTable).values({ userId: req.user!.userId, title: title.trim().slice(0, 120), prompt: prompt.trim().slice(0, 4000), category: String(category).slice(0, 50) }).returning();
+  res.status(201).json(created);
+});
+
+router.patch("/ai/prompts/:id", async (req, res): Promise<void> => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) { res.status(400).json({ error: "Invalid prompt id" }); return; }
+  const [updated] = await db.update(aiPromptTemplatesTable).set({ ...(typeof req.body?.title === "string" ? { title: req.body.title.trim() } : {}), ...(typeof req.body?.prompt === "string" ? { prompt: req.body.prompt.trim() } : {}), ...(typeof req.body?.isFavorite === "boolean" ? { isFavorite: req.body.isFavorite } : {}) }).where(and(eq(aiPromptTemplatesTable.id, id), eq(aiPromptTemplatesTable.userId, req.user!.userId))).returning();
+  if (!updated) { res.status(404).json({ error: "Prompt not found" }); return; }
+  res.json(updated);
+});
+
+router.get("/ai/documents", async (req, res): Promise<void> => {
+  const documents = await db.select({ id: aiDocumentsTable.id, name: aiDocumentsTable.name, mimeType: aiDocumentsTable.mimeType, status: aiDocumentsTable.status, keywords: aiDocumentsTable.keywords, createdAt: aiDocumentsTable.createdAt }).from(aiDocumentsTable).where(eq(aiDocumentsTable.userId, req.user!.userId)).orderBy(desc(aiDocumentsTable.createdAt));
+  res.json(documents);
+});
+
+router.post("/ai/documents", async (req, res): Promise<void> => {
+  const { name, mimeType = "application/pdf", extractedText = "" } = req.body ?? {};
+  if (typeof name !== "string" || !name.trim()) { res.status(400).json({ error: "Document name is required" }); return; }
+  const keywords = String(extractedText).toLowerCase().match(/[a-z]{4,}/g)?.filter((word, index, list) => list.indexOf(word) === index).slice(0, 20) ?? [];
+  const [created] = await db.insert(aiDocumentsTable).values({ userId: req.user!.userId, name: name.trim(), mimeType: String(mimeType), extractedText: String(extractedText).slice(0, 100000), keywords }).returning();
+  res.status(201).json(created);
+});
+
+router.get("/ai/search", async (req, res): Promise<void> => {
+  const query = typeof req.query.q === "string" ? req.query.q.trim().toLowerCase() : "";
+  if (query.length < 2) { res.status(400).json({ error: "Search query must be at least 2 characters" }); return; }
+  const [documents, prompts, conversations] = await Promise.all([
+    db.select({ id: aiDocumentsTable.id, name: aiDocumentsTable.name, type: aiDocumentsTable.mimeType }).from(aiDocumentsTable).where(eq(aiDocumentsTable.userId, req.user!.userId)),
+    db.select({ id: aiPromptTemplatesTable.id, title: aiPromptTemplatesTable.title, type: sql<string>`'prompt'` }).from(aiPromptTemplatesTable).where(eq(aiPromptTemplatesTable.userId, req.user!.userId)),
+    db.select({ id: aiConversationsTable.id, title: aiConversationsTable.title, type: sql<string>`'conversation'` }).from(aiConversationsTable).where(eq(aiConversationsTable.userId, req.user!.userId)),
+  ]);
+  const results = [...documents, ...prompts, ...conversations].map((item) => ({
+    id: item.id,
+    type: item.type,
+    label: "name" in item ? item.name : item.title,
+  }));
+  res.json(results.filter((item) => item.label.toLowerCase().includes(query)).slice(0, 50));
 });
 
 router.get("/ai/settings", async (_req, res): Promise<void> => {

@@ -1,0 +1,279 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+Immediately continue modifying the EXISTING ERP Version 2 project.
+
+Reuse the current architecture.
+
+Do NOT recreate the application.
+
+==================================================
+
+MISSION
+
+Transform the ERP into an AI-Native Enterprise College ERP.
+
+==================================================
+
+IMPLEMENT NOW
+
+Create a centralized AI Platform.
+
+==================================================
+
+AI CHAT
+
+Implement:
+
+• Enterprise AI Chat UI
+
+• Conversation History
+
+• Chat Sessions
+
+• Rename Chats
+
+• Delete Chats
+
+• Pinned Chats
+
+• Suggested Prompts
+
+• Markdown Support
+
+• Code Blocks
+
+• File Attachments
+
+• Copy Response
+
+• Regenerate Response
+
+==================================================
+
+AI ASSISTANTS
+
+Create:
+
+Student AI
+
+Faculty AI
+
+Admin AI
+
+Finance AI
+
+Library AI
+
+Admission AI
+
+Placement AI
+
+==================================================
+
+AI SEARCH
+
+Implement intelligent search for:
+
+Students
+
+Faculty
+
+Courses
+
+Departments
+
+Books
+
+Documents
+
+Fees
+
+Attendance
+
+Exams
+
+Assignments
+
+==================================================
+
+DOCUMENT AI
+
+Implement:
+
+PDF Upload
+
+PDF Viewer
+
+Document Index
+
+OCR-ready Architecture
+
+Document Summaries
+
+Question Answering
+
+Keyword Extraction
+
+==================================================
+
+AI CONTENT
+
+Generate:
+
+Notices
+
+Emails
+
+Circulars
+
+Assignments
+
+Question Papers
+
+Study Notes
+
+Reports
+
+Meeting Minutes
+
+==================================================
+
+AI ANALYTICS
+
+Generate insights for:
+
+Attendance
+
+Performance
+
+Fees
+
+Faculty Workload
+
+Library Usage
+
+Academic Risk
+
+Recommendations
+
+==================================================
+
+PROMPTS
+
+Create:
+
+Prompt Library
+
+Favorites
+
+Categories
+
+Templates
+
+Recent Prompts
+
+==================================================
+
+AI SETTINGS
+
+Implement:
+
+Model Selection
+
+Temperature
+
+Token Limits
+
+System Prompt
+
+Usage Limits
+
+==================================================
+
+DATABASE
+
+Create tables for:
+
+Conversations
+
+Sessions
+
+Prompt Templates
+
+AI Settings
+
+AI Logs
+
+Usage Statistics
+
+==================================================
+
+UI
+
+Professional AI Dashboard.
+
+Modern Chat Interface.
+
+Responsive Design.
+
+Dark Mode.
+
+==================================================
+
+API
+
+Create AI APIs.
+
+Validation.
+
+Authorization.
+
+Logging.
+
+==================================================
+
+TESTING
+
+Run application.
+
+Test AI Chat.
+
+Test AI Search.
+
+Test AI Documents.
+
+Test Prompt Library.
+
+Fix compile errors.
+
+Fix runtime errors.
+
+Continue until everything works.
+
+==================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+==================================================
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features completed.
+
+Bugs fixed.
+
+Confirm the application builds successfully.
