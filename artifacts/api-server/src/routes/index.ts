@@ -21,6 +21,7 @@ import aiRouter from "./ai";
 import demoRouter from "./demo";
 import administrationRouter from "./administration";
 import admissionsRouter from "./admissions";
+import applicantAuthRouter from "./applicant-auth";
 
 const router: IRouter = Router();
 
@@ -28,6 +29,7 @@ router.use(healthRouter);
 router.use(authRouter);
 router.use(demoRouter);
 router.use(admissionsRouter);
+router.use(applicantAuthRouter);
 router.use(administrationRouter);
 router.use(authenticate, authorizeRequest);
 router.use(rbacRouter);

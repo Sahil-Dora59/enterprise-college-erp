@@ -1,0 +1,365 @@
+🚨 CONTINUATION IMPLEMENTATION TASK
+
+THIS IS NOT A NEW MODULE.
+
+THIS IS THE CONTINUATION OF PROMPT 11.
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT REBUILD ANY EXISTING FEATURE.
+
+Continue from the existing Admission CRM implementation.
+
+Reuse existing APIs, authentication, database schema, layouts, RBAC, Student Information System, notifications and UI components.
+
+Implement ONLY the remaining Admission Experience features listed below.
+
+Run the application after implementation.
+
+Fix every compile error and runtime error before stopping.
+
+========================================================
+
+MISSION
+
+Complete the Applicant Experience so it behaves like a real university admission portal.
+
+Everything must integrate with the existing ERP.
+
+========================================================
+
+1. REAL DOCUMENT MANAGEMENT
+
+Replace the temporary document upload implementation with a production-ready architecture.
+
+Implement:
+
+• Multipart upload
+
+• Upload progress bar
+
+• Drag & Drop upload
+
+• Replace document
+
+• Delete document
+
+• Retry failed upload
+
+• Cancel upload
+
+• Multiple file upload
+
+• Preview before upload
+
+• Preview after upload
+
+• Download
+
+• Upload history
+
+Supported files:
+
+PDF
+
+JPG
+
+JPEG
+
+PNG
+
+Maximum file size:
+
+5 MB
+
+Show proper validation messages.
+
+Prevent duplicate uploads.
+
+========================================================
+
+2. DOCUMENT DASHBOARD
+
+Create a dedicated document manager.
+
+Show:
+
+Uploaded Documents
+
+Pending Documents
+
+Rejected Documents
+
+Verified Documents
+
+Document Status
+
+Verification Notes
+
+Upload Date
+
+Reviewer
+
+========================================================
+
+3. APPLICANT AUTHENTICATION
+
+Create a dedicated Applicant Login.
+
+Applicants should NOT become Students.
+
+Applicants have their own authentication.
+
+Implement:
+
+Applicant Registration
+
+Applicant Login
+
+Forgot Password
+
+Reset Password
+
+Remember Me
+
+Applicant Session
+
+Secure Logout
+
+========================================================
+
+4. APPLICANT DASHBOARD
+
+Improve the dashboard.
+
+Display:
+
+Application Progress
+
+Timeline
+
+Notifications
+
+Messages
+
+Document Status
+
+Verification Status
+
+Interview Status
+
+Entrance Test Status
+
+Offer Status
+
+Admission Decision
+
+Profile Completion
+
+========================================================
+
+5. PROFILE COMPLETION
+
+Create profile completion tracking.
+
+Display completion percentage.
+
+Highlight missing sections.
+
+Prevent submission until required information exists.
+
+========================================================
+
+6. EMAIL VERIFICATION
+
+Create architecture for:
+
+Email Verification
+
+Verification Token
+
+Verification Expiration
+
+Verification Success
+
+Resend Verification
+
+========================================================
+
+7. MOBILE VERIFICATION
+
+Create architecture for:
+
+OTP Generation
+
+OTP Verification
+
+Resend OTP
+
+Expiration
+
+Retry Limits
+
+========================================================
+
+8. STUDENT CREATION FALLBACK
+
+When approval occurs but:
+
+Department
+
+Semester
+
+Course
+
+Academic Session
+
+cannot be mapped,
+
+do NOT fail.
+
+Instead:
+
+Create Pending Academic Assignment.
+
+Notify Admission Officer.
+
+Queue Student Record.
+
+Allow completion later.
+
+No duplicate accounts.
+
+========================================================
+
+9. VALIDATION
+
+Improve validation for:
+
+Email
+
+Phone
+
+Documents
+
+Dates
+
+Required fields
+
+Duplicate applications
+
+========================================================
+
+10. UI
+
+Enterprise quality.
+
+Professional animations.
+
+Responsive.
+
+Dark Mode.
+
+Light Mode.
+
+Loading states.
+
+Empty states.
+
+Error states.
+
+========================================================
+
+11. SECURITY
+
+Improve:
+
+Applicant authentication
+
+Password hashing
+
+Validation
+
+Rate limiting
+
+Upload validation
+
+Secure downloads
+
+========================================================
+
+12. TESTING
+
+Run application.
+
+Test:
+
+Applicant registration
+
+Applicant login
+
+Forgot password
+
+Reset password
+
+Upload
+
+Replace document
+
+Delete document
+
+Preview
+
+Download
+
+Dashboard
+
+Email verification
+
+OTP flow
+
+Student creation fallback
+
+Fix compile errors.
+
+Fix runtime errors.
+
+Continue until everything works.
+
+========================================================
+
+STOP ONLY WHEN
+
+All Applicant Experience features above are fully implemented.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+Features Completed
+
+Bugs Fixed
+
+Remaining Work
+
+If any remaining work exists from THIS prompt, continue implementing before stopping.
+
+Final confirmation:
+
+"Applicant Experience for the Enterprise Admission CRM has been fully implemented and integrated with ERP Version 2."

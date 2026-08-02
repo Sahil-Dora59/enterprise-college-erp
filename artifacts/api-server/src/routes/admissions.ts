@@ -1,6 +1,6 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, ilike, or } from "drizzle-orm";
-import { admissionApplicationsTable, admissionDocumentsTable, admissionEventsTable, admissionInterviewsTable, admissionNotificationsTable, admissionTestsTable, db, departmentsTable, semestersTable, studentsTable, usersTable } from "@workspace/db";
+import { admissionApplicationsTable, admissionDocumentsTable, admissionEventsTable, admissionInterviewsTable, admissionNotificationsTable, admissionTestsTable, applicantAccountsTable, db, departmentsTable, semestersTable, studentsTable, usersTable } from "@workspace/db";
 import { authenticate } from "../middlewares/auth";
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
@@ -29,14 +29,18 @@ router.post("/admissions/applications", async (req, res): Promise<void> => {
   if (typeof body.applicantName !== "string" || !body.applicantName.trim() || typeof body.email !== "string" || typeof body.program !== "string") {
     res.status(400).json({ error: "Applicant name, email, and program are required." }); return;
   }
+  const normalizedEmail = body.email.trim().toLowerCase();
+  const [duplicate] = await db.select({ id: admissionApplicationsTable.id }).from(admissionApplicationsTable).where(and(eq(admissionApplicationsTable.email, normalizedEmail), eq(admissionApplicationsTable.program, body.program), or(eq(admissionApplicationsTable.status, "submitted"), eq(admissionApplicationsTable.status, "approved"))));
+  if (duplicate) { res.status(409).json({ error: "A submitted application already exists for this email and program." }); return; }
+  const [applicant] = await db.select({ id: applicantAccountsTable.id }).from(applicantAccountsTable).where(eq(applicantAccountsTable.email, normalizedEmail));
   const applicationId = `APP-${new Date().getFullYear()}-${crypto.randomBytes(4).toString("hex").toUpperCase()}`;
   const referenceNumber = `REF-${crypto.randomBytes(5).toString("hex").toUpperCase()}`;
   const [application] = await db.insert(admissionApplicationsTable).values({
-    applicationId, referenceNumber, applicantName: body.applicantName.trim(), email: body.email.trim().toLowerCase(),
+    applicationId, referenceNumber, applicantName: body.applicantName.trim(), email: normalizedEmail,
     phone: body.phone ?? "", guardianName: body.guardianName ?? null, guardianPhone: body.guardianPhone ?? null,
     address: body.address ?? null, qualification: body.qualification ?? null, program: body.program,
     documents: body.documents ?? {}, declarationAccepted: Boolean(body.declarationAccepted),
-    status: body.submit ? "submitted" : "draft", submittedAt: body.submit ? new Date() : null,
+    status: body.submit ? "submitted" : "draft", submittedAt: body.submit ? new Date() : null, applicantId: applicant?.id ?? null,
   }).returning();
   await db.insert(admissionEventsTable).values({ applicationId: application.id, event: body.submit ? "Application submitted" : "Draft saved" });
   await db.insert(admissionNotificationsTable).values({ applicationId: application.id, recipientEmail: application.email, template: body.submit ? "application_submitted" : "draft_saved", subject: body.submit ? "Application submitted" : "Application draft saved", body: `Your application ${application.applicationId} is ${application.status}.` });

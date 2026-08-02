@@ -3,6 +3,30 @@ import { usersTable } from "./users";
 import { departmentsTable } from "./departments";
 import { coursesTable } from "./courses";
 
+export const applicantAccountsTable = pgTable("applicant_accounts", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  phone: text("phone").notNull(),
+  emailVerified: boolean("email_verified").notNull().default(false),
+  phoneVerified: boolean("phone_verified").notNull().default(false),
+  emailVerificationToken: text("email_verification_token"),
+  emailVerificationExpiresAt: timestamp("email_verification_expires_at", { withTimezone: true }),
+  phoneOtpHash: text("phone_otp_hash"),
+  phoneOtpExpiresAt: timestamp("phone_otp_expires_at", { withTimezone: true }),
+  phoneOtpAttempts: integer("phone_otp_attempts").notNull().default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const applicantSessionsTable = pgTable("applicant_sessions", {
+  id: serial("id").primaryKey(),
+  applicantId: integer("applicant_id").notNull().references(() => applicantAccountsTable.id, { onDelete: "cascade" }),
+  tokenId: text("token_id").notNull().unique(),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  revokedAt: timestamp("revoked_at", { withTimezone: true }),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const admissionApplicationsTable = pgTable("admission_applications", {
   id: serial("id").primaryKey(),
   applicationId: text("application_id").notNull().unique(),
@@ -23,6 +47,7 @@ export const admissionApplicationsTable = pgTable("admission_applications", {
   assignedTo: integer("assigned_to").references(() => usersTable.id, { onDelete: "set null" }),
   reviewComment: text("review_comment"),
   studentUserId: integer("student_user_id").references(() => usersTable.id, { onDelete: "set null" }),
+  applicantId: integer("applicant_id").references(() => applicantAccountsTable.id, { onDelete: "set null" }),
   submittedAt: timestamp("submitted_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
