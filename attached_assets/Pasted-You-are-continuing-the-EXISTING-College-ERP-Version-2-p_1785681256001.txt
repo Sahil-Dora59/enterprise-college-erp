@@ -1,0 +1,150 @@
+You are continuing the EXISTING College ERP Version 2 project.
+
+IMPORTANT
+
+• Analyze the current codebase before making changes.
+• Continue from the existing architecture.
+• Never recreate the project.
+• Never remove working functionality.
+• Reuse existing database models, components, layouts, APIs, and utilities.
+• Maintain backward compatibility.
+• Fix any issues introduced before finishing.
+
+MISSION
+
+Upgrade the Authentication and User Management system into an enterprise-grade implementation.
+
+ROLES
+
+Implement and verify complete role-based access for:
+
+• Super Admin
+• Admin
+• Faculty
+• Student
+• Accountant
+• Librarian
+
+AUTHENTICATION
+
+Improve or implement:
+
+• Secure Login
+• Logout
+• Forgot Password
+• Reset Password
+• Change Password
+• Remember Me
+• Session Management
+• Token Refresh (if applicable)
+• Account Lock after repeated failed logins
+• Password Strength Validation
+• Password Visibility Toggle
+
+USER MANAGEMENT
+
+Build or improve:
+
+• User CRUD
+• Profile Management
+• Avatar Upload
+• User Status (Active/Inactive)
+• User Search
+• User Filters
+• Pagination
+• User Details Page
+• User Activity Timeline
+• Last Login Tracking
+
+ROLE & PERMISSIONS
+
+Implement enterprise RBAC:
+
+• Role Management
+• Permission Management
+• Module-wise Permissions
+• Route Protection
+• API Protection
+• Sidebar visibility based on role
+• Page-level permissions
+• Action permissions (Create, Read, Update, Delete)
+
+PROFILE
+
+Every user should have:
+
+• Personal Information
+• Contact Information
+• Profile Photo
+• Password Change
+• Notification Preferences
+
+SECURITY
+
+Improve:
+
+• Input Validation
+• Secure Password Hashing
+• CSRF Protection (if applicable)
+• XSS Protection
+• SQL Injection Protection
+• Proper Error Handling
+• Secure Session Expiry
+
+UI
+
+Create professional pages for:
+
+• Login
+• Forgot Password
+• Reset Password
+• User List
+• User Profile
+• User Details
+• Roles
+• Permissions
+
+Use:
+
+• Modern cards
+• Responsive forms
+• Loading states
+• Empty states
+• Success/Error alerts
+• Confirmation dialogs
+• Mobile responsiveness
+
+DATABASE
+
+Review user-related tables.
+
+Improve relationships if needed without breaking existing data.
+
+TESTING
+
+Before finishing:
+
+• Test login.
+• Test logout.
+• Test every role.
+• Test protected routes.
+• Test protected APIs.
+• Test password reset flow.
+• Test profile updates.
+• Fix all compile/runtime errors.
+• Fix broken imports.
+• Ensure the project builds successfully.
+
+OUTPUT
+
+When complete, provide:
+
+1. Features implemented
+2. Files changed
+3. Bugs fixed
+4. Security improvements
+5. Remaining work for Prompt 3
+
+SUCCESS CONDITION
+
+The ERP V2 must have a production-ready Authentication, User Management, and Role-Based Access Control system that is secure, scalable, responsive, and fully integrated with the existing project.
