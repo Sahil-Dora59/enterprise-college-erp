@@ -1,0 +1,259 @@
+🚨 IMPLEMENTATION MODE (MANDATORY)
+
+DO NOT:
+
+Summarize.
+
+Explain.
+
+Analyze only.
+
+Immediately modify the EXISTING ERP Version 2 project.
+
+Continue from the current architecture.
+
+Reuse existing files whenever possible.
+
+=================================================
+
+MISSION
+
+Build a complete Enterprise Faculty & HR Management module.
+
+=================================================
+
+IMPLEMENT NOW
+
+Faculty Registration
+
+Faculty Profile
+
+Faculty Dashboard
+
+Faculty Directory
+
+Faculty Search
+
+Faculty Details
+
+Faculty Edit
+
+Faculty Status
+
+Faculty Photo
+
+Faculty Documents
+
+Faculty ID Generation
+
+=================================================
+
+HR
+
+Employee Records
+
+Joining Date
+
+Designation
+
+Department
+
+Employment Type
+
+Qualification
+
+Experience
+
+Salary Information
+
+Promotion History
+
+=================================================
+
+LEAVE MANAGEMENT
+
+Leave Types
+
+Leave Requests
+
+Leave Approval
+
+Leave Rejection
+
+Leave History
+
+Leave Balance
+
+Calendar View
+
+=================================================
+
+WORKLOAD
+
+Teaching Load
+
+Assigned Subjects
+
+Assigned Classes
+
+Weekly Schedule
+
+Timetable Integration
+
+=================================================
+
+FACULTY DASHBOARD
+
+Today's Classes
+
+Attendance Summary
+
+Assignments
+
+Exam Duties
+
+Leave Status
+
+Notifications
+
+Calendar
+
+Quick Actions
+
+=================================================
+
+DOCUMENTS
+
+Degree Certificates
+
+Experience Certificates
+
+Identity Documents
+
+Other Attachments
+
+=================================================
+
+SEARCH
+
+Name
+
+Faculty ID
+
+Department
+
+Designation
+
+Status
+
+=================================================
+
+TABLES
+
+Sorting
+
+Filtering
+
+Pagination
+
+Bulk Actions
+
+PDF Export
+
+Excel Export
+
+Print
+
+=================================================
+
+DATABASE
+
+Improve relationships with:
+
+Departments
+
+Courses
+
+Subjects
+
+Attendance
+
+Payroll
+
+Timetable
+
+=================================================
+
+API
+
+REST APIs
+
+Validation
+
+Authorization
+
+Filtering
+
+Pagination
+
+Search
+
+=================================================
+
+UI
+
+Professional Dashboard
+
+Faculty List
+
+Faculty Profile
+
+HR Dashboard
+
+Leave Dashboard
+
+Workload Dashboard
+
+Responsive Design
+
+=================================================
+
+TESTING
+
+Run application.
+
+Test faculty creation.
+
+Test profile.
+
+Test leave.
+
+Test workload.
+
+Test dashboard.
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+=================================================
+
+STOP ONLY AFTER IMPLEMENTATION.
+
+OUTPUT ONLY
+
+Files modified.
+
+Files created.
+
+Database changes.
+
+APIs created.
+
+Features completed.
+
+Bugs fixed.
+
+Application builds successfully.

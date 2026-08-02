@@ -148,4 +148,31 @@ router.get("/faculty/:id/courses", authenticate, async (req, res): Promise<void>
   res.json(courses.map((c) => ({ ...c, facultyName: null, enrolledCount: null, createdAt: c.createdAt.toISOString() })));
 });
 
+router.get("/faculty/dashboard/summary", authenticate, async (_req, res): Promise<void> => {
+  const [[{ totalFaculty }], [{ activeFaculty }], [{ totalCourses }], [{ totalDepartments }]] = await Promise.all([
+    db.select({ totalFaculty: sql<number>`count(*)::int` }).from(facultyTable),
+    db.select({ activeFaculty: sql<number>`count(*)::int` }).from(facultyTable).where(eq(facultyTable.isActive, true)),
+    db.select({ totalCourses: sql<number>`count(*)::int` }).from(coursesTable),
+    db.select({ totalDepartments: sql<number>`count(*)::int` }).from(departmentsTable),
+  ]);
+  res.json({ totalFaculty, activeFaculty, totalCourses, totalDepartments });
+});
+
+router.get("/faculty/:id/workload", authenticate, async (req, res): Promise<void> => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id < 1) { res.status(400).json({ error: "Invalid faculty id" }); return; }
+  const courses = await db.select({
+    id: coursesTable.id,
+    name: coursesTable.name,
+    code: coursesTable.code,
+    credits: coursesTable.credits,
+    departmentName: departmentsTable.name,
+    semesterName: semestersTable.name,
+  }).from(coursesTable)
+    .leftJoin(departmentsTable, eq(coursesTable.departmentId, departmentsTable.id))
+    .leftJoin(semestersTable, eq(coursesTable.semesterId, semestersTable.id))
+    .where(eq(coursesTable.facultyId, id));
+  res.json({ facultyId: id, assignedCourses: courses, totalCourses: courses.length, totalCredits: courses.reduce((sum, course) => sum + (course.credits ?? 0), 0) });
+});
+
 export default router;

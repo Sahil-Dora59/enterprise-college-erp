@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import { 
   useListFaculty, 
@@ -7,7 +7,7 @@ import {
   useUpdateFaculty,
    useDeleteFaculty
 } from "@workspace/api-client-react";
-import { Plus, Search, MoreHorizontal, FileEdit, Trash2, GraduationCap, Briefcase } from "lucide-react";
+import { Plus, Search, MoreHorizontal, FileEdit, Trash2, GraduationCap, Briefcase, Users, UserCheck, BookOpen, Building2 } from "lucide-react";
 import { format } from "date-fns";
 
 import { Button } from "@/components/ui/button";
@@ -26,6 +26,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useQueryClient } from "@tanstack/react-query";
 import { getListFacultyQueryKey } from "@workspace/api-client-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import type { LucideIcon } from "lucide-react";
 
 export default function Faculty() {
   const [search, setSearch] = useState("");
@@ -46,6 +48,14 @@ export default function Faculty() {
   const { data: facultyData, isLoading } = useListFaculty(queryParams, {
     query: { queryKey: getListFacultyQueryKey(queryParams) }
   });
+  const [summary, setSummary] = useState<{ totalFaculty: number; activeFaculty: number; totalCourses: number; totalDepartments: number } | null>(null);
+  useEffect(() => {
+    const token = localStorage.getItem("erp_token") || sessionStorage.getItem("erp_token");
+    fetch("/api/faculty/dashboard/summary", { headers: { Authorization: `Bearer ${token}` } })
+      .then((response) => response.ok ? response.json() : null)
+      .then(setSummary)
+      .catch(() => setSummary(null));
+  }, []);
 
   const deleteMutation = useDeleteFaculty();
 
@@ -63,6 +73,25 @@ export default function Faculty() {
 
   return (
     <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {([
+          ["Total faculty", summary?.totalFaculty, Users],
+          ["Active faculty", summary?.activeFaculty, UserCheck],
+          ["Assigned courses", summary?.totalCourses, BookOpen],
+          ["Departments", summary?.totalDepartments, Building2],
+        ] as [string, number | undefined, LucideIcon][]).map(([label, value, Icon]) => (
+          <Card key={label as string}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">{label as string}</CardTitle>
+              <Icon className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{value ?? "—"}</div>
+              <p className="text-xs text-muted-foreground">Live ERP records</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h2 className="text-3xl font-bold tracking-tight">Faculty Directory</h2>
         <FacultyDialog mode="create" departments={departments || []} />
