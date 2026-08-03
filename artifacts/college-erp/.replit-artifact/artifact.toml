@@ -25,3 +25,5 @@ to = "/index.html"
 [services.env]
 PORT = "22584"
 BASE_PATH = "/"
+VITE_DEMO_MODE = "true"
+DEMO_MODE = "true"
