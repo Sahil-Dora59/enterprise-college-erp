@@ -9,6 +9,7 @@ import { randomUUID } from "node:crypto";
 import router from "./routes";
 import { logger } from "./lib/logger";
 import { errorHandler, notFoundHandler } from "./middlewares/errorHandler";
+import { startDeliveryWorker } from "./workers/deliveryWorker";
 
 const app: Express = express();
 
@@ -39,8 +40,8 @@ app.use(cors({
   origin: allowedOrigin ? allowedOrigin.split(",").map((origin) => origin.trim()) : false,
   credentials: Boolean(allowedOrigin),
 }));
-app.use(express.json({ limit: "1mb" }));
-app.use(express.urlencoded({ extended: true, limit: "1mb" }));
+app.use(express.json({ limit: "8mb" }));
+app.use(express.urlencoded({ extended: true, limit: "8mb" }));
 
 const authRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -82,5 +83,8 @@ if (frontendPublicDir) {
 
 app.use("/api", notFoundHandler);
 app.use(errorHandler);
+
+// Start provider-neutral admission delivery worker (30 s polling interval)
+startDeliveryWorker(30_000);
 
 export default app;

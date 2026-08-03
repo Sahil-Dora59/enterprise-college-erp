@@ -70,6 +70,10 @@ export const admissionDocumentsTable = pgTable("admission_documents", {
   mimeType: text("mime_type").notNull(),
   fileSize: integer("file_size").notNull(),
   storageKey: text("storage_key").notNull().unique(),
+  verificationStatus: text("verification_status").notNull().default("pending"),
+  reviewerComment: text("reviewer_comment"),
+  reviewedBy: integer("reviewed_by").references(() => usersTable.id, { onDelete: "set null" }),
+  reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -81,6 +85,9 @@ export const admissionInterviewsTable = pgTable("admission_interviews", {
   status: text("status").notNull().default("scheduled"),
   notes: text("notes"),
   result: text("result"),
+  feedback: text("feedback"),
+  assignedOfficerId: integer("assigned_officer_id").references(() => usersTable.id, { onDelete: "set null" }),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
 });
 
 export const admissionTestsTable = pgTable("admission_tests", {
@@ -103,6 +110,8 @@ export const admissionAcademicAssignmentsTable = pgTable("admission_academic_ass
   academicSession: text("academic_session"),
   status: text("status").notNull().default("pending"),
   notes: text("notes"),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+  completedBy: integer("completed_by").references(() => usersTable.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -115,6 +124,8 @@ export const admissionDeliveryQueueTable = pgTable("admission_delivery_queue", {
   payload: jsonb("payload").$type<Record<string, string>>().notNull().default({}),
   status: text("status").notNull().default("queued"),
   attempts: integer("attempts").notNull().default(0),
+  processedAt: timestamp("processed_at", { withTimezone: true }),
+  lastError: text("last_error"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 

@@ -39,9 +39,12 @@ import AdmissionsPortal from '@/pages/admissions-portal';
 import AdmissionApply from '@/pages/admission-apply';
 import AdmissionTrack from '@/pages/admission-track';
 import AdmissionCrm from '@/pages/admission-crm';
+import AdmissionAnalytics from '@/pages/admission-analytics';
 import ApplicantLogin from '@/pages/applicant-login';
 import ApplicantRegister from '@/pages/applicant-register';
-import AdmissionAnalytics from '@/pages/admission-analytics';
+import ApplicantForgotPassword from '@/pages/applicant-forgot-password';
+import ApplicantResetPassword from '@/pages/applicant-reset-password';
+import ApplicantProfile from '@/pages/applicant-profile';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -93,9 +96,11 @@ function Router() {
       <Route path="/admissions/apply"><AdmissionApply /></Route>
       <Route path="/admissions/login"><ApplicantLogin /></Route>
       <Route path="/admissions/register"><ApplicantRegister /></Route>
-      <Route path="/admissions/forgot-password"><ApplicantRegister /></Route>
+      <Route path="/admissions/forgot-password"><ApplicantForgotPassword /></Route>
+      <Route path="/admissions/reset-password"><ApplicantResetPassword /></Route>
       <Route path="/admissions/dashboard"><AdmissionTrack /></Route>
       <Route path="/admissions/track/:id"><AdmissionTrack /></Route>
+      <Route path="/admissions/profile"><ApplicantProfile /></Route>
 
       <Route path="/"><ProtectedRoute component={Dashboard} path="/" permission="dashboard.view" /></Route>
       {(["super_admin", "admin", "faculty", "student", "accountant", "librarian"] as const).map((role) => (
