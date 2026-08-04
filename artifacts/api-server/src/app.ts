@@ -12,6 +12,9 @@ import { errorHandler, notFoundHandler } from "./middlewares/errorHandler";
 import { startDeliveryWorker } from "./workers/deliveryWorker";
 
 const app: Express = express();
+// The app runs behind Replit's reverse proxy; trust its single forwarded hop
+// so rate limiting and request IP logging use the real client address safely.
+app.set("trust proxy", 1);
 
 app.use(
   pinoHttp({

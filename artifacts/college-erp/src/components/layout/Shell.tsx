@@ -145,6 +145,9 @@ export function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground">
+        Skip to main content
+      </a>
       {/* Desktop Sidebar */}
       <div className="hidden md:block w-64 shrink-0 border-r border-sidebar-border h-screen sticky top-0">
         <SidebarContent />
@@ -227,7 +230,7 @@ export function Shell({ children }: { children: ReactNode }) {
         </header>
 
         {/* Main Content */}
-        <main className="flex-1 p-4 md:p-6 overflow-x-hidden">
+        <main id="main-content" tabIndex={-1} className="flex-1 p-4 md:p-6 overflow-x-hidden focus:outline-none">
           {children}
         </main>
       </div>

@@ -1,0 +1,359 @@
+🚨 FINAL UI/UX ENGINEERING TASK
+
+THIS IS PROMPT 15B.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+DO NOT MODIFY DATABASE SCHEMA UNLESS REQUIRED TO FIX A UI ISSUE.
+
+Continue from Enterprise College ERP Version 2 RC1.
+
+Everything currently working must remain working.
+
+========================================================
+
+MISSION
+
+Act as:
+
+• Senior UI Engineer
+
+• Senior UX Designer
+
+• Accessibility Specialist
+
+• Enterprise Frontend Architect
+
+Perform a complete UI/UX audit of the ENTIRE ERP.
+
+Improve every existing screen to enterprise quality.
+
+========================================================
+
+AUDIT EVERY MODULE
+
+Authentication
+
+Dashboard
+
+Students
+
+Faculty
+
+Departments
+
+Courses
+
+Attendance
+
+Assignments
+
+Examinations
+
+Marks
+
+Library
+
+Fees
+
+Reports
+
+AI
+
+Admission CRM
+
+Placement
+
+Parent Portal
+
+Integration Center
+
+Settings
+
+Administration
+
+========================================================
+
+VISUAL CONSISTENCY
+
+Review and improve:
+
+Spacing
+
+Margins
+
+Padding
+
+Typography
+
+Button consistency
+
+Card layouts
+
+Icons
+
+Colors
+
+Dark Mode
+
+Light Mode
+
+Navigation
+
+Sidebar
+
+Header
+
+Footer
+
+========================================================
+
+RESPONSIVE DESIGN
+
+Verify:
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+Fix layout issues.
+
+Prevent overflow.
+
+Prevent clipping.
+
+Prevent horizontal scrolling.
+
+========================================================
+
+TABLES
+
+Improve all enterprise tables.
+
+Add or improve:
+
+Sticky headers
+
+Responsive behavior
+
+Pagination
+
+Column resizing
+
+Column visibility
+
+Sorting
+
+Filtering
+
+Search
+
+Loading skeletons
+
+Empty states
+
+Selection states
+
+========================================================
+
+FORMS
+
+Review every form.
+
+Improve:
+
+Validation
+
+Inline validation
+
+Required indicators
+
+Error messages
+
+Success messages
+
+Loading buttons
+
+Disabled states
+
+Auto focus
+
+Keyboard navigation
+
+========================================================
+
+DIALOGS
+
+Review:
+
+Confirmation dialogs
+
+Delete dialogs
+
+Success dialogs
+
+Warning dialogs
+
+Loading dialogs
+
+========================================================
+
+LOADING EXPERIENCE
+
+Standardize:
+
+Loading skeletons
+
+Progress indicators
+
+Spinners
+
+Placeholder cards
+
+Lazy loading transitions
+
+========================================================
+
+EMPTY STATES
+
+Review every page.
+
+Add professional empty states.
+
+========================================================
+
+ERROR STATES
+
+Review every module.
+
+Improve:
+
+404
+
+403
+
+401
+
+500
+
+Network failures
+
+Retry actions
+
+========================================================
+
+TOASTS
+
+Standardize:
+
+Success
+
+Warning
+
+Error
+
+Information
+
+Loading
+
+========================================================
+
+ACCESSIBILITY
+
+Audit:
+
+ARIA labels
+
+Keyboard navigation
+
+Tab order
+
+Focus management
+
+Screen reader compatibility
+
+Color contrast
+
+Accessible forms
+
+Accessible tables
+
+Accessible dialogs
+
+Accessible navigation
+
+========================================================
+
+PERFORMANCE
+
+Review:
+
+Large React renders
+
+Re-render optimization
+
+Component memoization
+
+Virtual scrolling where applicable
+
+========================================================
+
+TEST EVERYTHING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+Verify every page renders correctly.
+
+Fix every UI issue.
+
+========================================================
+
+STOP ONLY WHEN
+
+No meaningful UI or accessibility improvements remain within the existing ERP.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+UI Improvements
+
+UX Improvements
+
+Accessibility Improvements
+
+Performance Improvements
+
+Bug Fixes
+
+Testing Results
+
+Remaining Work
+
+Only include Remaining Work if it requires a complete redesign or a future Version 3 feature.
+
+Final Confirmation:
+
+"Enterprise College ERP Version 2 user interface has been professionally polished, accessibility reviewed, and production-ready."
