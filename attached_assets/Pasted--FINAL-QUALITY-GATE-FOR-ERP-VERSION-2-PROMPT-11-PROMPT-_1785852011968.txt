@@ -1,0 +1,191 @@
+🚨 FINAL QUALITY GATE FOR ERP VERSION 2 (PROMPT 11 + PROMPT 12)
+
+DO NOT CREATE NEW MODULES.
+
+DO NOT REBUILD EXISTING FEATURES.
+
+DO NOT EXPAND THE PROJECT.
+
+THIS IS A FINAL QUALITY GATE.
+
+========================================================
+
+MISSION
+
+Review EVERYTHING implemented for:
+
+• Prompt 11 (Enterprise Admission CRM)
+
+• Prompt 12 (Enterprise Placement & Career Management)
+
+Treat this as a production code review.
+
+========================================================
+
+STEP 1
+
+Audit the complete implementation.
+
+Compare the current codebase against every requirement from Prompt 11 and Prompt 12.
+
+========================================================
+
+STEP 2
+
+Automatically fix:
+
+• Missing functionality
+
+• Broken workflows
+
+• Broken UI
+
+• Broken APIs
+
+• Missing RBAC
+
+• Missing ownership validation
+
+• Missing database relationships
+
+• Missing routes
+
+• Missing pages
+
+• Compile errors
+
+• Runtime errors
+
+• Build errors
+
+========================================================
+
+STEP 3
+
+Run:
+
+Workspace Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+========================================================
+
+STEP 4
+
+Execute end-to-end verification.
+
+Admissions:
+
+✓ Applicant registration
+
+✓ Applicant login
+
+✓ Application
+
+✓ Review
+
+✓ Approval
+
+✓ Student creation
+
+✓ Student login
+
+Placement:
+
+✓ Recruiter
+
+✓ Company
+
+✓ Job
+
+✓ Applications
+
+✓ Campus Drives
+
+✓ Interviews
+
+✓ Offers
+
+✓ Alumni
+
+✓ Reports
+
+✓ Search
+
+✓ Exports
+
+========================================================
+
+STEP 5
+
+If a feature is missing AND is required for the workflows above,
+
+IMPLEMENT IT.
+
+========================================================
+
+STEP 6
+
+If something is NOT required for the ERP to function,
+
+DO NOT list it as Remaining Work.
+
+Instead classify it as:
+
+Future Enhancement
+
+Examples:
+
+• Browser automation
+
+• Third-party provider integrations
+
+• Optional advanced charts
+
+• Optional UI polish
+
+• Extra analytics
+
+• Additional export formats
+
+These should NOT block completion.
+
+========================================================
+
+FINAL OUTPUT
+
+1. Files Modified
+
+2. Files Created
+
+3. Bugs Fixed
+
+4. Production Issues Fixed
+
+5. Admissions Status
+
+6. Placement Status
+
+7. Overall ERP Status
+
+8. Future Enhancements (optional improvements only)
+
+9. Production Readiness %
+
+10. ERP Version 2 Completion %
+
+11. Final Decision
+
+Choose ONLY ONE:
+
+✅ ERP Version 2 Admission & Placement Modules COMPLETE
+
+OR
+
+❌ ERP Version 2 still has blocking functionality missing
+
+Do not output a "Remaining Work" section unless there is a feature that genuinely prevents the Admission or Placement modules from functioning in a real university ERP.
