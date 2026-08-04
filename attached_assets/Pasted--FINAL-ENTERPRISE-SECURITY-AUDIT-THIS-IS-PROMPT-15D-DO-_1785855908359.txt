@@ -1,0 +1,391 @@
+🚨 FINAL ENTERPRISE SECURITY AUDIT
+
+THIS IS PROMPT 15D.
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT ADD NEW MODULES.
+
+DO NOT CHANGE BUSINESS FUNCTIONALITY.
+
+Continue from the existing Enterprise College ERP Version 2 Release Candidate (RC1).
+
+Everything currently working must remain working.
+
+========================================================
+
+MISSION
+
+Act as an independent cybersecurity consulting firm.
+
+Assume this ERP is about to be deployed for a real university.
+
+Attempt to compromise the entire application.
+
+Think like an attacker.
+
+Find every realistic security weakness.
+
+Immediately fix every vulnerability that can be fixed inside the existing codebase.
+
+========================================================
+
+PERFORM A COMPLETE PENETRATION TEST
+
+Audit every module:
+
+Authentication
+
+RBAC
+
+Students
+
+Faculty
+
+Departments
+
+Courses
+
+Attendance
+
+Assignments
+
+Examinations
+
+Marks
+
+Library
+
+Fees
+
+Admission CRM
+
+Placement
+
+Parent Portal
+
+AI
+
+Reports
+
+Integration Center
+
+Administration
+
+Notifications
+
+Settings
+
+========================================================
+
+AUTHENTICATION
+
+Attempt:
+
+Invalid JWT
+
+Expired JWT
+
+Forged JWT
+
+Modified JWT Claims
+
+Session Hijacking
+
+Session Fixation
+
+Replay Attacks
+
+Remember-Me Abuse
+
+Password Reset Abuse
+
+Login Enumeration
+
+Brute Force
+
+Credential Stuffing Protection
+
+========================================================
+
+AUTHORIZATION
+
+Attempt:
+
+Privilege Escalation
+
+RBAC Bypass
+
+Role Tampering
+
+Permission Injection
+
+Unauthorized Route Access
+
+Hidden Endpoint Access
+
+========================================================
+
+OWNERSHIP
+
+Attempt IDOR attacks.
+
+Try accessing:
+
+Other students
+
+Other parents
+
+Other recruiters
+
+Other applicants
+
+Other faculty
+
+Other departments
+
+Other companies
+
+Other admissions
+
+Other placement records
+
+Other notifications
+
+Other reports
+
+Fix every ownership weakness.
+
+========================================================
+
+INPUT VALIDATION
+
+Test:
+
+SQL Injection
+
+NoSQL-style payloads
+
+XSS
+
+Stored XSS
+
+DOM XSS
+
+HTML Injection
+
+Template Injection
+
+Command Injection
+
+Header Injection
+
+Path Traversal
+
+CSV Injection
+
+JSON Injection
+
+Mass Assignment
+
+Oversized Requests
+
+Invalid MIME Types
+
+Malicious File Uploads
+
+Null Bytes
+
+Unicode Bypass
+
+========================================================
+
+API SECURITY
+
+Attempt:
+
+Rate Limit Bypass
+
+Parameter Tampering
+
+Request Smuggling
+
+HTTP Method Override Abuse
+
+Hidden Routes
+
+Broken Pagination
+
+Missing Validation
+
+Duplicate Resource Creation
+
+Replay Requests
+
+========================================================
+
+FILE SECURITY
+
+Verify:
+
+Upload Validation
+
+Download Authorization
+
+File Ownership
+
+Extension Validation
+
+MIME Validation
+
+File Size Validation
+
+Filename Sanitization
+
+========================================================
+
+INTEGRATIONS
+
+Verify:
+
+Webhook Signing
+
+API Key Storage
+
+Secret Exposure
+
+Queue Integrity
+
+Audit Integrity
+
+Payment Integrity
+
+Calendar Export
+
+Background Jobs
+
+========================================================
+
+DATABASE
+
+Review:
+
+Sensitive Data Exposure
+
+Duplicate Records
+
+Transaction Safety
+
+Race Conditions
+
+Orphan Records
+
+Cascade Integrity
+
+========================================================
+
+LOGGING
+
+Verify:
+
+Passwords never logged
+
+Tokens never logged
+
+Cookies never logged
+
+Authorization headers redacted
+
+Sensitive data redacted
+
+========================================================
+
+ERROR HANDLING
+
+Verify:
+
+No stack traces
+
+No SQL errors
+
+No internal paths
+
+No secrets
+
+Consistent 401
+
+Consistent 403
+
+Consistent 404
+
+Consistent 500
+
+========================================================
+
+AUTOMATIC FIXES
+
+Immediately fix every realistic security issue.
+
+Do NOT stop after analysis.
+
+========================================================
+
+TEST EVERYTHING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Database Schema Validation
+
+Workflow Restart
+
+Run complete security regression tests.
+
+========================================================
+
+STOP ONLY WHEN
+
+No meaningful security improvements remain inside the application.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Security Improvements
+
+Vulnerabilities Fixed
+
+RBAC Improvements
+
+Ownership Improvements
+
+API Security Improvements
+
+Database Security Improvements
+
+Logging Improvements
+
+Testing Results
+
+Security Score
+
+Remaining Work
+
+Only include Remaining Work if it requires production infrastructure, external security tooling, or deployment configuration.
+
+Final Confirmation:
+
+"Enterprise College ERP Version 2 has successfully passed the Enterprise Security Audit and Penetration Testing and is ready for Final Production Certification."

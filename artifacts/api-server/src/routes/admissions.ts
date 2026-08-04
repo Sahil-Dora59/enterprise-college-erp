@@ -102,19 +102,29 @@ router.post("/admissions/applications/:applicationId/documents", async (req, res
   if (!documentTypes.includes(documentType) || typeof fileName !== "string" || typeof mimeType !== "string" || typeof fileData !== "string") {
     res.status(400).json({ error: "Document type, file name, MIME type, and base64 file data are required." }); return;
   }
+  if (!/^[A-Za-z0-9+/]*={0,2}$/.test(fileData) || fileData.length % 4 !== 0) {
+    res.status(400).json({ error: "Invalid base64 document data." }); return;
+  }
   const buffer = Buffer.from(fileData, "base64");
   if (buffer.length > 5 * 1024 * 1024) { res.status(413).json({ error: "Documents must be 5 MB or smaller." }); return; }
   if (!["image/jpeg", "image/png", "application/pdf"].includes(mimeType)) { res.status(415).json({ error: "Only PDF, JPEG, and PNG documents are supported." }); return; }
+  const safeName = path.basename(fileName).replace(/[^\w.\- ]/g, "_").slice(0, 180);
+  if (!safeName || safeName === "." || safeName === "..") { res.status(400).json({ error: "Invalid file name." }); return; }
+  const validSignature =
+    (mimeType === "application/pdf" && buffer.subarray(0, 5).toString() === "%PDF-") ||
+    (mimeType === "image/png" && buffer.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) ||
+    (mimeType === "image/jpeg" && buffer.subarray(0, 3).equals(Buffer.from([255, 216, 255])));
+  if (!validSignature) { res.status(415).json({ error: "Document content does not match its declared type." }); return; }
   const [application] = await db.select().from(admissionApplicationsTable).where(eq(admissionApplicationsTable.applicationId, String(req.params.applicationId)));
   if (!application) { res.status(404).json({ error: "Application not found" }); return; }
   const [duplicate] = await db.select().from(admissionDocumentsTable).where(and(eq(admissionDocumentsTable.applicationId, application.id), eq(admissionDocumentsTable.documentType, documentType)));
   if (duplicate) { res.status(409).json({ error: "A document of this type already exists. Use the replace endpoint instead." }); return; }
   await fs.mkdir(storageDir, { recursive: true });
-  const storageKey = `${application.applicationId}/${crypto.randomUUID()}-${path.basename(fileName)}`;
+  const storageKey = `${application.applicationId}/${crypto.randomUUID()}-${safeName}`;
   const fullPath = path.join(storageDir, storageKey);
   await fs.mkdir(path.dirname(fullPath), { recursive: true });
   await fs.writeFile(fullPath, buffer);
-  const [document] = await db.insert(admissionDocumentsTable).values({ applicationId: application.id, documentType, fileName: path.basename(fileName), mimeType, fileSize: buffer.length, storageKey }).returning();
+  const [document] = await db.insert(admissionDocumentsTable).values({ applicationId: application.id, documentType, fileName: safeName, mimeType, fileSize: buffer.length, storageKey }).returning();
   await db.insert(admissionEventsTable).values({ applicationId: application.id, event: `Document uploaded: ${documentType}` });
   res.status(201).json(document);
 });
