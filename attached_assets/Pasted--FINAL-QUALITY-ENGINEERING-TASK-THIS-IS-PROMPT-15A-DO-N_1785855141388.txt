@@ -1,0 +1,324 @@
+🚨 FINAL QUALITY ENGINEERING TASK
+
+THIS IS PROMPT 15A.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT ADD NEW FEATURES.
+
+DO NOT REBUILD ANY EXISTING SYSTEM.
+
+Continue from the existing Enterprise College ERP Version 2 Release Candidate (RC1).
+
+Everything already implemented must remain fully functional.
+
+========================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Architect
+• Senior Full-Stack Engineer
+• Enterprise Code Reviewer
+• Performance Engineer
+
+Perform a complete engineering audit of the ENTIRE ERP.
+
+Your objective is to improve code quality, maintainability, scalability, and reliability without changing business functionality.
+
+========================================================
+
+CODE REVIEW
+
+Inspect every module.
+
+Review:
+
+Authentication
+
+RBAC
+
+Admissions
+
+Placement
+
+Parent Portal
+
+Students
+
+Faculty
+
+Attendance
+
+Examinations
+
+Library
+
+Fees
+
+AI
+
+Reports
+
+Integrations
+
+Notifications
+
+Dashboard
+
+========================================================
+
+CODE QUALITY
+
+Find and fix:
+
+Duplicate code
+
+Dead code
+
+Unused imports
+
+Unused variables
+
+Unused components
+
+Unused APIs
+
+Large components that should be separated
+
+Repeated logic
+
+Poor naming
+
+Magic numbers
+
+Unsafe casting
+
+Weak typing
+
+TypeScript warnings
+
+========================================================
+
+PROJECT STRUCTURE
+
+Review:
+
+Folder organization
+
+Shared components
+
+Hooks
+
+Utilities
+
+Services
+
+API layer
+
+Database layer
+
+State management
+
+========================================================
+
+PERFORMANCE
+
+Optimize:
+
+Large renders
+
+Unnecessary re-renders
+
+Heavy API requests
+
+Repeated database queries
+
+Bundle size
+
+Lazy loading
+
+Dynamic imports
+
+Memoization
+
+Pagination
+
+========================================================
+
+ERROR HANDLING
+
+Standardize:
+
+API errors
+
+Validation errors
+
+Loading states
+
+Retry behavior
+
+User-friendly messages
+
+========================================================
+
+DATABASE
+
+Review:
+
+Indexes
+
+Relationships
+
+Constraints
+
+Foreign keys
+
+Transactions
+
+Duplicate prevention
+
+========================================================
+
+API
+
+Review every endpoint.
+
+Verify:
+
+REST consistency
+
+Naming
+
+Validation
+
+Response format
+
+Error format
+
+Pagination
+
+Filtering
+
+Sorting
+
+========================================================
+
+SECURITY
+
+Review:
+
+Authentication
+
+Authorization
+
+RBAC
+
+Ownership
+
+JWT
+
+Sessions
+
+Validation
+
+Secrets
+
+Environment variables
+
+========================================================
+
+UI
+
+Review:
+
+Responsive layouts
+
+Dark mode
+
+Light mode
+
+Spacing
+
+Typography
+
+Tables
+
+Forms
+
+Dialogs
+
+Loading
+
+Empty states
+
+========================================================
+
+DOCUMENTATION
+
+Update documentation if required.
+
+========================================================
+
+TEST EVERYTHING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+========================================================
+
+FIX EVERYTHING
+
+Automatically fix every issue that is realistically fixable inside the existing codebase.
+
+Do NOT stop after analysis.
+
+========================================================
+
+STOP ONLY WHEN
+
+No additional code-quality improvements remain that can be implemented without changing business functionality.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Code Quality Improvements
+
+Architecture Improvements
+
+Performance Improvements
+
+Security Improvements
+
+Database Improvements
+
+Bug Fixes
+
+Documentation Updates
+
+Testing Results
+
+Remaining Work
+
+Only include Remaining Work if it requires changing the ERP architecture or adding new business functionality.
+
+Final Confirmation:
+
+"Enterprise College ERP Version 2 codebase has been professionally reviewed, refactored, optimized, and quality-assured."
