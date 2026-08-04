@@ -1,0 +1,237 @@
+🚨 VERSION 2 FINAL ENGINEERING POLISH
+
+THIS IS PROMPT 16A.
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+DO NOT MODIFY DATABASE SCHEMA UNLESS REQUIRED FOR CLEANUP.
+
+Continue from Enterprise College ERP Version 2 RC3.
+
+========================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Engineer
+
+• Senior Build Engineer
+
+• Performance Engineer
+
+• Open Source Maintainer
+
+The ERP is feature-complete.
+
+Your objective is to make the repository clean, maintainable, lightweight, and production-quality.
+
+========================================================
+
+DEPENDENCY AUDIT
+
+Inspect:
+
+package.json
+
+pnpm-lock.yaml
+
+workspace packages
+
+frontend
+
+backend
+
+shared libraries
+
+Remove:
+
+Unused dependencies
+
+Unused devDependencies
+
+Duplicate dependencies
+
+Deprecated packages (when safe)
+
+Version conflicts
+
+========================================================
+
+IMPORT CLEANUP
+
+Remove:
+
+Unused imports
+
+Unused exports
+
+Unused variables
+
+Unused constants
+
+Unused helper functions
+
+Unused hooks
+
+Unused React components
+
+Unused API utilities
+
+Unused styles
+
+========================================================
+
+CODE CLEANUP
+
+Remove:
+
+Dead code
+
+Commented-out code
+
+Legacy code
+
+Temporary code
+
+Experimental code
+
+Duplicate utilities
+
+Duplicate validation
+
+Duplicate helper functions
+
+========================================================
+
+BUILD CLEANUP
+
+Review:
+
+Vite configuration
+
+TypeScript configuration
+
+Build scripts
+
+Workspace scripts
+
+Bundle configuration
+
+Tree shaking
+
+Chunk generation
+
+Lazy loading
+
+Reduce bundle size where safely possible.
+
+========================================================
+
+WARNING CLEANUP
+
+Remove every warning that is realistically fixable.
+
+Examples:
+
+TypeScript warnings
+
+Build warnings
+
+Import warnings
+
+Unused variable warnings
+
+Source-map warnings (if fixable)
+
+========================================================
+
+PROJECT STRUCTURE
+
+Review:
+
+Folders
+
+Naming consistency
+
+Exports
+
+Shared libraries
+
+Utility placement
+
+Code organization
+
+========================================================
+
+PERFORMANCE
+
+Review:
+
+Large components
+
+Large bundles
+
+Repeated renders
+
+Repeated imports
+
+Repeated utilities
+
+========================================================
+
+QUALITY GATE
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+========================================================
+
+STOP ONLY WHEN
+
+No additional cleanup is realistically possible without changing functionality.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Dependencies Removed
+
+Dependencies Updated
+
+Unused Code Removed
+
+Code Quality Improvements
+
+Performance Improvements
+
+Warning Cleanup
+
+Testing Results
+
+Remaining Work
+
+Only include Remaining Work if it requires future Version 3 development or deployment infrastructure.
+
+Final Confirmation:
+
+"Enterprise College ERP Version 2 codebase has been fully cleaned, optimized, and prepared for long-term maintenance."

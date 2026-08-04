@@ -175,7 +175,7 @@ export default function Assignments() {
 const assignmentSchema = z.object({
   title: z.string().min(1, "Title required"),
   courseId: z.coerce.number().min(1, "Course required"),
-  facultyId: z.coerce.number().min(1, "Faculty ID required").default(1), // Hack for demo, should come from auth user if faculty
+  facultyId: z.coerce.number().min(1, "Faculty ID required").default(1),
   dueDate: z.string().min(1, "Due date required"),
   totalMarks: z.coerce.number().min(1),
   description: z.string().optional()
