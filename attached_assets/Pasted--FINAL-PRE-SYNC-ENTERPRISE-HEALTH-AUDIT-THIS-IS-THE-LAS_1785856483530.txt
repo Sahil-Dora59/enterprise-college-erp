@@ -1,0 +1,293 @@
+🚨 FINAL PRE-SYNC ENTERPRISE HEALTH AUDIT
+
+THIS IS THE LAST INTERNAL AUDIT BEFORE CREATING THE RC2 RELEASE.
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT EXPAND THE ERP.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+Continue from the current Enterprise College ERP Version 2 after Prompt 15D.
+
+========================================================
+
+MISSION
+
+Act as an independent software engineering consulting company.
+
+Assume this ERP has been submitted for enterprise production certification.
+
+Your responsibility is NOT to develop new features.
+
+Your responsibility is to find every remaining issue that can realistically be fixed inside the existing codebase.
+
+If an issue is found,
+
+FIX IT.
+
+Repeat the audit until no further application-level improvements remain.
+
+========================================================
+
+AUDIT THE ENTIRE ERP
+
+Review:
+
+Authentication
+
+RBAC
+
+Students
+
+Faculty
+
+Departments
+
+Courses
+
+Attendance
+
+Assignments
+
+Examinations
+
+Marks
+
+Library
+
+Fees
+
+Admissions
+
+Placement
+
+Parent Portal
+
+Reports
+
+AI
+
+Integrations
+
+Dashboard
+
+Administration
+
+Notifications
+
+Settings
+
+========================================================
+
+VERIFY
+
+Frontend
+
+Backend
+
+Database
+
+API
+
+Routing
+
+Navigation
+
+Permissions
+
+Ownership
+
+Validation
+
+Performance
+
+Accessibility
+
+Security
+
+Documentation
+
+========================================================
+
+RUN COMPLETE QUALITY GATES
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Database Schema Validation
+
+Workflow Restart
+
+Runtime Verification
+
+========================================================
+
+VERIFY
+
+Every page
+
+Every route
+
+Every API
+
+Every dashboard
+
+Every permission
+
+Every upload
+
+Every export
+
+Every report
+
+Every search
+
+Every filter
+
+Every pagination
+
+Every notification
+
+Every AI endpoint
+
+========================================================
+
+FIX
+
+Compile errors
+
+Runtime errors
+
+TypeScript issues
+
+Broken imports
+
+Broken routes
+
+Broken API responses
+
+Broken permissions
+
+Broken ownership validation
+
+Broken pagination
+
+Broken search
+
+Broken exports
+
+Broken uploads
+
+Memory leaks
+
+Performance bottlenecks
+
+Duplicate code
+
+Dead code
+
+Unused imports
+
+========================================================
+
+DO NOT STOP AFTER ANALYSIS.
+
+Continue fixing until the codebase reaches the highest quality realistically possible.
+
+========================================================
+
+RECLASSIFICATION RULE
+
+Do NOT list infrastructure tasks as Remaining Work.
+
+Instead create a separate section called:
+
+Deployment Tasks
+
+Examples:
+
+Production SMTP
+
+Production SMS
+
+Production WhatsApp
+
+Production Payment Keys
+
+Production SSL
+
+Cloud Deployment
+
+Monitoring
+
+WAF
+
+Secrets Rotation
+
+Production Backup
+
+DNS
+
+Real Browser Certification
+
+These must NOT reduce the ERP Health Score.
+
+========================================================
+
+FINAL REPORT
+
+Output ONLY:
+
+1. Files Modified
+
+2. Files Created
+
+3. Issues Found
+
+4. Issues Fixed
+
+5. Production Issues Fixed
+
+6. Testing Results
+
+7. Deployment Tasks
+
+8. Production Readiness Score
+
+9. Security Score
+
+10. Performance Score
+
+11. Accessibility Score
+
+12. Maintainability Score
+
+13. Scalability Score
+
+14. Overall ERP Health Score
+
+15. ERP Version 2 Completion %
+
+16. Final Decision
+
+Choose ONLY ONE:
+
+✅ Enterprise College ERP Version 2 is approved for RC2 release.
+
+OR
+
+❌ Enterprise College ERP Version 2 still requires application-level fixes before RC2.
+
+Do NOT output a "Remaining Work" section.
+
+Only output "Deployment Tasks" if external infrastructure is required.
