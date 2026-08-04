@@ -1,0 +1,363 @@
+🚨 FINAL BACKEND ENGINEERING TASK
+
+THIS IS PROMPT 15C.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT ADD NEW FEATURES.
+
+DO NOT MODIFY UI UNLESS REQUIRED TO FIX A BACKEND ISSUE.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+Continue from the existing Enterprise College ERP Version 2 Release Candidate (RC1).
+
+Everything already working must continue working.
+
+========================================================
+
+MISSION
+
+Act as:
+
+• Principal Backend Architect
+
+• Senior Database Engineer
+
+• Enterprise API Architect
+
+• Senior DevOps Engineer
+
+Perform a COMPLETE backend audit of the ENTIRE ERP.
+
+The objective is to verify and strengthen backend quality, database integrity, API consistency, scalability, and maintainability without changing business functionality.
+
+========================================================
+
+DATABASE AUDIT
+
+Review every table.
+
+Students
+
+Faculty
+
+Departments
+
+Courses
+
+Semesters
+
+Attendance
+
+Assignments
+
+Examinations
+
+Marks
+
+Library
+
+Fees
+
+Admissions
+
+Placement
+
+Parents
+
+Notifications
+
+Integrations
+
+Audit Logs
+
+Jobs
+
+Webhooks
+
+API Keys
+
+Backups
+
+Sessions
+
+Users
+
+Roles
+
+Permissions
+
+Review:
+
+Primary Keys
+
+Foreign Keys
+
+Indexes
+
+Unique Constraints
+
+Composite Indexes
+
+Relationships
+
+Cascade Rules
+
+Transactions
+
+Duplicate Prevention
+
+Nullable Fields
+
+Default Values
+
+Schema Consistency
+
+Migration Safety
+
+Seed Data
+
+========================================================
+
+API AUDIT
+
+Inspect every REST endpoint.
+
+Verify:
+
+HTTP Methods
+
+REST Standards
+
+Naming Consistency
+
+Status Codes
+
+Pagination
+
+Sorting
+
+Filtering
+
+Validation
+
+Error Responses
+
+Response Structure
+
+Serialization
+
+Input Sanitization
+
+Duplicate Endpoints
+
+Unused Endpoints
+
+Deprecated Routes
+
+========================================================
+
+RBAC AUDIT
+
+Review every permission.
+
+Verify:
+
+Student
+
+Parent
+
+Faculty
+
+Secretary
+
+Placement Officer
+
+Recruiter
+
+Accountant
+
+Librarian
+
+Admin
+
+Super Admin
+
+Ensure:
+
+No privilege escalation
+
+No orphan permissions
+
+No missing permission mappings
+
+No inconsistent authorization
+
+========================================================
+
+DATABASE PERFORMANCE
+
+Review:
+
+Indexes
+
+Query Plans
+
+Repeated Queries
+
+N+1 Queries
+
+Large Queries
+
+Pagination
+
+Filtering
+
+Search
+
+Transactions
+
+========================================================
+
+DATA VALIDATION
+
+Review:
+
+Duplicate Prevention
+
+Email Validation
+
+Phone Validation
+
+ID Generation
+
+Application Numbers
+
+Roll Numbers
+
+Registration Numbers
+
+Placement IDs
+
+Admission IDs
+
+========================================================
+
+API SECURITY
+
+Verify:
+
+Authentication
+
+JWT Validation
+
+Session Validation
+
+Ownership Validation
+
+Input Validation
+
+SQL Injection Protection
+
+Mass Assignment Protection
+
+File Validation
+
+Rate Limiting
+
+========================================================
+
+ERROR HANDLING
+
+Review:
+
+401
+
+403
+
+404
+
+409
+
+422
+
+429
+
+500
+
+Ensure consistent API responses.
+
+========================================================
+
+DOCUMENTATION
+
+Update API documentation if required.
+
+Update database documentation if required.
+
+========================================================
+
+TEST EVERYTHING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Database Schema Push
+
+Workflow Restart
+
+Run complete backend regression tests.
+
+========================================================
+
+FIX EVERYTHING
+
+Automatically fix every backend issue that is realistically fixable without changing business functionality.
+
+========================================================
+
+STOP ONLY WHEN
+
+No meaningful backend, database, or API improvements remain.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Improvements
+
+API Improvements
+
+RBAC Improvements
+
+Performance Improvements
+
+Security Improvements
+
+Bug Fixes
+
+Documentation Updates
+
+Testing Results
+
+Remaining Work
+
+Only include Remaining Work if it requires production infrastructure or Version 3 architecture.
+
+Final Confirmation:
+
+"Enterprise College ERP Version 2 backend, database, APIs, and RBAC have been professionally audited, optimized, secured, and are production-ready."
