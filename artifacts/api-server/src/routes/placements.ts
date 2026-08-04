@@ -1,14 +1,55 @@
 import { Router, type IRouter } from "express";
 import { and, desc, eq, ilike, or, sql } from "drizzle-orm";
-import { db, placementCompaniesTable, placementJobsTable, placementApplicationsTable, placementResumesTable, placementInterviewsTable, placementOffersTable, placementDrivesTable, alumniProfilesTable } from "@workspace/db";
+import { db, placementCompaniesTable, placementJobsTable, placementApplicationsTable, placementInterviewsTable, placementOffersTable, placementDrivesTable, placementResumesTable, alumniProfilesTable, placementMentorshipsTable, placementReferralsTable, usersTable, authSessionsTable, rolesTable, permissionsTable, rolePermissionsTable } from "@workspace/db";
 import { authenticate } from "../middlewares/auth";
 import { generateAssistantResponse } from "../services/aiService";
+import { hashPassword, verifyPassword } from "../lib/password";
+import { signToken, TOKEN_TTL_SECONDS } from "../lib/jwt";
+import crypto from "node:crypto";
 const router: IRouter = Router();
 const placementRoles = ["super_admin", "admin", "secretary", "placement_officer", "recruiter", "student", "alumni"];
 const staff = (req: any) => ["super_admin", "admin", "secretary", "placement_officer", "recruiter"].includes(req.user?.role);
 const recruiter = (req: any) => ["super_admin", "admin", "placement_officer", "recruiter"].includes(req.user?.role);
 const office = (req: any) => ["super_admin", "admin", "placement_officer"].includes(req.user?.role);
+let rolesSeeded = false;
+async function ensurePlacementRoles() {
+  if (rolesSeeded) return;
+  for (const role of [{ name: "placement_officer", displayName: "Placement Officer" }, { name: "recruiter", displayName: "Recruiter" }, { name: "alumni", displayName: "Alumni" }]) {
+    await db.insert(rolesTable).values(role).onConflictDoNothing();
+  }
+  for (const permission of [
+    ["placements.view", "View placements"], ["placements.manage", "Manage placements"], ["placements.recruit", "Recruiter management"],
+    ["placements.reports", "Placement reports"], ["placements.alumni", "Alumni network"],
+  ] as const) {
+    const [row] = await db.insert(permissionsTable).values({ key: permission[0], displayName: permission[1], module: "placements", action: permission[0].split(".")[1] }).onConflictDoNothing().returning();
+    if (row) {
+      const targetRoles = permission[0] === "placements.recruit" ? ["recruiter", "placement_officer", "admin", "super_admin"] : ["placement_officer", "admin", "super_admin"];
+      const roleRows = await db.select().from(rolesTable).where(or(...targetRoles.map((name) => eq(rolesTable.name, name))));
+      await db.insert(rolePermissionsTable).values(roleRows.map((r) => ({ roleId: r.id, permissionId: row.id }))).onConflictDoNothing();
+    }
+  }
+  rolesSeeded = true;
+}
+router.post("/placements/recruiters/register", async (req, res) => {
+  const { name, email, password, companyName } = req.body ?? {};
+  if (!name || !email || !password || !companyName) { res.status(400).json({ error: "Name, email, password, and company name are required" }); return; }
+  const normalizedEmail = String(email).trim().toLowerCase();
+  const [existing] = await db.select().from(usersTable).where(eq(usersTable.email, normalizedEmail));
+  if (existing) { res.status(409).json({ error: "An account already exists for this email" }); return; }
+  const [user] = await db.insert(usersTable).values({ name, email: normalizedEmail, passwordHash: await hashPassword(String(password)), role: "recruiter", isActive: true }).returning();
+  const [company] = await db.insert(placementCompaniesTable).values({ name: companyName, email: normalizedEmail, ownerUserId: user.id, status: "pending" }).returning();
+  res.status(201).json({ user: { id: user.id, name: user.name, email: user.email, role: user.role }, company });
+});
+router.post("/placements/recruiters/login", async (req, res) => {
+  const [user] = await db.select().from(usersTable).where(and(eq(usersTable.email, String(req.body?.email ?? "").trim().toLowerCase()), eq(usersTable.role, "recruiter")));
+  if (!user || !(await verifyPassword(String(req.body?.password ?? ""), user.passwordHash))) { res.status(401).json({ error: "Invalid recruiter credentials" }); return; }
+  const tokenId = crypto.randomUUID();
+  const token = signToken({ userId: user.id, email: user.email, role: user.role }, tokenId);
+  await db.insert(authSessionsTable).values({ userId: user.id, tokenId, expiresAt: new Date(Date.now() + TOKEN_TTL_SECONDS * 1000) });
+  res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+});
 router.use(authenticate);
+router.use(async (_req, _res, next) => { await ensurePlacementRoles(); next(); });
 
 router.get("/placements/dashboard", async (req, res) => {
   const applications = await db.select().from(placementApplicationsTable).where(eq(placementApplicationsTable.studentId, req.user!.userId));
@@ -34,13 +75,32 @@ router.get("/placements/resume", async (req, res) => res.json(await db.select().
 router.post("/placements/resume", async (req, res) => { const previous = await db.select().from(placementResumesTable).where(eq(placementResumesTable.studentId, req.user!.userId)).orderBy(desc(placementResumesTable.version)); const data = req.body?.data ?? req.body ?? {}; const score = Math.min(100, Object.keys(data).filter((key) => data[key]).length * 8); const [row] = await db.insert(placementResumesTable).values({ studentId: req.user!.userId, version: (previous[0]?.version ?? 0) + 1, data, score }).returning(); res.status(201).json(row); });
 router.get("/placements/companies", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement office access required" }); return; } res.json(await db.select().from(placementCompaniesTable).orderBy(desc(placementCompaniesTable.createdAt))); });
 router.post("/placements/companies", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const [row] = await db.insert(placementCompaniesTable).values({ name: req.body.name, email: req.body.email, website: req.body.website, industry: req.body.industry, status: "pending" }).returning(); res.status(201).json(row); });
+router.get("/placements/company/profile", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } const [row] = await db.select().from(placementCompaniesTable).where(eq(placementCompaniesTable.ownerUserId, req.user!.userId)); res.json(row ?? null); });
+router.patch("/placements/company/profile", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } const updates: Record<string, unknown> = {}; for (const key of ["name", "website", "industry"]) if (req.body[key] !== undefined) updates[key] = req.body[key]; const [row] = await db.update(placementCompaniesTable).set(updates).where(eq(placementCompaniesTable.ownerUserId, req.user!.userId)).returning(); res.json(row); });
 router.post("/placements/jobs", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } const [row] = await db.insert(placementJobsTable).values({ companyId: Number(req.body.companyId), title: req.body.title, type: req.body.type ?? "placement", description: req.body.description ?? null, location: req.body.location ?? null, packageAmount: req.body.packageAmount ?? null, eligibility: req.body.eligibility ?? {}, deadline: req.body.deadline ? new Date(req.body.deadline) : null }).returning(); res.status(201).json(row); });
+router.get("/placements/recruiter/dashboard", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } const [company] = await db.select().from(placementCompaniesTable).where(eq(placementCompaniesTable.ownerUserId, req.user!.userId)); const jobs = company ? await db.select().from(placementJobsTable).where(eq(placementJobsTable.companyId, company.id)) : []; res.json({ company, jobs, status: company?.status ?? "pending", applications: [] }); });
 router.patch("/placements/jobs/:id", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } const updates: Record<string, unknown> = {}; for (const key of ["title", "type", "description", "location", "packageAmount", "status", "eligibility"]) if (req.body[key] !== undefined) updates[key] = req.body[key]; if (req.body.deadline !== undefined) updates.deadline = req.body.deadline ? new Date(req.body.deadline) : null; const [row] = await db.update(placementJobsTable).set(updates).where(eq(placementJobsTable.id, Number(req.params.id))).returning(); res.json(row); });
 router.delete("/placements/jobs/:id", async (req, res) => { if (!recruiter(req)) { res.status(403).json({ error: "Recruiter access required" }); return; } await db.delete(placementJobsTable).where(eq(placementJobsTable.id, Number(req.params.id))); res.status(204).send(); });
+router.get("/placements/drives", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } res.json(await db.select().from(placementDrivesTable).orderBy(desc(placementDrivesTable.scheduledAt))); });
+router.post("/placements/drives", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } const [row] = await db.insert(placementDrivesTable).values({ companyId: req.body.companyId ? Number(req.body.companyId) : null, title: req.body.title, scheduledAt: req.body.scheduledAt ? new Date(req.body.scheduledAt) : null }).returning(); res.status(201).json(row); });
+router.patch("/placements/drives/:id", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } const [row] = await db.update(placementDrivesTable).set({ title: req.body.title, status: req.body.status, scheduledAt: req.body.scheduledAt ? new Date(req.body.scheduledAt) : undefined }).where(eq(placementDrivesTable.id, Number(req.params.id))).returning(); res.json(row); });
 router.get("/placements/reports", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const [{ count }] = await db.select({ count: sql<number>`count(*)` }).from(placementApplicationsTable); const [{ jobs }] = await db.select({ jobs: sql<number>`count(*)` }).from(placementJobsTable); res.json({ placementPercentage: 0, applications: Number(count), jobs: Number(jobs), highestPackage: null, averagePackage: null, companies: await db.select().from(placementCompaniesTable) }); });
 router.get("/placements/export.csv", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const rows = await db.select().from(placementApplicationsTable); res.type("text/csv").send(["id,jobId,studentId,status", ...rows.map((r) => `${r.id},${r.jobId},${r.studentId},${r.status}`)].join("\n")); });
+router.get("/placements/export.xlsx", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const rows = await db.select().from(placementApplicationsTable); const html = `<table><tr><th>ID</th><th>Job</th><th>Student</th><th>Status</th></tr>${rows.map((r) => `<tr><td>${r.id}</td><td>${r.jobId}</td><td>${r.studentId}</td><td>${r.status}</td></tr>`).join("")}</table>`; res.type("application/vnd.ms-excel").send(html); });
+router.get("/placements/reports/departments", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } res.json([]); });
+router.get("/placements/reports/internships", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const rows = await db.select().from(placementJobsTable).where(eq(placementJobsTable.type, "internship")); res.json(rows); });
+router.get("/placements/reports/offers", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } res.json(await db.select().from(placementOffersTable)); });
+router.get("/placements/search", async (req, res) => { const q = `%${String(req.query.q ?? "").trim()}%`; const [companies, jobs, drives] = await Promise.all([db.select().from(placementCompaniesTable).where(ilike(placementCompaniesTable.name, q)).limit(20), db.select().from(placementJobsTable).where(ilike(placementJobsTable.title, q)).limit(20), db.select().from(placementDrivesTable).where(ilike(placementDrivesTable.title, q)).limit(20)]); res.json({ companies, jobs, drives }); });
 router.post("/placements/ai", async (req, res) => { const result = await generateAssistantResponse({ role: req.user!.role, message: `Placement career request: ${String(req.body.prompt ?? "Provide career guidance")}` }); res.json(result); });
 router.get("/placements/alumni", async (req, res) => res.json(await db.select().from(alumniProfilesTable)));
+router.post("/placements/alumni/profile", async (req, res) => { const [existing] = await db.select().from(alumniProfilesTable).where(eq(alumniProfilesTable.userId, req.user!.userId)); const values = { userId: req.user!.userId, graduationYear: req.body.graduationYear ? Number(req.body.graduationYear) : null, company: req.body.company ?? null, bio: req.body.bio ?? null, mentorshipAvailable: Boolean(req.body.mentorshipAvailable) }; const [row] = existing ? await db.update(alumniProfilesTable).set(values).where(eq(alumniProfilesTable.id, existing.id)).returning() : await db.insert(alumniProfilesTable).values(values).returning(); res.status(existing ? 200 : 201).json(row); });
+router.post("/placements/mentorships", async (req, res) => { const [row] = await db.insert(placementMentorshipsTable).values({ mentorId: Number(req.body.mentorId), menteeId: req.user!.userId, topic: req.body.topic ?? null }).returning(); res.status(201).json(row); });
+router.patch("/placements/mentorships/:id", async (req, res) => { const [row] = await db.update(placementMentorshipsTable).set({ status: req.body.status }).where(and(eq(placementMentorshipsTable.id, Number(req.params.id)), eq(placementMentorshipsTable.mentorId, req.user!.userId))).returning(); res.json(row); });
+router.get("/placements/referrals", async (req, res) => res.json(await db.select().from(placementReferralsTable).where(eq(placementReferralsTable.referrerId, req.user!.userId))));
+router.post("/placements/referrals", async (req, res) => { const [row] = await db.insert(placementReferralsTable).values({ referrerId: req.user!.userId, candidateEmail: req.body.candidateEmail, companyId: req.body.companyId ? Number(req.body.companyId) : null, jobId: req.body.jobId ? Number(req.body.jobId) : null, note: req.body.note ?? null }).returning(); res.status(201).json(row); });
 router.post("/placements/interviews", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const [row] = await db.insert(placementInterviewsTable).values({ applicationId: Number(req.body.applicationId), scheduledAt: new Date(req.body.scheduledAt), round: req.body.round ?? "Round 1" }).returning(); res.status(201).json(row); });
-router.post("/placements/offers", async (req, res) => { if (!office(req)) { res.status(403).json({ error: "Placement office access required" }); return; } const [row] = await db.insert(placementOffersTable).values({ applicationId: Number(req.body.applicationId), packageAmount: req.body.packageAmount, documentHtml: req.body.documentHtml }).returning(); res.status(201).json(row); });
+router.get("/placements/interviews", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } res.json(await db.select().from(placementInterviewsTable).orderBy(desc(placementInterviewsTable.scheduledAt))); });
+router.patch("/placements/interviews/:id", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } const [row] = await db.update(placementInterviewsTable).set({ status: req.body.status, feedback: req.body.feedback, result: req.body.result, round: req.body.round }).where(eq(placementInterviewsTable.id, Number(req.params.id))).returning(); res.json(row); });
+router.post("/placements/offers", async (req, res) => { if (!office(req) && !recruiter(req)) { res.status(403).json({ error: "Placement access required" }); return; } const type = req.body.offerType ?? "offer"; const html = req.body.documentHtml ?? `<html><body><h1>${type === "joining" ? "Joining Letter" : "Offer Letter"}</h1><p>Application ${req.body.applicationId}</p><p>Package: ${req.body.packageAmount ?? "To be discussed"}</p></body></html>`; const [row] = await db.insert(placementOffersTable).values({ applicationId: Number(req.body.applicationId), offerType: type, packageAmount: req.body.packageAmount, documentHtml: html }).returning(); res.status(201).json(row); });
+router.get("/placements/offers/:id/letter", async (req, res) => { const [row] = await db.select().from(placementOffersTable).where(eq(placementOffersTable.id, Number(req.params.id))); if (!row) { res.status(404).json({ error: "Offer not found" }); return; } res.type("text/html").send(row.documentHtml ?? ""); });
 export default router;

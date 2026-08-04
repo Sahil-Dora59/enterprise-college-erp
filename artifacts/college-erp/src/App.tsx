@@ -46,6 +46,7 @@ import ApplicantForgotPassword from '@/pages/applicant-forgot-password';
 import ApplicantResetPassword from '@/pages/applicant-reset-password';
 import ApplicantProfile from '@/pages/applicant-profile';
 import Placements from '@/pages/placements';
+import RecruiterPortal from '@/pages/recruiter-portal';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -92,6 +93,7 @@ function Router() {
       <Route path="/login">
         {user ? <Redirect to={`/dashboard/${user.role}`} /> : <Login />}
       </Route>
+      <Route path="/placements/recruiter"><RecruiterPortal /></Route>
       <Route path="/reset-password"><ResetPassword /></Route>
       <Route path="/admissions"><AdmissionsPortal /></Route>
       <Route path="/admissions/apply"><AdmissionApply /></Route>

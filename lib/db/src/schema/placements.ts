@@ -6,6 +6,7 @@ export const placementCompaniesTable = pgTable("placement_companies", {
   id: serial("id").primaryKey(), name: text("name").notNull(), email: text("email").notNull().unique(),
   passwordHash: text("password_hash"), website: text("website"), industry: text("industry"),
   status: text("status").notNull().default("pending"), verified: boolean("verified").notNull().default(false),
+  ownerUserId: integer("owner_user_id").references(() => usersTable.id, { onDelete: "set null" }),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 export const placementJobsTable = pgTable("placement_jobs", {
@@ -42,4 +43,15 @@ export const alumniProfilesTable = pgTable("alumni_profiles", {
 export const placementDrivesTable = pgTable("placement_drives", {
   id: serial("id").primaryKey(), companyId: integer("company_id").references(() => placementCompaniesTable.id, { onDelete: "set null" }),
   title: text("title").notNull(), scheduledAt: timestamp("scheduled_at", { withTimezone: true }), status: text("status").notNull().default("planned"),
+});
+export const placementMentorshipsTable = pgTable("placement_mentorships", {
+  id: serial("id").primaryKey(), mentorId: integer("mentor_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  menteeId: integer("mentee_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }), status: text("status").notNull().default("requested"),
+  topic: text("topic"), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export const placementReferralsTable = pgTable("placement_referrals", {
+  id: serial("id").primaryKey(), referrerId: integer("referrer_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  candidateEmail: text("candidate_email").notNull(), companyId: integer("company_id").references(() => placementCompaniesTable.id, { onDelete: "set null" }),
+  jobId: integer("job_id").references(() => placementJobsTable.id, { onDelete: "set null" }), note: text("note"), status: text("status").notNull().default("submitted"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
