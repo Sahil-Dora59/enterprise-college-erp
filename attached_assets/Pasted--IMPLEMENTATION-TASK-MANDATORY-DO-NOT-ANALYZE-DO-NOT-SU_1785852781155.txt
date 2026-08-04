@@ -1,0 +1,450 @@
+🚨 IMPLEMENTATION TASK (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT REBUILD EXISTING FEATURES.
+
+Immediately continue modifying my EXISTING Enterprise College ERP Version 2.
+
+Continue from the current architecture.
+
+Reuse all existing:
+
+• Authentication
+• RBAC
+• Student Information System
+• Faculty Management
+• Attendance
+• Examination
+• Marks
+• Assignments
+• Fees
+• Notifications
+• Reports
+• AI
+• Placement
+• Admission
+• Dashboards
+• Database Models
+• APIs
+• UI Components
+
+Everything must integrate with the existing ERP.
+
+Run the application after implementation.
+
+Fix every compile error and runtime error before stopping.
+
+========================================================
+
+MISSION
+
+Build a complete Enterprise Parent Portal and Student Companion System used by modern universities.
+
+========================================================
+
+PARENT AUTHENTICATION
+
+Create:
+
+Parent Registration
+
+Parent Login
+
+Forgot Password
+
+Reset Password
+
+Remember Me
+
+Secure Sessions
+
+Profile Management
+
+Link parents to one or more students.
+
+========================================================
+
+PARENT DASHBOARD
+
+Create a professional Parent Dashboard.
+
+Display:
+
+Student Overview
+
+Attendance %
+
+Academic Performance
+
+CGPA
+
+Current Semester
+
+Fees Due
+
+Recent Payments
+
+Assignments
+
+Upcoming Exams
+
+Exam Results
+
+Placement Status
+
+Admission Status
+
+Library Status
+
+Hostel Status (if available)
+
+Transport Status (if available)
+
+Notifications
+
+Calendar
+
+Quick Actions
+
+========================================================
+
+ATTENDANCE
+
+Parents can:
+
+View attendance.
+
+Monthly attendance.
+
+Subject-wise attendance.
+
+Attendance trends.
+
+Attendance alerts.
+
+========================================================
+
+ACADEMICS
+
+View:
+
+Subjects
+
+Faculty
+
+Assignments
+
+Submission Status
+
+Marks
+
+Internal Marks
+
+Semester Results
+
+Grade Cards
+
+Academic Progress
+
+========================================================
+
+FEES
+
+View:
+
+Fee Structure
+
+Outstanding Fees
+
+Payment History
+
+Receipts
+
+Scholarships
+
+Fine Details
+
+========================================================
+
+COMMUNICATION
+
+Create:
+
+Parent–Faculty Messaging
+
+Parent–Administration Messaging
+
+Appointment Requests
+
+Meeting History
+
+Message Attachments
+
+========================================================
+
+LEAVE MANAGEMENT
+
+Parents can:
+
+Submit Leave Requests
+
+Track Leave Status
+
+View Leave History
+
+Approve Student Leave (configurable)
+
+========================================================
+
+CALENDAR
+
+Display:
+
+Academic Calendar
+
+Exams
+
+Assignments
+
+Events
+
+Meetings
+
+Campus Drives
+
+Holidays
+
+========================================================
+
+NOTIFICATIONS
+
+Generate:
+
+Attendance Alerts
+
+Low Attendance
+
+Fee Reminders
+
+Assignment Deadlines
+
+Exam Schedule
+
+Results Published
+
+Placement Updates
+
+General Notices
+
+========================================================
+
+PARENT MOBILE EXPERIENCE
+
+Responsive design.
+
+Optimized for phones.
+
+Bottom navigation.
+
+Touch-friendly controls.
+
+Fast loading.
+
+========================================================
+
+STUDENT COMPANION
+
+Enhance the Student Dashboard.
+
+Add:
+
+Today's Schedule
+
+Upcoming Classes
+
+Assignments
+
+Attendance
+
+Marks
+
+Calendar
+
+Tasks
+
+Notifications
+
+Quick Actions
+
+Recent Activity
+
+Profile Completion
+
+========================================================
+
+AI
+
+Integrate with the existing AI module.
+
+Provide:
+
+Performance Summary
+
+Attendance Insights
+
+Study Suggestions
+
+Risk Alerts
+
+Fee Summary
+
+Academic Recommendations
+
+========================================================
+
+REPORTS
+
+Generate:
+
+Attendance Report
+
+Performance Report
+
+Fee Report
+
+Assignment Report
+
+Student Progress Report
+
+PDF
+
+Excel
+
+CSV
+
+========================================================
+
+RBAC
+
+Create and enforce permissions for:
+
+Parent
+
+Student
+
+Faculty
+
+Admin
+
+Super Admin
+
+Parents must only access data for their linked students.
+
+========================================================
+
+SECURITY
+
+Verify:
+
+Parent ownership
+
+Student ownership
+
+Protected APIs
+
+Secure messaging
+
+Validation
+
+========================================================
+
+TESTING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+Test:
+
+Parent Registration
+
+Parent Login
+
+Parent Dashboard
+
+Attendance
+
+Marks
+
+Fees
+
+Assignments
+
+Messaging
+
+Leave
+
+Calendar
+
+Notifications
+
+Student Dashboard
+
+AI
+
+Reports
+
+RBAC
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Repeat until everything works.
+
+========================================================
+
+STOP ONLY WHEN
+
+The Enterprise Parent Portal and Student Companion System is fully integrated into ERP Version 2.
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+RBAC Changes
+
+Features Implemented
+
+Bugs Fixed
+
+Testing Results
+
+Remaining Work
+
+If Remaining Work contains Parent Portal functionality, continue implementing before stopping.
+
+Final confirmation:
+
+"The Enterprise Parent Portal & Student Companion System has been successfully implemented and integrated into ERP Version 2."

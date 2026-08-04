@@ -49,6 +49,8 @@ import Placements from '@/pages/placements';
 import RecruiterPortal from '@/pages/recruiter-portal';
 import RecruiterDashboard from '@/pages/recruiter-dashboard';
 import PlacementOfficerDashboard from '@/pages/placement-officer-dashboard';
+import ParentPortal from '@/pages/parent-portal';
+import ParentDashboard from '@/pages/parent-dashboard';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -96,6 +98,8 @@ function Router() {
         {user ? <Redirect to={`/dashboard/${user.role}`} /> : <Login />}
       </Route>
       <Route path="/placements/recruiter"><RecruiterPortal /></Route>
+      <Route path="/parent/login"><ParentPortal authOnly /></Route>
+      <Route path="/parent/register"><ParentPortal authOnly /></Route>
       <Route path="/reset-password"><ResetPassword /></Route>
       <Route path="/admissions"><AdmissionsPortal /></Route>
       <Route path="/admissions/apply"><AdmissionApply /></Route>
@@ -140,6 +144,7 @@ function Router() {
       <Route path="/placements"><ProtectedRoute component={Placements} path="/placements" permission="dashboard.view" /></Route>
       <Route path="/placements/recruiter/dashboard"><ProtectedRoute component={RecruiterDashboard} path="/placements/recruiter/dashboard" permission="placements.view" /></Route>
       <Route path="/placements/officer/dashboard"><ProtectedRoute component={PlacementOfficerDashboard} path="/placements/officer/dashboard" permission="placements.view" /></Route>
+      <Route path="/parent"><ParentDashboard /></Route>
       
       <Route>
         <Shell>
