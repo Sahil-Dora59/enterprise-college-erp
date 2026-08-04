@@ -1,0 +1,215 @@
+🚨 GITHUB PROFESSIONALIZATION PHASE
+
+PROMPT G5
+
+THIS IS THE FINAL VERSION 2 AUDIT.
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT MODIFY APPLICATION CODE.
+
+DO NOT MODIFY DATABASE SCHEMA.
+
+DO NOT MODIFY APIs.
+
+DO NOT MODIFY BUSINESS LOGIC.
+
+DO NOT MODIFY UI.
+
+Continue from Enterprise College ERP Version 2.0.0 (General Availability).
+
+=====================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Engineer
+
+• Senior Release Engineer
+
+• Repository Quality Auditor
+
+• Open Source Maintainer
+
+Perform the final professional audit before freezing Version 2.
+
+=====================================================
+
+REPOSITORY AUDIT
+
+Audit the entire repository.
+
+Verify:
+
+Documentation
+
+GitHub files
+
+GitHub workflows
+
+Repository structure
+
+Release documentation
+
+Version history
+
+Markdown
+
+Project organization
+
+=====================================================
+
+VERIFY
+
+README
+
+ROADMAP
+
+CHANGELOG
+
+API
+
+DATABASE
+
+ARCHITECTURE
+
+INSTALLATION
+
+DEPLOYMENT
+
+ENVIRONMENT
+
+SECURITY
+
+CONTRIBUTING
+
+CODE_OF_CONDUCT
+
+LICENSE
+
+SCREENSHOTS
+
+PROJECT_STRUCTURE
+
+=====================================================
+
+VERIFY GITHUB
+
+Issue Templates
+
+Pull Request Template
+
+GitHub Actions
+
+Dependabot
+
+Workflow configuration
+
+=====================================================
+
+VERIFY REPOSITORY
+
+No merge markers
+
+No broken Markdown links
+
+No duplicated documentation
+
+No placeholder TODO/FIXME comments unless intentional
+
+No tracked temporary files
+
+No tracked build artifacts
+
+No broken package references
+
+No broken workspace references
+
+=====================================================
+
+QUALITY GATE
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Production Build
+
+Backend Production Build
+
+Markdown Validation
+
+Documentation Validation
+
+Workflow Validation
+
+git diff --check
+
+=====================================================
+
+FINAL RELEASE AUDIT
+
+Confirm:
+
+Version 2 is frozen.
+
+Repository is suitable for GitHub.
+
+Repository is suitable for portfolio presentation.
+
+Repository is suitable for long-term maintenance.
+
+Repository is ready for Version 3 development.
+
+=====================================================
+
+DO NOT
+
+Modify ERP functionality.
+
+Modify APIs.
+
+Modify authentication.
+
+Modify RBAC.
+
+Modify database.
+
+=====================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Repository Audit Results
+
+Documentation Audit
+
+GitHub Audit
+
+Release Audit
+
+Testing Results
+
+Remaining Work
+
+Only include:
+
+Manual GitHub settings
+
+Production infrastructure
+
+Future Version 3 work
+
+Final Confirmation
+
+The final confirmation must be exactly:
+
+"Enterprise College ERP Version 2 repository has successfully passed the final enterprise repository audit and is approved for long-term maintenance, Stable Release v2.0.0, and Version 3 development."
