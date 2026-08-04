@@ -1,0 +1,86 @@
+name: Quality checks
+
+on:
+  push:
+    branches: ["main", "master"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Typecheck, builds, and repository validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PORT: "22584"
+      BASE_PATH: "/"
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Workspace typecheck
+        run: pnpm run typecheck
+
+      - name: Frontend typecheck
+        run: pnpm --filter @workspace/college-erp run typecheck
+
+      - name: Backend typecheck
+        run: pnpm --filter @workspace/api-server run typecheck
+
+      - name: Frontend production build
+        run: pnpm --filter @workspace/college-erp run build
+
+      - name: Backend production build
+        run: pnpm --filter @workspace/api-server run build
+
+      - name: Validate documentation and repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --check
+          node <<'NODE'
+          const fs = require("fs");
+          const path = require("path");
+          const docs = [
+            "README.md",
+            "CHANGELOG.md",
+            "ROADMAP.md",
+            "CONTRIBUTING.md",
+            "CODE_OF_CONDUCT.md",
+            "SECURITY.md",
+            ...fs.readdirSync("docs").filter((file) => file.endsWith(".md")).map((file) => path.join("docs", file)),
+          ];
+          for (const file of docs) {
+            const text = fs.readFileSync(file, "utf8");
+            if (/^(<<<<<<<|=======|>>>>>>>)[ \t]*$/m.test(text)) throw new Error(`merge marker in ${file}`);
+            if (/TODO|FIXME/.test(text)) throw new Error(`TODO/FIXME in ${file}`);
+            for (const match of text.matchAll(/\]\(([^)#]+)[^)]*\)/g)) {
+              const target = match[1];
+              if (/^(https?:\/\/|mailto:|#)/.test(target)) continue;
+              if (!fs.existsSync(path.resolve(path.dirname(file), target))) {
+                throw new Error(`broken link in ${file}: ${target}`);
+              }
+            }
+          }
+          console.log(`Validated ${docs.length} documentation files.`);
+          NODE

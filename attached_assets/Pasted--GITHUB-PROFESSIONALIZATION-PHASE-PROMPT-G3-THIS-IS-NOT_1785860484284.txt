@@ -1,0 +1,265 @@
+🚨 GITHUB PROFESSIONALIZATION PHASE
+
+PROMPT G3
+
+THIS IS NOT ERP DEVELOPMENT.
+
+DO NOT MODIFY APPLICATION CODE.
+
+DO NOT MODIFY DATABASE SCHEMA.
+
+DO NOT MODIFY APIs.
+
+DO NOT MODIFY BUSINESS LOGIC.
+
+DO NOT MODIFY UI.
+
+Continue from Enterprise College ERP Version 2.0.0 (General Availability).
+
+=====================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Engineer
+
+• Senior DevOps Engineer
+
+• Open Source Maintainer
+
+• GitHub Repository Engineer
+
+The ERP application is COMPLETE.
+
+Your objective is to make this repository enterprise-grade for GitHub contributors and long-term maintenance.
+
+=====================================================
+
+GITHUB DIRECTORY
+
+Review the existing repository.
+
+Create or improve the .github directory.
+
+Include professional community standards and automation.
+
+=====================================================
+
+ISSUE TEMPLATES
+
+Create professional issue templates.
+
+Include:
+
+Bug Report
+
+Feature Request
+
+Documentation Improvement
+
+Question / Support
+
+Each template should include:
+
+Title
+
+Description
+
+Steps
+
+Expected Behavior
+
+Actual Behavior
+
+Environment
+
+Additional Information
+
+=====================================================
+
+PULL REQUEST TEMPLATE
+
+Create:
+
+.github/PULL_REQUEST_TEMPLATE.md
+
+Include:
+
+Summary
+
+Related Issue
+
+Type of Change
+
+Testing Performed
+
+Checklist
+
+Breaking Changes
+
+Screenshots (if applicable)
+
+=====================================================
+
+GITHUB ACTIONS
+
+Review existing workflows.
+
+Create or improve workflows for:
+
+CI
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Markdown Validation
+
+Repository Validation
+
+The workflows must NOT deploy.
+
+Only validate quality.
+
+=====================================================
+
+DEPENDABOT
+
+If appropriate,
+
+create:
+
+.github/dependabot.yml
+
+Use weekly dependency update checks.
+
+Do NOT modify dependencies.
+
+=====================================================
+
+CODEOWNERS
+
+If appropriate,
+
+create:
+
+.github/CODEOWNERS
+
+Use sensible default ownership.
+
+=====================================================
+
+FUNDING
+
+If appropriate,
+
+create:
+
+.github/FUNDING.yml
+
+Only if repository branding supports it.
+
+Otherwise explain why it was omitted.
+
+=====================================================
+
+SECURITY
+
+Review:
+
+SECURITY.md
+
+Issue templates
+
+PR template
+
+Ensure security reporting guidance is consistent.
+
+=====================================================
+
+RELEASE PROCESS
+
+Review release documentation.
+
+Ensure:
+
+Beta
+
+Release Candidate
+
+General Availability
+
+Version history
+
+Maintenance policy
+
+are consistently documented.
+
+=====================================================
+
+COMMUNITY STANDARDS
+
+Ensure repository follows GitHub best practices.
+
+=====================================================
+
+DO NOT
+
+Modify ERP functionality.
+
+Modify frontend.
+
+Modify backend.
+
+Modify APIs.
+
+Modify database.
+
+Modify authentication.
+
+Modify RBAC.
+
+=====================================================
+
+QUALITY GATE
+
+Run:
+
+Markdown validation
+
+Workflow validation
+
+git diff --check
+
+Repository consistency audit
+
+=====================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+GitHub Automation Improvements
+
+Community Standards Improvements
+
+Repository Engineering Improvements
+
+Testing Results
+
+Remaining Work
+
+Only include manual GitHub settings (repository description, topics, social preview, branch protection, releases, discussions, wiki, project board) or future Version 3 work.
+
+Final Confirmation
+
+"Enterprise College ERP Version 2 GitHub repository has been professionally automated, standardized, and prepared for enterprise open-source maintenance."
