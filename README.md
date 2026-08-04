@@ -1,496 +1,126 @@
-# 🎓 Enterprise College ERP V9 Lite
+# Enterprise College ERP Version 2
 
-
-<p align="center">
-
-![Version](https://img.shields.io/badge/Version-V9.0_Lite-blue)
-![Status](https://img.shields.io/badge/Status-Production_Ready-success)
-![Version](https://img.shields.io/badge/Version-V9.0%20Lite-blue)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-success)
-![License](https://img.shields.io/badge/License-MIT-green)
-![TypeScript](https://img.shields.io/badge/TypeScript-96%25-blue)
+![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![Status](https://img.shields.io/badge/status-stable-success)
+![License](https://img.shields.io/badge/license-MIT-green)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
 ![Express](https://img.shields.io/badge/Express-5-black)
 
----
+Enterprise College ERP Version 2 is a production-oriented university administration platform. It combines academic operations, admissions, placements, parent services, AI-assisted workflows, reporting, notifications, and provider-neutral integrations in one role-aware application.
 
-# 📖 Overview
+## Features and modules
 
-Enterprise College ERP V9 Lite is a modern AI-enabled College Enterprise Resource Planning (ERP) System developed as a BCA Major Project.
+- Authentication, database-backed sessions, password recovery, and RBAC
+- Students, faculty, departments, courses, semesters, attendance, assignments, examinations, marks, library, fees, and notices
+- Admissions portal, applicant authentication, CRM, interviews, tests, documents, and analytics
+- Placement management, recruiter portal, drives, applications, offers, alumni, and reports
+- Parent portal with linked-student access, messaging, appointments, leave, and notifications
+- AI conversations, prompts, document indexing, search, and role-aware assistants
+- Reports, dashboards, global search, notification center, and Integration Center
 
-The platform provides secure academic management, administration, role-based access control, and integrated AI utilities in a lightweight, modular architecture.
+## Architecture
 
----
-
-# ✨ Features
-
-## 🔐 Authentication
-- Secure Login
-- JWT Authentication
-- Password Encryption
-- Role-Based Access Control (RBAC)
-
-## 👥 User Roles
-- Super Admin
-- Admin
-- Faculty
-- Student
-
-<<<<<<< HEAD
-### 🎓 Academic Management
-
-- Student Management
-- Faculty Management
-- Department Management
-- Course Management
-- Semester Management
-
-### 📚 ERP Modules
-
-- Attendance
-- Examination
-- Library
-- Fee Management
-- Notice Board
-
-### 🤖 AI
-
-- AI Assistant
-- AI Admin Panel
-- AI Foundation
-- AI search, prompt library, document index, and usage-ready platform APIs
-
-### 🧭 Enterprise Integration
-
-- Unified global search with `Ctrl/Cmd + K`
-- Centralized notification center
-- Report Center
-- Role-aware dashboards and navigation
-- Student, faculty, academic, examination, finance, library, attendance, assignment, and notice workflows
-- Development-only demo role switching
-
----
-
-# 🛠 Technology Stack
-
-## Frontend
-
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Query
-- Wouter
-
-## Backend
-
-- Node.js
-- Express.js
-- TypeScript
-- JWT Authentication
-
-## Database
-
-- PostgreSQL
-- Drizzle ORM
-
----
-
-# 📂 Project Structure
+The repository is a pnpm workspace. The React/Vite frontend is built first, then the Express server serves the SPA and `/api` routes from the same origin.
 
 ```text
-artifacts/
-server/
-lib/
-scripts/
-docs/
-└── screenshots/
-README.md
+artifacts/college-erp/   React + Vite frontend
+artifacts/api-server/    Express API, auth, RBAC, workers
+lib/db/                  PostgreSQL schema and Drizzle client
+lib/api-spec/            API contract definitions
+lib/api-zod/             Shared request/response validation
+lib/api-client-react/    Generated React API hooks
+scripts/                 Workspace utilities
+docs/                    Operational and technical documentation
 ```
 
----
-# 📸 Screenshots
+See [Architecture](docs/ARCHITECTURE.md) and [Structure](docs/STRUCTURE.md) for more detail.
 
-## 01. Login Page
-![](docs/screenshots/01_Login_Page.png)
+## Technology stack
 
----
+- Frontend: React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, Wouter
+- Backend: Node.js, Express 5, TypeScript, Pino
+- Database: PostgreSQL, Drizzle ORM
+- Security: JWT, bcrypt, Helmet, rate limiting, centralized RBAC
+- Workspace: pnpm
 
-## 02. Super Admin Dashboard
-![](docs/screenshots/02_Super_Admin_Dashboard.png)
+## Screenshots
 
----
+Screenshots are stored in [`docs/screenshots/`](docs/screenshots/). Add current deployment captures here when performing browser certification.
 
-## 03. System Command Center
-![](docs/screenshots/03_System_Command_Center.png)
+![Login page](docs/screenshots/01_Login_Page.png)
 
----
+## Installation
 
-## 04. Student Management
-![](docs/screenshots/04_Student_Management.png)
-
----
-
-## 05. Faculty Directory
-![](docs/screenshots/05_Faculty_Directory.png)
-
----
-
-## 06. Departments
-![](docs/screenshots/06_Departments.png)
-
----
-
-## 07. Courses
-![](docs/screenshots/07_Courses.png)
-
----
-
-## 08. Semesters
-![](docs/screenshots/08_Semesters.png)
-
----
-
-## 09. Attendance
-![](docs/screenshots/09_Attendance.png)
-
----
-
-## 10. Examinations
-![](docs/screenshots/10_Examinations.png)
-
----
-
-## 11. Library Management
-![](docs/screenshots/11_Library_Management.png)
-
----
-
-## 12. Fee Management
-![](docs/screenshots/12_Fee_Management.png)
-
----
-
-## 13. Notices
-![](docs/screenshots/13_Notices.png)
-
----
-
-## 14. AI Admin Assistant
-![](docs/screenshots/14_AI_Admin_Assistant.png)
-
----
-
-## 15. Roles & Permissions (Page 1)
-![](docs/screenshots/15_Roles_And_Permissions_Page1.png)
-
----
-
-## 16. Roles & Permissions (Page 2)
-![](docs/screenshots/16_Roles_And_Permissions_Page2.png)
-
----
-
-## 17. Roles & Permissions (Page 3)
-![](docs/screenshots/17_Roles_And_Permissions_Page3.png)
-
----
-
-## 18. Roles & Permissions (Page 4)
-![](docs/screenshots/18_Roles_And_Permissions_Page4.png)
-
----
-
-## 19. AI Assistant
-![](docs/screenshots/19_AI_Assistant.png)
-
----
-
-## 20. Attendance Detailed View
-![](docs/screenshots/20_Attendance_Detailed_View.png)
-
----
-
-# ✅ Completed (Version 1)
-
-- Authentication
-=======
-## 🎓 Academic Modules
->>>>>>> 6567d7c22520b7162994d0a64dc1290014c08a19
-- Dashboard
-- Student Management
-- Faculty Management
-- Department Management
-- Course Management
-- Semester Management
-- Attendance
-- Examination
-- Marks
-- Assignments
-- Library
-- Fee Management
-- Notice Board
-
-<<<<<<< HEAD
----
-
-# 🚧 Future Extensions
-
-- Parent Portal
-- Student Portal
-- Faculty Portal
-- Assignment Module
-- Homework Submission
-- Timetable Management
-- Hostel Management
-- Transport Management
-- Placement Cell
-- Alumni Portal
-- Online Admission
-- Online Fee Payment
-- Certificate Generator
-- Result Generator
-- OCR
-- PDF Chat (RAG)
-- AI Question Paper Generator
-- AI Report Generator
-=======
-## 🤖 AI Features
-- AI Student Assistant
-- AI Faculty Assistant
-- AI Admin Assistant
->>>>>>> 6567d7c22520b7162994d0a64dc1290014c08a19
-- AI Notice Generator
-- AI Assignment Generator
-- AI FAQ Assistant
-- Conversation History
-- Copy Response
-- Export Conversation
-- AI Settings
-
----
-
-# 🛠 Technology Stack
-
-<<<<<<< HEAD
-| Version | Status |
-|---------|--------|
-| V1.0 Foundation | ✅ Completed |
-| V2.0 Core ERP Expansion | ✅ Completed |
-| V3.0 AI Integration | ✅ Completed |
-| V4.0 Enterprise Edition | ✅ Production baseline |
-=======
-## Frontend
-- React 19
-- TypeScript
-- Tailwind CSS
-- Vite
-
-## Backend
-- Node.js
-- Express 5
-- TypeScript
-
-## Database
-- SQLite
-- Drizzle ORM
-
-## Authentication
-- JWT
-- bcrypt
-
----
-
-## 📸 Screenshots
-
-### 1. Login Page
-
-![Login Page](docs/screenshots/01_Login_Page.png)
-
-### 2. Super Admin Dashboard
-
-![Super Admin Dashboard](docs/screenshots/02_Super_Admin_Dashboard.png)
-
-### 3. System Command Center
-
-![System Command Center](docs/screenshots/03_System_Command_Center.png)
-
-### 4. Student Management
-
-![Student Management](docs/screenshots/04_Student_Management.png)
-
-### 5. Faculty Directory
-
-![Faculty Directory](docs/screenshots/05_Faculty_Directory.png)
-
-### 6. Departments
-
-![Departments](docs/screenshots/06_Departments.png)
-
-### 7. Courses
-
-![Courses](docs/screenshots/07_Courses.png)
-
-### 8. Semesters
-
-![Semesters](docs/screenshots/08_Semesters.png)
-
-### 9. Attendance
-
-![Attendance](docs/screenshots/09_Attendance.png)
-
-### 10. Examinations
-
-![Examinations](docs/screenshots/10_Examinations.png)
-
-### 11. Library Management
-
-![Library Management](docs/screenshots/11_Library_Management.png)
-
-### 12. Fee Management
-
-![Fee Management](docs/screenshots/12_Fee_Management.png)
-
-### 13. Notice Board
-
-![Notice Board](docs/screenshots/13_Notices.png)
-
-### 14. AI Assistant
-
-![AI Assistant](docs/screenshots/14_AI_Admin_Assistant.png)
-
-### 15. Roles & Permissions
-
-![Roles & Permissions](docs/screenshots/15_Roles_And_Permissions_Page1.png)
-
-### 16. Roles & Permissions (Page 2)
-
-![Roles & Permissions](docs/screenshots/16_Roles_And_Permissions_Page2.png)
-
-### 17. Roles & Permissions (Page 3)
-
-![Roles & Permissions](docs/screenshots/17_Roles_And_Permissions_Page3.png)
-
-### 18. Roles & Permissions (Page 4)
-
-![Roles & Permissions](docs/screenshots/18_Roles_And_Permissions_Page4.png)
-
-### 19. AI Assistant Chat
-
-![AI Assistant Chat](docs/screenshots/19_AI_Assistant_Chat.png)
-
-### 20. Attendance Detailed View (Page 2)
-
-![Attendance Detailed View](docs/screenshots/20_Attendance_Detailed_View.png)
-
----
-
-# 🚀 Running the Project
-
-Clone the repository:
-
-```bash
-git clone https://github.com/Sahil-Dora59/Enterprise_College_ERP_V9_Lite.git
-```
-
-Install dependencies:
+Prerequisites: Node.js 24+, pnpm, PostgreSQL, and a configured `DATABASE_URL`.
 
 ```bash
 pnpm install
+pnpm --filter @workspace/db run push
 ```
 
-Start the application:
+The schema push command is for development. Use the approved deployment migration process for production.
+
+## Environment variables
+
+| Variable | Required | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | Yes | PostgreSQL connection string |
+| `SESSION_SECRET` | Yes | JWT signing and session security |
+| `PORT` | Workflow-managed | HTTP server port |
+| `BASE_PATH` | Frontend build | Vite artifact base path |
+| `CORS_ORIGIN` | Optional | Comma-separated approved origins |
+| `DEMO_MODE` | Development only | Server-side demo role switching |
+| `VITE_DEMO_MODE` | Development only | Client demo controls |
+
+Never commit credentials. Configure secrets through the workspace secret manager. Keep both demo variables disabled in production. See [Environment](docs/ENVIRONMENT.md).
+
+## Development and verification
 
 ```bash
 pnpm --filter @workspace/college-erp run fullstack
+pnpm run typecheck
+pnpm --filter @workspace/college-erp run typecheck
+pnpm --filter @workspace/api-server run typecheck
 ```
 
-Open:
+The running service exposes `GET /api/healthz`. The configured workflow owns the full-stack preview; do not start a second frontend or API process.
 
-```
-http://localhost:22584
-```
+## Production build and deployment
 
----
-
-# ✅ Project Status
-
-### Completed
-
-- Authentication
-- RBAC
-- Student Management
-- Faculty Management
-- Department Management
-- Course Management
-- Semester Management
-- Attendance
-- Examination
-- Marks
-- Assignments
-- Library
-- Fee Management
-- Notice Board
-- AI Student Assistant
-- AI Faculty Assistant
-- AI Admin Assistant
-- AI Notice Generator
-- AI Assignment Generator
-- AI FAQ Assistant
-- Conversation History
-- Export Chat
-- Copy Response
-- Production Build
-- Type Checking
-- QA Verification
-- Health Endpoint
-- Database Integrity
-- Replit One-Click Startup
-
----
-
-# 🔧 Replit Configuration
-
-The application now uses a single startup workflow.
-
-- One Run Button
-- One Backend Process
-- One Frontend Build
-- One Express Server
-- Automatic Startup
-- No Manual API Startup
-- No Manual Workflow Switching
-
----
-
-# 📂 Repository Structure
-
-```
-artifacts/
-docs/
-lib/
-scripts/
-README.md
-QA_REPORT.md
-package.json
-pnpm-workspace.yaml
+```bash
+PORT=22584 BASE_PATH=/ pnpm --filter @workspace/college-erp run build
+pnpm --filter @workspace/api-server run build
 ```
 
----
+Follow [Installation](docs/INSTALLATION.md), [Deployment](docs/DEPLOYMENT.md), and [Release Readiness](docs/RELEASE_READINESS.md) before publishing.
 
-# 📄 License
+## Roles
 
-MIT License
->>>>>>> 6567d7c22520b7162994d0a64dc1290014c08a19
+The system supports super admin, admin, secretary, faculty, student, parent, applicant, placement officer, recruiter, alumni, and other database-configured roles. Permissions are database-backed and ownership scopes are enforced by domain routes.
 
----
+## Security
 
-# 👨‍💻 Developer
+Security controls include signed JWTs, active-session checks, password hashing, Helmet, bounded request bodies, authentication rate limits, sanitized errors, request IDs, centralized authorization, ownership checks, upload validation, and sensitive-log redaction. Report vulnerabilities privately according to [SECURITY.md](SECURITY.md).
 
-**A Sahil Dora**
+## Contributing
 
-BCA Major Project
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Do not change business behavior, database schema, or public APIs without an approved design and regression coverage.
 
-Enterprise College ERP V9 Lite
+## Documentation
 
-2026
+- [API](docs/API.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Database](docs/DATABASE.md)
+- [Environment](docs/ENVIRONMENT.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Release readiness](docs/RELEASE_READINESS.md)
+- [Changelog](CHANGELOG.md)
+
+## License and support
+
+This project is licensed under the [MIT License](LICENSE) when the license file is present. For workspace-specific support, consult the repository maintainers and operational documentation. Production incidents should follow the deployment team's incident process.
+
+## Version history and roadmap
+
+Version 2 is feature-complete and certified for stable release v2.0.0. Future work belongs to Version 3 planning and may include infrastructure integrations, expanded observability, and further performance optimization; it is intentionally outside the Version 2 scope.
