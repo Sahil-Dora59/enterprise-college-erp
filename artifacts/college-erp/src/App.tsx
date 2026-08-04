@@ -45,6 +45,7 @@ import ApplicantRegister from '@/pages/applicant-register';
 import ApplicantForgotPassword from '@/pages/applicant-forgot-password';
 import ApplicantResetPassword from '@/pages/applicant-reset-password';
 import ApplicantProfile from '@/pages/applicant-profile';
+import Placements from '@/pages/placements';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -132,6 +133,7 @@ function Router() {
       <Route path="/demo"><ProtectedRoute component={DemoControlCenter} path="/demo" permission="dashboard.view" /></Route>
       <Route path="/admissions/crm"><ProtectedRoute component={AdmissionCrm} path="/admissions/crm" permission="dashboard.view" /></Route>
       <Route path="/admissions/analytics"><ProtectedRoute component={AdmissionAnalytics} path="/admissions/analytics" permission="dashboard.view" /></Route>
+      <Route path="/placements"><ProtectedRoute component={Placements} path="/placements" permission="dashboard.view" /></Route>
       
       <Route>
         <Shell>

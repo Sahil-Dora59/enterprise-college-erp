@@ -53,6 +53,7 @@ const navItems: NavItem[] = [
   { title: "Report Center", href: "/reports", icon: FileText, permission: "dashboard.view" },
   { title: "AI Assistant", href: "/ai", icon: Bot, permission: "ai.view" },
   { title: "Admissions CRM", href: "/admissions/crm", icon: Users, permission: "admissions.review" },
+  { title: "Placements & Careers", href: "/placements", icon: BriefcaseBusiness, permission: "dashboard.view" },
   { title: "Settings", href: "/settings", icon: Settings, permission: "settings.manage" },
 ];
 

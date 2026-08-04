@@ -1,0 +1,410 @@
+🚨 IMPLEMENTATION TASK (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT REBUILD EXISTING FEATURES.
+
+Immediately continue modifying my EXISTING Enterprise College ERP Version 2.
+
+Continue from the current architecture.
+
+Reuse all existing authentication, RBAC, Student Information System, Faculty Management, AI, Notifications, Reports, Dashboards, Database Models, APIs and UI Components.
+
+Do NOT break existing functionality.
+
+Run the application after implementation.
+
+Fix every compile error and runtime error before stopping.
+
+========================================================
+
+MISSION
+
+Build a complete Enterprise Placement & Career Management System like those used in real universities.
+
+Everything must integrate with the existing ERP.
+
+========================================================
+
+STUDENT PLACEMENT PORTAL
+
+Create a Placement Dashboard.
+
+Display:
+
+• Placement Status
+• Eligibility Status
+• Applied Jobs
+• Upcoming Interviews
+• Offer Letters
+• Internship Status
+• Resume Completion
+• Skills Score
+• Placement Timeline
+• Company Notifications
+
+========================================================
+
+RESUME BUILDER
+
+Create an enterprise Resume Builder.
+
+Support:
+
+Personal Details
+
+Education
+
+Skills
+
+Projects
+
+Internships
+
+Certifications
+
+Achievements
+
+Languages
+
+Social Links
+
+Photo
+
+Generate downloadable Resume PDF.
+
+Allow Resume Preview.
+
+Version History.
+
+========================================================
+
+COMPANY PORTAL
+
+Create Recruiter Accounts.
+
+Support:
+
+Company Registration
+
+Company Login
+
+Company Dashboard
+
+Company Profile
+
+Company Verification
+
+Company Status
+
+========================================================
+
+JOB MANAGEMENT
+
+Recruiters can:
+
+Create Jobs
+
+Edit Jobs
+
+Close Jobs
+
+Delete Jobs
+
+Internship Posting
+
+Placement Posting
+
+Eligibility Rules
+
+Salary Package
+
+Location
+
+Job Description
+
+Application Deadline
+
+========================================================
+
+STUDENT APPLICATIONS
+
+Students can:
+
+Browse Jobs
+
+Search Jobs
+
+Filter Jobs
+
+Save Jobs
+
+Apply for Jobs
+
+Withdraw Applications
+
+Track Application Status
+
+========================================================
+
+PLACEMENT CELL
+
+Create Placement Office Dashboard.
+
+Manage:
+
+Companies
+
+Campus Drives
+
+Applications
+
+Eligible Students
+
+Interview Schedule
+
+Offers
+
+Selections
+
+Rejected Students
+
+Placement Reports
+
+========================================================
+
+INTERVIEW MANAGEMENT
+
+Create:
+
+Interview Schedule
+
+Interview Calendar
+
+Interview Feedback
+
+Interview Results
+
+Interview Status
+
+Round Management
+
+========================================================
+
+OFFERS
+
+Generate:
+
+Offer Letter
+
+Joining Letter
+
+Acceptance Status
+
+Offer Tracking
+
+========================================================
+
+ALUMNI PORTAL
+
+Create:
+
+Alumni Registration
+
+Alumni Directory
+
+Mentorship
+
+Success Stories
+
+Referrals
+
+Company Referrals
+
+========================================================
+
+REPORTS
+
+Generate:
+
+Placement Percentage
+
+Highest Package
+
+Average Package
+
+Company Statistics
+
+Student Statistics
+
+Department Placement
+
+Internship Reports
+
+Offer Reports
+
+========================================================
+
+SEARCH
+
+Global Search.
+
+Support:
+
+Students
+
+Companies
+
+Jobs
+
+Internships
+
+Campus Drives
+
+========================================================
+
+EXPORTS
+
+Support:
+
+PDF
+
+Excel
+
+CSV
+
+Print
+
+========================================================
+
+AI
+
+Integrate with existing AI.
+
+Generate:
+
+Resume Review
+
+Skill Gap Analysis
+
+Career Suggestions
+
+Interview Questions
+
+Placement Statistics
+
+Job Matching
+
+Resume Score
+
+========================================================
+
+RBAC
+
+Create permissions for:
+
+Super Admin
+
+Admin
+
+Placement Officer
+
+Recruiter
+
+Student
+
+Alumni
+
+========================================================
+
+UI
+
+Enterprise Quality.
+
+Professional Dashboards.
+
+Responsive Design.
+
+Dark Mode.
+
+Light Mode.
+
+Animations.
+
+Loading States.
+
+Empty States.
+
+========================================================
+
+TESTING
+
+Run the application.
+
+Test:
+
+Company Registration
+
+Recruiter Login
+
+Job Creation
+
+Student Applications
+
+Resume Builder
+
+Interview Scheduling
+
+Offer Letters
+
+Placement Reports
+
+AI Features
+
+RBAC
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Continue until everything works.
+
+========================================================
+
+STOP ONLY WHEN
+
+The Enterprise Placement & Career Management System is fully integrated with ERP Version 2.
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+RBAC Changes
+
+Features Implemented
+
+Bugs Fixed
+
+Remaining Work
+
+If Remaining Work is NOT EMPTY,
+
+continue implementing before stopping.
+
+Final confirmation:
+
+"Enterprise Placement & Career Management System successfully implemented and integrated into ERP Version 2."
