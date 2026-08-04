@@ -17,6 +17,7 @@ The REST API is mounted under `/api` and uses Bearer JWT authentication for prot
 - `/dashboard` — KPIs and chart data
 - `/administration` — finance/library/operations summary
 - `/ai` — conversations, prompts, documents, search, settings
+- `/integrations` — provider-neutral integrations, queues, jobs, payments, webhooks, API keys, backups, and health
 
 All mutating and sensitive endpoints validate request bodies, enforce authentication, and pass through centralized RBAC authorization where a permission mapping exists.
 
@@ -25,3 +26,5 @@ Health check:
 ```text
 GET /api/healthz
 ```
+
+The health response includes API status, uptime, memory metrics, and an ISO timestamp. Protected integration routes require a valid bearer session and centralized RBAC authorization.

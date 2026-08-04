@@ -42,6 +42,15 @@ app.use(cors({
 }));
 app.use(express.json({ limit: "8mb" }));
 app.use(express.urlencoded({ extended: true, limit: "8mb" }));
+app.disable("x-powered-by");
+
+const apiRateLimit = rateLimit({
+  windowMs: 60 * 1000,
+  limit: 300,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: { error: "Too many requests. Please try again shortly." },
+});
 
 const authRateLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -60,6 +69,7 @@ const authRateLimit = rateLimit({
 
 app.use("/api/auth/login", authRateLimit);
 app.use("/api/auth/change-password", authRateLimit);
+app.use("/api", apiRateLimit);
 app.use("/api", router);
 
 // The ERP artifact uses this API server as its single full-stack preview.

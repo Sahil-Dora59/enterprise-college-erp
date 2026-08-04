@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ComponentType, useEffect } from 'react';
+import { ComponentType, lazy, Suspense, useEffect } from 'react';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { Route, Switch, Router as WouterRouter, Redirect } from 'wouter';
@@ -51,7 +51,7 @@ import RecruiterDashboard from '@/pages/recruiter-dashboard';
 import PlacementOfficerDashboard from '@/pages/placement-officer-dashboard';
 import ParentPortal from '@/pages/parent-portal';
 import ParentDashboard from '@/pages/parent-dashboard';
-import Integrations from '@/pages/integrations';
+const Integrations = lazy(() => import('@/pages/integrations'));
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -77,7 +77,7 @@ function ProtectedRoute({ component: Component, permission, ...rest }: { compone
 
   return (
     <Shell>
-      <Component {...rest} />
+      <Suspense fallback={<div className="flex min-h-[40vh] items-center justify-center text-muted-foreground">Loading workspace…</div>}><Component {...rest} /></Suspense>
     </Shell>
   );
 }
