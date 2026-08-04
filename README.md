@@ -1,67 +1,127 @@
-# Enterprise College ERP Version 2
+# [Hero banner placeholder](docs/SCREENSHOTS.md)
+
+# Enterprise College ERP
+
+Enterprise College ERP Version 2 is an enterprise-ready university resource planning platform for managing academic operations, administration, admissions, placements, parent services, reporting, AI-assisted workflows, and integrations from a unified application.
+
+## Repository Status
+
+- **Current release:** Stable Release v2.0.0
+- **Version:** 2.0.0
+- **Release channel:** General Availability (GA)
+- **Production status:** Production ready
+- **Maintenance status:** Version 2 maintenance and operational support
+
+## Badges
 
 ![Version](https://img.shields.io/badge/version-2.0.0-blue)
-![Status](https://img.shields.io/badge/status-stable-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue)
 ![React](https://img.shields.io/badge/React-19-61DAFB)
-![Express](https://img.shields.io/badge/Express-5-black)
+![Node.js](https://img.shields.io/badge/Node.js-24-339933)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169E1)
+![Production Ready](https://img.shields.io/badge/production--ready-yes-success)
+![Build](https://img.shields.io/badge/build-passing-success)
 
-Enterprise College ERP Version 2 is a production-oriented university administration platform. It combines academic operations, admissions, placements, parent services, AI-assisted workflows, reporting, notifications, and provider-neutral integrations in one role-aware application.
+## Project Overview
 
-## Features and modules
+The ERP provides a role-aware, same-origin full-stack application for universities. A React and Vite frontend is served by an Express API, with PostgreSQL and Drizzle ORM providing shared persistent data. Authentication, database-backed sessions, centralized permissions, ownership scopes, audit records, and operational health checks support production-oriented use.
 
-- Authentication, database-backed sessions, password recovery, and RBAC
-- Students, faculty, departments, courses, semesters, attendance, assignments, examinations, marks, library, fees, and notices
-- Admissions portal, applicant authentication, CRM, interviews, tests, documents, and analytics
-- Placement management, recruiter portal, drives, applications, offers, alumni, and reports
-- Parent portal with linked-student access, messaging, appointments, leave, and notifications
-- AI conversations, prompts, document indexing, search, and role-aware assistants
-- Reports, dashboards, global search, notification center, and Integration Center
+## Key Features
 
-## Architecture
+- Role-aware dashboards and navigation
+- Database-backed authentication, sessions, and RBAC
+- Academic, finance, library, admissions, placement, and parent workflows
+- AI-assisted conversations and administrative tools
+- Reporting, analytics, notifications, global search, and calendar export
+- Provider-neutral integration queues, jobs, webhooks, payments, backups, and audit records
+- Responsive and accessible shared UI primitives
+- Health checks, structured logging, rate limiting, sanitized errors, and upload validation
 
-The repository is a pnpm workspace. The React/Vite frontend is built first, then the Express server serves the SPA and `/api` routes from the same origin.
+## Enterprise Modules
+
+- Authentication
+- RBAC
+- Dashboard
+- Student Information
+- Faculty
+- Departments
+- Courses
+- Attendance
+- Assignments
+- Examinations
+- Marks
+- Library
+- Fees
+- Reports
+- AI Assistant
+- Admission CRM
+- Placement Management
+- Parent Portal
+- Integration Center
+- Notifications
+- Analytics
+
+## System Architecture Overview
+
+The repository is a pnpm workspace containing a React/Vite client, an Express API server, shared API contracts and validation packages, and a Drizzle-backed PostgreSQL library. The configured full-stack workflow builds the frontend and starts one Express process that serves both the compiled SPA and `/api` routes. Protected requests pass through JWT and active-session validation, centralized authorization, and domain ownership checks.
+
+## Technology Stack
+
+### Frontend
+
+React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, and Wouter.
+
+### Backend
+
+Node.js 24, Express 5, TypeScript, Pino, Helmet, and rate limiting.
+
+### Database
+
+PostgreSQL 16 and Drizzle ORM.
+
+### Authentication
+
+Signed JWTs, database-backed sessions, bcrypt password hashing, and database-configured RBAC.
+
+### Build Tools
+
+pnpm workspaces, TypeScript project references, Vite, esbuild, and Drizzle Kit.
+
+### Deployment
+
+The application runs through the configured `artifacts/college-erp: web` workflow and is designed for a same-origin full-stack deployment.
+
+## Folder Structure
 
 ```text
-artifacts/college-erp/   React + Vite frontend
-artifacts/api-server/    Express API, auth, RBAC, workers
+artifacts/college-erp/   React/Vite frontend
+artifacts/api-server/    Express API and workers
 lib/db/                  PostgreSQL schema and Drizzle client
 lib/api-spec/            API contract definitions
-lib/api-zod/             Shared request/response validation
-lib/api-client-react/    Generated React API hooks
+lib/api-zod/             Shared validation types
+lib/api-client-react/    React API hooks
 scripts/                 Workspace utilities
-docs/                    Operational and technical documentation
+docs/                    Technical and operational documentation
 ```
 
-See [Architecture](docs/ARCHITECTURE.md) and [Structure](docs/STRUCTURE.md) for more detail.
+## Installation Guide
 
-## Technology stack
+Prerequisites:
 
-- Frontend: React 19, TypeScript, Vite, Tailwind CSS, TanStack Query, Wouter
-- Backend: Node.js, Express 5, TypeScript, Pino
-- Database: PostgreSQL, Drizzle ORM
-- Security: JWT, bcrypt, Helmet, rate limiting, centralized RBAC
-- Workspace: pnpm
-
-## Screenshots
-
-Screenshots are stored in [`docs/screenshots/`](docs/screenshots/). Add current deployment captures here when performing browser certification.
-
-![Login page](docs/screenshots/01_Login_Page.png)
-
-## Installation
-
-Prerequisites: Node.js 24+, pnpm, PostgreSQL, and a configured `DATABASE_URL`.
+- Node.js 24+
+- pnpm
+- PostgreSQL
+- A configured `DATABASE_URL`
 
 ```bash
 pnpm install
 pnpm --filter @workspace/db run push
 ```
 
-The schema push command is for development. Use the approved deployment migration process for production.
+The schema push command is intended for development. Production schema changes must use the approved deployment migration process.
 
-## Environment variables
+## Environment Variables
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
@@ -73,54 +133,102 @@ The schema push command is for development. Use the approved deployment migratio
 | `DEMO_MODE` | Development only | Server-side demo role switching |
 | `VITE_DEMO_MODE` | Development only | Client demo controls |
 
-Never commit credentials. Configure secrets through the workspace secret manager. Keep both demo variables disabled in production. See [Environment](docs/ENVIRONMENT.md).
+Never commit secrets. Keep demo mode disabled in production.
 
-## Development and verification
+## Database Setup
+
+For local development:
+
+```bash
+pnpm --filter @workspace/db run push
+```
+
+Database tables, relationships, RBAC, keys, constraints, indexes, and migration guidance are documented in [docs/DATABASE.md](docs/DATABASE.md).
+
+## Running Development
+
+Start the full-stack ERP with the configured workflow command:
 
 ```bash
 pnpm --filter @workspace/college-erp run fullstack
+```
+
+Useful verification commands:
+
+```bash
 pnpm run typecheck
 pnpm --filter @workspace/college-erp run typecheck
 pnpm --filter @workspace/api-server run typecheck
+curl http://localhost:$PORT/api/healthz
 ```
 
-The running service exposes `GET /api/healthz`. The configured workflow owns the full-stack preview; do not start a second frontend or API process.
-
-## Production build and deployment
+## Production Build
 
 ```bash
 PORT=22584 BASE_PATH=/ pnpm --filter @workspace/college-erp run build
 pnpm --filter @workspace/api-server run build
 ```
 
-Follow [Installation](docs/INSTALLATION.md), [Deployment](docs/DEPLOYMENT.md), and [Release Readiness](docs/RELEASE_READINESS.md) before publishing.
+See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/RELEASE_READINESS.md](docs/RELEASE_READINESS.md) before publishing.
 
-## Roles
+## User Roles
 
-The system supports super admin, admin, secretary, faculty, student, parent, applicant, placement officer, recruiter, alumni, and other database-configured roles. Permissions are database-backed and ownership scopes are enforced by domain routes.
+The platform supports database-configured roles including super admin, admin, secretary, faculty, student, parent, applicant, placement officer, recruiter, and alumni. Permissions are centrally authorized and domain routes apply ownership or linked-student scopes where required.
 
-## Security
+## Documentation Index
 
-Security controls include signed JWTs, active-session checks, password hashing, Helmet, bounded request bodies, authentication rate limits, sanitized errors, request IDs, centralized authorization, ownership checks, upload validation, and sensitive-log redaction. Report vulnerabilities privately according to [SECURITY.md](SECURITY.md).
+- [Architecture](docs/ARCHITECTURE.md)
+- [API](docs/API.md)
+- [Database](docs/DATABASE.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Environment](docs/ENVIRONMENT.md)
+- [Installation](docs/INSTALLATION.md)
+- [Release Readiness](docs/RELEASE_READINESS.md)
+- [Repository Structure](docs/STRUCTURE.md)
+- [Screenshots guidance](docs/SCREENSHOTS.md)
+- [Changelog](CHANGELOG.md)
+- [Contributing](CONTRIBUTING.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
+- [Security Policy](SECURITY.md)
+- [License](LICENSE)
+
+## Version Timeline
+
+```text
+Version 1
+   ↓
+Version 2 Beta
+   ↓
+Version 2 Release Candidates
+   ↓
+Version 2 General Availability
+   ↓
+Version 3 (Planned)
+```
+
+## Current Release
+
+- **Current stable version:** 2.0.0
+- **Release date:** To be announced by the release owner
+- **Status:** General Availability
+- **Maintenance policy:** Version 2 receives maintenance, security, and operational fixes. New product scope belongs to Version 3 planning.
+
+## Roadmap Summary
+
+Version 3 planning may focus on deeper infrastructure integrations, expanded observability, broader automation, and additional university operations. Version 3 objectives are intentionally not part of the Version 2 implementation scope.
+
+## Screenshots
+
+Screenshots are documented as repository assets and placement guidance in [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md). No new screenshots are generated as part of this repository-branding phase.
+
+## Support
+
+For setup and operational questions, start with the [Installation](docs/INSTALLATION.md), [Environment](docs/ENVIRONMENT.md), [Deployment](docs/DEPLOYMENT.md), and [Release Readiness](docs/RELEASE_READINESS.md) guides. Report security issues privately according to [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a change. Do not change business behavior, database schema, or public APIs without an approved design and regression coverage.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting changes. Preserve existing APIs, business behavior, database relationships, RBAC, ownership rules, and workspace boundaries.
 
-## Documentation
+## License
 
-- [API](docs/API.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Database](docs/DATABASE.md)
-- [Environment](docs/ENVIRONMENT.md)
-- [Deployment](docs/DEPLOYMENT.md)
-- [Release readiness](docs/RELEASE_READINESS.md)
-- [Changelog](CHANGELOG.md)
-
-## License and support
-
-This project is licensed under the [MIT License](LICENSE) when the license file is present. For workspace-specific support, consult the repository maintainers and operational documentation. Production incidents should follow the deployment team's incident process.
-
-## Version history and roadmap
-
-Version 2 is feature-complete and certified for stable release v2.0.0. Future work belongs to Version 3 planning and may include infrastructure integrations, expanded observability, and further performance optimization; it is intentionally outside the Version 2 scope.
+Enterprise College ERP Version 2 is released under the [MIT License](LICENSE).
