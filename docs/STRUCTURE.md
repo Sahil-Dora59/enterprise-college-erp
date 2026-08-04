@@ -1,5 +1,9 @@
 # Project structure
 
+## Purpose
+
+This document explains the main Version 2 workspace folders and their responsibilities.
+
 ```text
 artifacts/college-erp/
   src/App.tsx                 SPA route registry
@@ -17,3 +21,12 @@ docs/                         operations and deployment guides
 ```
 
 The ERP is a same-origin full-stack application. The configured ERP workflow owns the preview port and starts the Express process that serves both API and built frontend.
+
+## Related Documentation
+
+- [Architecture](ARCHITECTURE.md)
+- [Installation](INSTALLATION.md)
+- [Contributing](../CONTRIBUTING.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

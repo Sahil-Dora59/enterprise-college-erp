@@ -1,5 +1,9 @@
 # Release Readiness
 
+## Purpose
+
+This checklist records the implemented Version 2 quality gates and production prerequisites.
+
 ## Verification
 
 - Workspace typecheck
@@ -20,3 +24,13 @@ The current release has no known blocking compile, startup, authentication, auth
 3. Configure external email, SMS, WhatsApp, payment, storage, and calendar providers.
 4. Run backup and restore drills.
 5. Run Chrome, Edge, Firefox, and Safari responsive acceptance checks.
+
+## Related Documentation
+
+- [Deployment](DEPLOYMENT.md)
+- [Environment](ENVIRONMENT.md)
+- [Architecture](ARCHITECTURE.md)
+- [Roadmap](../ROADMAP.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

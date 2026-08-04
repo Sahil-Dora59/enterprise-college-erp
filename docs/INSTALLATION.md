@@ -1,5 +1,9 @@
 # Installation and local operation
 
+## Purpose
+
+This guide explains how to install, initialize, run, and verify the Version 2 workspace locally.
+
 ## Prerequisites
 
 - Node.js 24+
@@ -31,3 +35,13 @@ curl http://localhost:$PORT/api/healthz
 pnpm --filter @workspace/college-erp run typecheck
 pnpm --filter @workspace/api-server run typecheck
 ```
+
+## Related Documentation
+
+- [Environment](ENVIRONMENT.md)
+- [Database](DATABASE.md)
+- [Deployment](DEPLOYMENT.md)
+- [Contributing](../CONTRIBUTING.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

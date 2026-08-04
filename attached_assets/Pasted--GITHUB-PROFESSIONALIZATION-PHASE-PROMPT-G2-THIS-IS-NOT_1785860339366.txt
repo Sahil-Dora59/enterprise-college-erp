@@ -1,0 +1,351 @@
+🚨 GITHUB PROFESSIONALIZATION PHASE
+
+PROMPT G2
+
+THIS IS NOT ERP DEVELOPMENT.
+
+DO NOT MODIFY APPLICATION CODE.
+
+DO NOT MODIFY DATABASE SCHEMA.
+
+DO NOT MODIFY APIs.
+
+DO NOT MODIFY BUSINESS LOGIC.
+
+DO NOT MODIFY UI.
+
+Continue from Enterprise College ERP Version 2.0.0 (General Availability).
+
+=====================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Architect
+
+• Senior Technical Writer
+
+• Enterprise Documentation Engineer
+
+• Open Source Documentation Maintainer
+
+Your responsibility is to professionally standardize every documentation file in this repository.
+
+The ERP is complete.
+
+This prompt is ONLY for documentation quality, consistency, navigation, and developer experience.
+
+=====================================================
+
+DOCUMENTATION AUDIT
+
+Review every documentation file.
+
+Including but not limited to:
+
+README.md
+
+CHANGELOG.md
+
+ROADMAP.md
+
+CONTRIBUTING.md
+
+SECURITY.md
+
+CODE_OF_CONDUCT.md
+
+LICENSE
+
+docs/API.md
+
+docs/ARCHITECTURE.md
+
+docs/DATABASE.md
+
+docs/DEPLOYMENT.md
+
+docs/ENVIRONMENT.md
+
+docs/INSTALLATION.md
+
+docs/RELEASE_READINESS.md
+
+docs/SCREENSHOTS.md
+
+Review for:
+
+Consistency
+
+Formatting
+
+Broken references
+
+Duplicate information
+
+Incorrect version references
+
+Grammar
+
+Professional wording
+
+Navigation
+
+=====================================================
+
+STANDARDIZE DOCUMENTS
+
+Ensure every documentation file follows a professional structure.
+
+Each document should contain:
+
+Title
+
+Purpose
+
+Table of Contents (when appropriate)
+
+Main Content
+
+Related Documentation
+
+Last Updated
+
+Version Reference
+
+=====================================================
+
+CROSS-LINKING
+
+Ensure documentation references each other where appropriate.
+
+Examples:
+
+README
+
+↓
+
+Architecture
+
+↓
+
+Database
+
+↓
+
+API
+
+↓
+
+Deployment
+
+↓
+
+Environment
+
+↓
+
+Installation
+
+↓
+
+Security
+
+↓
+
+Roadmap
+
+↓
+
+Contributing
+
+↓
+
+Changelog
+
+Add "Related Documentation" sections where useful.
+
+=====================================================
+
+ROADMAP
+
+Review ROADMAP.md.
+
+Ensure it clearly separates:
+
+Completed
+
+Current Stable
+
+Future
+
+Do NOT invent Version 3 functionality.
+
+Only summarize planned directions.
+
+=====================================================
+
+CHANGELOG
+
+Verify every release is documented correctly.
+
+Example:
+
+Beta
+
+Release Candidates
+
+Stable Release
+
+Use consistent formatting.
+
+=====================================================
+
+API DOCUMENTATION
+
+Verify API documentation matches Version 2.
+
+Remove obsolete references.
+
+Do not invent endpoints.
+
+=====================================================
+
+DATABASE DOCUMENTATION
+
+Verify:
+
+Tables
+
+Relationships
+
+Indexes
+
+RBAC
+
+Naming
+
+Constraints
+
+Architecture
+
+=====================================================
+
+ARCHITECTURE
+
+Review architecture documentation.
+
+Ensure it reflects the actual Version 2 architecture.
+
+No future architecture speculation.
+
+=====================================================
+
+INSTALLATION
+
+Verify setup instructions.
+
+Development
+
+Production Build
+
+Environment Variables
+
+Database
+
+=====================================================
+
+SECURITY
+
+Review:
+
+Authentication
+
+Authorization
+
+RBAC
+
+Input Validation
+
+Session Management
+
+Security Headers
+
+=====================================================
+
+README REFERENCES
+
+Verify README links to every important document.
+
+=====================================================
+
+QUALITY
+
+Ensure:
+
+Professional wording
+
+Consistent Markdown
+
+No duplicated paragraphs
+
+No merge markers
+
+No TODO text
+
+No placeholder notes except approved screenshot placeholders
+
+=====================================================
+
+DO NOT
+
+Modify ERP functionality.
+
+Modify APIs.
+
+Modify frontend.
+
+Modify backend.
+
+Modify database.
+
+=====================================================
+
+QUALITY GATE
+
+Run:
+
+Markdown validation
+
+Internal documentation link validation
+
+Repository documentation consistency audit
+
+git diff --check
+
+=====================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Documentation Standardization
+
+Cross-Linking Improvements
+
+Developer Experience Improvements
+
+Repository Documentation Improvements
+
+Testing Results
+
+Remaining Work
+
+Only include Version 3 documentation or deployment documentation.
+
+Final Confirmation
+
+"Enterprise College ERP Version 2 documentation has been fully standardized, cross-linked, professionally organized, and is ready for long-term maintenance."

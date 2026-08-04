@@ -1,5 +1,9 @@
 # API documentation
 
+## Purpose
+
+This document summarizes the implemented Version 2 REST API boundaries and authentication expectations.
+
 The REST API is mounted under `/api` and uses Bearer JWT authentication for protected routes.
 
 ## Core endpoint groups
@@ -28,3 +32,13 @@ GET /api/healthz
 ```
 
 The health response includes API status, uptime, memory metrics, and an ISO timestamp. Protected integration routes require a valid bearer session and centralized RBAC authorization.
+
+## Related Documentation
+
+- [Architecture](ARCHITECTURE.md)
+- [Database](DATABASE.md)
+- [Security Policy](../SECURITY.md)
+- [Deployment](DEPLOYMENT.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

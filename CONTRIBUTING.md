@@ -1,5 +1,9 @@
 # Contributing
 
+## Purpose
+
+This guide defines the contribution workflow and quality expectations for the Version 2 repository.
+
 ## Before you start
 
 Read [README.md](README.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), and [ENVIRONMENT.md](docs/ENVIRONMENT.md). Use pnpm; the repository rejects npm and yarn lockfile workflows.
@@ -25,3 +29,13 @@ Read [README.md](README.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), and [ENVIR
 ## Pull requests
 
 Describe the problem, the scope of the change, security or ownership impact, verification commands, and any deployment considerations. Keep unrelated formatting changes out of the same change.
+
+## Related Documentation
+
+- [README](README.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Installation](docs/INSTALLATION.md)
+- [Security Policy](SECURITY.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

@@ -1,5 +1,9 @@
 # Security Policy
 
+## Purpose
+
+This policy explains how to report vulnerabilities and summarizes the Version 2 security baseline.
+
 ## Supported version
 
 The current supported release is Enterprise College ERP Version 2, stable release `v2.0.0`.
@@ -20,3 +24,13 @@ Remove personal data, credentials, tokens, and production records from reports.
 The application uses signed JWTs, database-backed active sessions, bcrypt password hashing, Helmet, bounded request bodies, rate limiting, centralized RBAC, ownership checks, upload validation, parameterized Drizzle queries, request IDs, sanitized errors, and sensitive-log redaction.
 
 Production operators must configure secrets through the deployment secret manager, disable demo mode, apply schema changes through the approved migration process, rotate credentials, and validate backups and monitoring.
+
+## Related Documentation
+
+- [Environment](docs/ENVIRONMENT.md)
+- [Deployment](docs/DEPLOYMENT.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Contributing](CONTRIBUTING.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

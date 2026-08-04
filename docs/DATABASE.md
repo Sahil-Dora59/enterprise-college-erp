@@ -1,5 +1,9 @@
 # Database guide
 
+## Purpose
+
+This guide documents the implemented PostgreSQL and Drizzle data model conventions for Version 2.
+
 ## Technology and conventions
 
 The ERP uses PostgreSQL through Drizzle ORM. Tables and relations live in `lib/db/src/schema/`; `lib/db/src/index.ts` exports the shared client. Names use snake_case in PostgreSQL and camelCase in TypeScript.
@@ -34,3 +38,13 @@ pnpm --filter @workspace/db run push
 ```
 
 This is intended for development and schema validation. Production changes must use the approved deployment migration process. Never edit production data manually to bypass a constraint.
+
+## Related Documentation
+
+- [Architecture](ARCHITECTURE.md)
+- [API](API.md)
+- [Installation](INSTALLATION.md)
+- [Deployment](DEPLOYMENT.md)
+
+**Version reference:** Enterprise College ERP `v2.0.0`
+**Last updated:** 2026-08-04

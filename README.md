@@ -1,5 +1,3 @@
-# [Hero banner placeholder](docs/SCREENSHOTS.md)
-
 # Enterprise College ERP
 
 Enterprise College ERP Version 2 is an enterprise-ready university resource planning platform for managing academic operations, administration, admissions, placements, parent services, reporting, AI-assisted workflows, and integrations from a unified application.
@@ -184,6 +182,7 @@ The platform supports database-configured roles including super admin, admin, se
 - [Environment](docs/ENVIRONMENT.md)
 - [Installation](docs/INSTALLATION.md)
 - [Release Readiness](docs/RELEASE_READINESS.md)
+- [Roadmap](ROADMAP.md)
 - [Repository Structure](docs/STRUCTURE.md)
 - [Screenshots guidance](docs/SCREENSHOTS.md)
 - [Changelog](CHANGELOG.md)
@@ -191,6 +190,8 @@ The platform supports database-configured roles including super admin, admin, se
 - [Code of Conduct](CODE_OF_CONDUCT.md)
 - [Security Policy](SECURITY.md)
 - [License](LICENSE)
+
+For the recommended reading path, start with this README, then review [Architecture](docs/ARCHITECTURE.md), [Database](docs/DATABASE.md), [API](docs/API.md), [Deployment](docs/DEPLOYMENT.md), [Environment](docs/ENVIRONMENT.md), [Installation](docs/INSTALLATION.md), [Security Policy](SECURITY.md), [Roadmap](ROADMAP.md), [Contributing](CONTRIBUTING.md), and [Changelog](CHANGELOG.md).
 
 ## Version Timeline
 
