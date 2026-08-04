@@ -1,0 +1,249 @@
+🚨 FINAL VERSION 2 REPOSITORY CLEANUP & RELEASE PACKAGING
+
+THIS IS PROMPT 16C.
+
+THIS IS THE FINAL ENGINEERING TASK FOR ENTERPRISE COLLEGE ERP VERSION 2.
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT BUILD NEW MODULES.
+
+DO NOT MODIFY DATABASE SCHEMA.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+DO NOT REDESIGN THE UI.
+
+Continue from Enterprise College ERP Version 2 RC3.
+
+========================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Architect
+
+• Senior Release Engineer
+
+• Open Source Maintainer
+
+• Enterprise Build Engineer
+
+• Repository Quality Auditor
+
+Version 2 is feature-complete.
+
+Your responsibility is to professionally package the repository before the Stable Release.
+
+========================================================
+
+REPOSITORY CLEANUP
+
+Inspect the ENTIRE repository.
+
+Remove or clean only when safe.
+
+Review:
+
+TODO comments
+
+FIXME comments
+
+HACK comments
+
+Temporary comments
+
+Debug comments
+
+Experimental comments
+
+Console debugging statements
+
+Unused assets
+
+Unused images
+
+Unused icons
+
+Unused fonts
+
+Unused configuration
+
+Duplicate files
+
+Legacy files
+
+Obsolete documentation
+
+========================================================
+
+CODE STYLE
+
+Review:
+
+Import ordering
+
+Export ordering
+
+Naming consistency
+
+Folder naming
+
+File naming
+
+Type naming
+
+Constant naming
+
+Interface naming
+
+Enum naming
+
+Utility naming
+
+Shared component naming
+
+========================================================
+
+PROJECT CONFIGURATION
+
+Audit:
+
+.gitignore
+
+.gitattributes
+
+.editorconfig
+
+.prettierrc
+
+.prettierignore
+
+.eslintrc
+
+tsconfig
+
+vite.config
+
+workspace configuration
+
+package.json
+
+pnpm workspace
+
+Verify they are internally consistent.
+
+========================================================
+
+REPOSITORY STANDARDS
+
+Verify:
+
+No merge markers
+
+No broken links
+
+No placeholder files
+
+No accidental generated files
+
+No test artifacts
+
+No temporary uploads
+
+No duplicated documentation
+
+No obsolete scripts
+
+No broken package references
+
+========================================================
+
+BUILD QUALITY
+
+Run:
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+Runtime Smoke Tests
+
+========================================================
+
+RELEASE PACKAGING
+
+Verify the repository is ready for:
+
+GitHub Release
+
+Production Archive
+
+Future Version 3 development
+
+Long-term maintenance
+
+========================================================
+
+DO NOT
+
+Create new ERP functionality.
+
+Add APIs.
+
+Add database tables.
+
+Change authentication.
+
+Change RBAC.
+
+Change UI behavior.
+
+========================================================
+
+STOP ONLY WHEN
+
+No meaningful repository cleanup remains.
+
+========================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Repository Cleanup
+
+Configuration Improvements
+
+Code Style Improvements
+
+Repository Quality Improvements
+
+Build Verification
+
+Testing Results
+
+Deployment Tasks
+
+Only include tasks that require production infrastructure.
+
+Final Confirmation
+
+The final confirmation must be exactly:
+
+"Enterprise College ERP Version 2 repository has been fully cleaned, standardized, packaged, and is ready for Stable Release v2.0.0."
+
+If no application-level issues remain, DO NOT recommend additional Version 2 development.
+
+Treat Version 2 as permanently feature-complete.
