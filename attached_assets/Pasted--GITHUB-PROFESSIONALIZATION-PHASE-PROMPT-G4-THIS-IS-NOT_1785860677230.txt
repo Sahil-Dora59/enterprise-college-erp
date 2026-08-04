@@ -1,0 +1,243 @@
+🚨 GITHUB PROFESSIONALIZATION PHASE
+
+PROMPT G4
+
+THIS IS NOT ERP DEVELOPMENT.
+
+DO NOT MODIFY APPLICATION CODE.
+
+DO NOT MODIFY DATABASE SCHEMA.
+
+DO NOT MODIFY APIs.
+
+DO NOT MODIFY BUSINESS LOGIC.
+
+DO NOT MODIFY UI.
+
+Continue from Enterprise College ERP Version 2.0.0 (General Availability).
+
+=====================================================
+
+MISSION
+
+Act as:
+
+• Principal Software Architect
+
+• Senior Technical Writer
+
+• Solution Architect
+
+• Open Source Maintainer
+
+• Portfolio Engineer
+
+The ERP is COMPLETE.
+
+Your responsibility is to make this repository visually professional and easy to understand.
+
+=====================================================
+
+VISUAL DOCUMENTATION
+
+Review the repository documentation.
+
+Create or improve:
+
+docs/SCREENSHOTS.md
+
+docs/PROJECT_STRUCTURE.md
+
+If PROJECT_STRUCTURE.md already exists, improve and standardize it instead of creating a duplicate.
+
+=====================================================
+
+SCREENSHOTS DOCUMENT
+
+Create a professional screenshots guide.
+
+Include placeholders only.
+
+Do NOT generate images.
+
+Organize sections for:
+
+Login
+
+Dashboard
+
+Student Portal
+
+Faculty Portal
+
+Parent Portal
+
+Admission CRM
+
+Placement Portal
+
+Reports
+
+Integration Center
+
+Settings
+
+Mobile View
+
+=====================================================
+
+PROJECT STRUCTURE
+
+Document the repository structure.
+
+Explain:
+
+Root folders
+
+Frontend
+
+Backend
+
+Shared Libraries
+
+Database
+
+Documentation
+
+Configuration
+
+GitHub Workflows
+
+=====================================================
+
+MERMAID DIAGRAMS
+
+Create professional Mermaid diagrams for:
+
+1.
+
+Overall System Architecture
+
+2.
+
+Authentication Flow
+
+3.
+
+High-Level Database Relationships
+
+4.
+
+ERP Module Relationships
+
+Use Mermaid syntax only.
+
+Do not generate image files.
+
+=====================================================
+
+PORTFOLIO STATISTICS
+
+Create a documentation section describing the project using verified information only.
+
+Examples:
+
+Major ERP Modules
+
+User Roles
+
+Technology Stack
+
+Documentation Files
+
+REST API Groups
+
+Database Engine
+
+Authentication Model
+
+Do NOT invent statistics.
+
+=====================================================
+
+DOCUMENTATION INDEX
+
+Improve documentation navigation.
+
+Ensure every documentation file is referenced from a central documentation index.
+
+=====================================================
+
+README
+
+If necessary,
+
+update README links to reference the new visual documentation.
+
+=====================================================
+
+QUALITY
+
+Verify:
+
+Markdown formatting
+
+Mermaid syntax
+
+Broken links
+
+Duplicate documentation
+
+=====================================================
+
+DO NOT
+
+Modify application code.
+
+Modify APIs.
+
+Modify frontend.
+
+Modify backend.
+
+Modify database.
+
+=====================================================
+
+QUALITY GATE
+
+Run:
+
+Markdown validation
+
+Mermaid syntax review
+
+Documentation link validation
+
+git diff --check
+
+=====================================================
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Visual Documentation Improvements
+
+Architecture Documentation Improvements
+
+Portfolio Improvements
+
+Documentation Navigation Improvements
+
+Testing Results
+
+Remaining Work
+
+Only include future Version 3 visual assets or optional branding.
+
+Final Confirmation
+
+"Enterprise College ERP Version 2 portfolio documentation and visual presentation have been professionally completed."

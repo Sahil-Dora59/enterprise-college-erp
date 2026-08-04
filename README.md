@@ -182,6 +182,8 @@ The platform supports database-configured roles including super admin, admin, se
 - [Environment](docs/ENVIRONMENT.md)
 - [Installation](docs/INSTALLATION.md)
 - [Release Readiness](docs/RELEASE_READINESS.md)
+- [Documentation index](docs/INDEX.md)
+- [Project structure](docs/PROJECT_STRUCTURE.md)
 - [Roadmap](ROADMAP.md)
 - [Repository Structure](docs/STRUCTURE.md)
 - [Screenshots guidance](docs/SCREENSHOTS.md)
