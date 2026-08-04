@@ -1,0 +1,439 @@
+🚨 IMPLEMENTATION TASK (MANDATORY)
+
+DO NOT ANALYZE.
+
+DO NOT SUMMARIZE.
+
+DO NOT CREATE A PLAN.
+
+DO NOT REBUILD EXISTING FEATURES.
+
+Continue modifying the EXISTING Enterprise College ERP Version 2.
+
+Reuse every existing module, API, database model, authentication system, RBAC, dashboards, AI, notifications, reports, and UI components.
+
+Everything must integrate into the current ERP.
+
+Run the application after implementation.
+
+Fix every compile error and runtime error before stopping.
+
+========================================================
+
+MISSION
+
+Transform the ERP into an enterprise integration platform suitable for real university deployment.
+
+========================================================
+
+1. INTEGRATION CENTER
+
+Create a dedicated Integration Center.
+
+Route:
+
+/integrations
+
+Display:
+
+Integration Status
+
+Connected Services
+
+Health Status
+
+API Status
+
+Sync Status
+
+Last Synchronization
+
+Logs
+
+========================================================
+
+2. EMAIL SERVICE
+
+Create provider-independent email architecture.
+
+Support:
+
+SMTP
+
+SendGrid-ready
+
+Amazon SES-ready
+
+Mailgun-ready
+
+Email Templates
+
+Queued Emails
+
+Retry Queue
+
+Delivery Status
+
+Future provider switching without code changes.
+
+========================================================
+
+3. SMS SERVICE
+
+Create provider-neutral SMS architecture.
+
+Support:
+
+Twilio-ready
+
+MSG91-ready
+
+Future providers
+
+SMS Templates
+
+Queued SMS
+
+Delivery Status
+
+Retry Logic
+
+========================================================
+
+4. WHATSAPP SERVICE
+
+Create provider-neutral WhatsApp architecture.
+
+Support:
+
+WhatsApp Cloud API
+
+Twilio WhatsApp
+
+Future providers
+
+Message Templates
+
+Delivery Queue
+
+Retry Queue
+
+Delivery Status
+
+========================================================
+
+5. PAYMENT GATEWAY
+
+Create payment abstraction.
+
+Support architecture for:
+
+Razorpay
+
+Stripe
+
+PayPal
+
+Webhook processing
+
+Payment status
+
+Refund workflow
+
+Receipt generation
+
+Transaction history
+
+No hardcoded provider.
+
+========================================================
+
+6. GOOGLE WORKSPACE
+
+Create integration-ready services.
+
+Support:
+
+Google Login (architecture)
+
+Google Calendar Sync
+
+Google Drive Storage abstraction
+
+Google Meet link generation architecture
+
+========================================================
+
+7. MICROSOFT 365
+
+Support:
+
+Microsoft Login (architecture)
+
+Outlook Calendar
+
+OneDrive abstraction
+
+Microsoft Teams meeting architecture
+
+========================================================
+
+8. CALENDAR ENGINE
+
+Create a centralized calendar engine.
+
+Aggregate:
+
+Academic Calendar
+
+Exams
+
+Assignments
+
+Meetings
+
+Campus Drives
+
+Leave
+
+Appointments
+
+Events
+
+Export:
+
+ICS
+
+Calendar Feed
+
+========================================================
+
+9. BACKGROUND JOB SYSTEM
+
+Create a job queue.
+
+Support:
+
+Scheduled Jobs
+
+Recurring Jobs
+
+Retry Logic
+
+Failure Tracking
+
+Execution History
+
+========================================================
+
+10. AUDIT LOG SYSTEM
+
+Track:
+
+Login
+
+Logout
+
+CRUD
+
+Approvals
+
+Role Changes
+
+Permission Changes
+
+Exports
+
+Integrations
+
+AI Usage
+
+System Changes
+
+========================================================
+
+11. WEBHOOK ENGINE
+
+Create webhook management.
+
+Support:
+
+Outgoing Webhooks
+
+Incoming Webhooks
+
+Signing
+
+Retry
+
+History
+
+Status
+
+========================================================
+
+12. API MANAGEMENT
+
+Create:
+
+API Keys
+
+API Usage
+
+Rate Limits
+
+Token Rotation
+
+API Logs
+
+API Monitoring
+
+========================================================
+
+13. BACKUP & RESTORE
+
+Create architecture for:
+
+Database Backup
+
+Media Backup
+
+Restore
+
+Backup Schedule
+
+Backup History
+
+========================================================
+
+14. SYSTEM HEALTH
+
+Create a System Health Dashboard.
+
+Display:
+
+Database
+
+API
+
+Queue
+
+Storage
+
+Memory
+
+CPU
+
+Jobs
+
+Integration Status
+
+========================================================
+
+15. ENTERPRISE SECURITY
+
+Verify:
+
+Secrets management
+
+RBAC
+
+API security
+
+Webhook validation
+
+Queue security
+
+Audit integrity
+
+========================================================
+
+16. RESPONSIVE UI
+
+Desktop
+
+Laptop
+
+Tablet
+
+Mobile
+
+========================================================
+
+17. TEST EVERYTHING
+
+Run:
+
+Workspace Typecheck
+
+Frontend Build
+
+Backend Build
+
+Workflow Restart
+
+Verify:
+
+Email Queue
+
+SMS Queue
+
+WhatsApp Queue
+
+Payment Architecture
+
+Calendar
+
+Jobs
+
+Audit Logs
+
+API Keys
+
+Webhook Engine
+
+Backup
+
+Health Dashboard
+
+RBAC
+
+Fix every compile error.
+
+Fix every runtime error.
+
+Repeat until everything works.
+
+========================================================
+
+STOP ONLY WHEN
+
+The Enterprise Integration Platform is fully integrated into ERP Version 2.
+
+OUTPUT ONLY
+
+Files Modified
+
+Files Created
+
+Database Changes
+
+APIs Added
+
+Pages Added
+
+Components Added
+
+Features Implemented
+
+Bugs Fixed
+
+Testing Results
+
+Remaining Work
+
+If Remaining Work contains Enterprise Integration functionality, continue implementing before stopping.
+
+Final confirmation:
+
+"Enterprise Integration Platform successfully implemented and integrated into ERP Version 2."

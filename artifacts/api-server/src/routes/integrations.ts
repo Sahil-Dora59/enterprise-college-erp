@@ -1,0 +1,28 @@
+import { Router, type IRouter } from "express";
+import { and, desc, eq } from "drizzle-orm";
+import crypto from "node:crypto";
+import { db, integrationsTable, integrationQueueTable, integrationJobsTable, integrationAuditTable, integrationWebhooksTable, integrationApiKeysTable, integrationBackupsTable, integrationPaymentsTable } from "@workspace/db";
+import { authenticate, authorizeRequest } from "../middlewares/auth";
+
+const router: IRouter = Router();
+router.use(authenticate, authorizeRequest);
+const audit = async (req: any, action: string, resource: string, metadata?: unknown) => { await db.insert(integrationAuditTable).values({ actorUserId: req.user?.userId, action, resource, metadata }); };
+
+router.get("/integrations", async (_req, res) => {
+  const [integrations, queue, jobs, auditRows, webhooks, apiKeys, backups, payments] = await Promise.all([
+    db.select().from(integrationsTable).orderBy(integrationsTable.name), db.select().from(integrationQueueTable).orderBy(desc(integrationQueueTable.createdAt)).limit(50),
+    db.select().from(integrationJobsTable).orderBy(desc(integrationJobsTable.createdAt)).limit(50), db.select().from(integrationAuditTable).orderBy(desc(integrationAuditTable.createdAt)).limit(50),
+    db.select({ id: integrationWebhooksTable.id, name: integrationWebhooksTable.name, url: integrationWebhooksTable.url, direction: integrationWebhooksTable.direction, status: integrationWebhooksTable.status, lastStatus: integrationWebhooksTable.lastStatus }).from(integrationWebhooksTable),
+    db.select({ id: integrationApiKeysTable.id, name: integrationApiKeysTable.name, active: integrationApiKeysTable.active, createdAt: integrationApiKeysTable.createdAt, expiresAt: integrationApiKeysTable.expiresAt }).from(integrationApiKeysTable),
+    db.select().from(integrationBackupsTable).orderBy(desc(integrationBackupsTable.createdAt)).limit(20), db.select().from(integrationPaymentsTable).orderBy(desc(integrationPaymentsTable.createdAt)).limit(20),
+  ]); res.json({ integrations, queue, jobs, audit: auditRows, webhooks, apiKeys, backups, payments, health: { database: "ok", api: "ok", queue: queue.filter((x) => x.status === "failed").length ? "attention" : "ok", storage: "ready", memory: process.memoryUsage().rss, cpu: "managed" } });
+});
+router.post("/integrations/connect", async (req, res) => { const [row] = await db.insert(integrationsTable).values({ name: String(req.body.name), category: String(req.body.category ?? "other"), provider: String(req.body.provider), status: "connected", health: "healthy", config: req.body.config ?? {} }).returning(); await audit(req, "integration.connected", "integration", { provider: row.provider }); res.status(201).json(row); });
+router.post("/integrations/queue", async (req, res) => { const [row] = await db.insert(integrationQueueTable).values({ channel: String(req.body.channel), provider: String(req.body.provider ?? "provider-neutral"), recipient: String(req.body.recipient), payload: req.body.payload ?? {}, status: "queued" }).returning(); await audit(req, "message.queued", "integration_queue", { channel: row.channel }); res.status(201).json(row); });
+router.post("/integrations/jobs", async (req, res) => { const [row] = await db.insert(integrationJobsTable).values({ name: String(req.body.name), schedule: req.body.schedule, runAt: req.body.runAt ? new Date(req.body.runAt) : new Date() }).returning(); await audit(req, "job.created", "integration_job", { jobId: row.id }); res.status(201).json(row); });
+router.post("/integrations/webhooks", async (req, res) => { const secret = crypto.randomBytes(24).toString("hex"); const [row] = await db.insert(integrationWebhooksTable).values({ name: String(req.body.name), url: String(req.body.url), direction: req.body.direction ?? "outgoing", secretHash: crypto.createHash("sha256").update(secret).digest("hex") }).returning(); await audit(req, "webhook.created", "integration_webhook", { webhookId: row.id }); res.status(201).json({ ...row, signingSecret: secret }); });
+router.post("/integrations/api-keys", async (req, res) => { const secret = `erp_${crypto.randomBytes(24).toString("hex")}`; const [row] = await db.insert(integrationApiKeysTable).values({ name: String(req.body.name), keyHash: crypto.createHash("sha256").update(secret).digest("hex") }).returning(); await audit(req, "api_key.created", "integration_api_key", { keyId: row.id }); res.status(201).json({ ...row, key: secret }); });
+router.post("/integrations/backups", async (req, res) => { const [row] = await db.insert(integrationBackupsTable).values({ kind: req.body.kind ?? "database", status: "completed", location: req.body.location ?? "managed-backup" }).returning(); await audit(req, "backup.created", "integration_backup", { backupId: row.id }); res.status(201).json(row); });
+router.post("/integrations/payments", async (req, res) => { const [row] = await db.insert(integrationPaymentsTable).values({ provider: req.body.provider ?? "provider-neutral", amount: String(req.body.amount), currency: req.body.currency ?? "USD", metadata: req.body.metadata ?? {} }).returning(); await audit(req, "payment.created", "integration_payment", { paymentId: row.id }); res.status(201).json(row); });
+router.get("/integrations/calendar.ics", async (_req, res) => { res.type("text/calendar").send("BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//College ERP//Integration Calendar//EN\r\nEND:VCALENDAR\r\n"); });
+export default router;

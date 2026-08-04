@@ -51,6 +51,7 @@ import RecruiterDashboard from '@/pages/recruiter-dashboard';
 import PlacementOfficerDashboard from '@/pages/placement-officer-dashboard';
 import ParentPortal from '@/pages/parent-portal';
 import ParentDashboard from '@/pages/parent-dashboard';
+import Integrations from '@/pages/integrations';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -94,6 +95,7 @@ function Router() {
 
   return (
     <Switch>
+      <Route path="/integrations">{user ? <ProtectedRoute component={Integrations} path="/integrations" /> : <Redirect to="/login" />}</Route>
       <Route path="/login">
         {user ? <Redirect to={`/dashboard/${user.role}`} /> : <Login />}
       </Route>

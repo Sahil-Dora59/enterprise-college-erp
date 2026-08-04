@@ -24,6 +24,7 @@ import admissionsRouter from "./admissions";
 import applicantAuthRouter from "./applicant-auth";
 import placementsRouter from "./placements";
 import parentsRouter from "./parents";
+import integrationsRouter from "./integrations";
 
 const router: IRouter = Router();
 
@@ -33,6 +34,7 @@ router.use(demoRouter);
 router.use(admissionsRouter);
 router.use(applicantAuthRouter);
 router.use(parentsRouter);
+router.use(integrationsRouter);
 router.use(placementsRouter);
 router.use(administrationRouter);
 router.use(authenticate, authorizeRequest);
