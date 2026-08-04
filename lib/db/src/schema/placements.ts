@@ -44,6 +44,12 @@ export const placementDrivesTable = pgTable("placement_drives", {
   id: serial("id").primaryKey(), companyId: integer("company_id").references(() => placementCompaniesTable.id, { onDelete: "set null" }),
   title: text("title").notNull(), scheduledAt: timestamp("scheduled_at", { withTimezone: true }), status: text("status").notNull().default("planned"),
 });
+export const placementDriveRegistrationsTable = pgTable("placement_drive_registrations", {
+  id: serial("id").primaryKey(), driveId: integer("drive_id").notNull().references(() => placementDrivesTable.id, { onDelete: "cascade" }),
+  studentId: integer("student_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  status: text("status").notNull().default("registered"), attendance: text("attendance"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
 export const placementMentorshipsTable = pgTable("placement_mentorships", {
   id: serial("id").primaryKey(), mentorId: integer("mentor_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
   menteeId: integer("mentee_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }), status: text("status").notNull().default("requested"),
