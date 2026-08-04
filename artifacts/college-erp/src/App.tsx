@@ -47,6 +47,8 @@ import ApplicantResetPassword from '@/pages/applicant-reset-password';
 import ApplicantProfile from '@/pages/applicant-profile';
 import Placements from '@/pages/placements';
 import RecruiterPortal from '@/pages/recruiter-portal';
+import RecruiterDashboard from '@/pages/recruiter-dashboard';
+import PlacementOfficerDashboard from '@/pages/placement-officer-dashboard';
 import { Loader2 } from 'lucide-react';
 
 const queryClient = new QueryClient();
@@ -136,6 +138,8 @@ function Router() {
       <Route path="/admissions/crm"><ProtectedRoute component={AdmissionCrm} path="/admissions/crm" permission="dashboard.view" /></Route>
       <Route path="/admissions/analytics"><ProtectedRoute component={AdmissionAnalytics} path="/admissions/analytics" permission="dashboard.view" /></Route>
       <Route path="/placements"><ProtectedRoute component={Placements} path="/placements" permission="dashboard.view" /></Route>
+      <Route path="/placements/recruiter/dashboard"><ProtectedRoute component={RecruiterDashboard} path="/placements/recruiter/dashboard" permission="placements.view" /></Route>
+      <Route path="/placements/officer/dashboard"><ProtectedRoute component={PlacementOfficerDashboard} path="/placements/officer/dashboard" permission="placements.view" /></Route>
       
       <Route>
         <Shell>
