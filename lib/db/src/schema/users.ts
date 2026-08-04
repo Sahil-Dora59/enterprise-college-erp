@@ -25,6 +25,32 @@ export const parentStudentLinksTable = pgTable("parent_student_links", {
   status: text("status").notNull().default("active"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+export const parentMessagesTable = pgTable("parent_messages", {
+  id: serial("id").primaryKey(), parentUserId: integer("parent_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  studentUserId: integer("student_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  recipientUserId: integer("recipient_user_id").references(() => usersTable.id, { onDelete: "set null" }),
+  body: text("body").notNull(), category: text("category").notNull().default("faculty"),
+  status: text("status").notNull().default("unread"), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export const parentAppointmentsTable = pgTable("parent_appointments", {
+  id: serial("id").primaryKey(), parentUserId: integer("parent_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  studentUserId: integer("student_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  recipientUserId: integer("recipient_user_id").references(() => usersTable.id, { onDelete: "set null" }),
+  scheduledAt: timestamp("scheduled_at", { withTimezone: true }).notNull(), purpose: text("purpose").notNull(),
+  status: text("status").notNull().default("requested"), notes: text("notes"), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export const parentLeaveRequestsTable = pgTable("parent_leave_requests", {
+  id: serial("id").primaryKey(), parentUserId: integer("parent_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  studentUserId: integer("student_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  fromDate: timestamp("from_date", { withTimezone: true }).notNull(), toDate: timestamp("to_date", { withTimezone: true }).notNull(),
+  reason: text("reason").notNull(), status: text("status").notNull().default("pending"), createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+export const parentNotificationsTable = pgTable("parent_notifications", {
+  id: serial("id").primaryKey(), parentUserId: integer("parent_user_id").notNull().references(() => usersTable.id, { onDelete: "cascade" }),
+  category: text("category").notNull().default("general"), priority: text("priority").notNull().default("normal"),
+  title: text("title").notNull(), body: text("body").notNull(), status: text("status").notNull().default("unread"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
 
 export const insertUserSchema = createInsertSchema(usersTable).omit({
   id: true,
