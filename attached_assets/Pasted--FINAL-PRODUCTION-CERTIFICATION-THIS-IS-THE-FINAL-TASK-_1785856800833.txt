@@ -1,0 +1,371 @@
+🚨 FINAL PRODUCTION CERTIFICATION
+
+THIS IS THE FINAL TASK OF ENTERPRISE COLLEGE ERP VERSION 2.
+
+THIS IS NOT A FEATURE DEVELOPMENT TASK.
+
+THIS IS NOT A UI TASK.
+
+THIS IS NOT A BACKEND TASK.
+
+THIS IS NOT A SECURITY IMPLEMENTATION TASK.
+
+Everything requested in Version 2 has already been implemented.
+
+Your responsibility is to CERTIFY the ERP for production.
+
+========================================================
+
+MISSION
+
+Act as an independent Enterprise Software Certification Board.
+
+Your team consists of:
+
+• Principal Software Architect
+
+• Enterprise QA Lead
+
+• Senior Security Engineer
+
+• DevOps Engineer
+
+• Database Architect
+
+• Accessibility Specialist
+
+• Performance Engineer
+
+• University ERP Consultant
+
+Assume this ERP will be deployed at a real university.
+
+Perform the final production certification.
+
+========================================================
+
+RULES
+
+DO NOT BUILD NEW FEATURES.
+
+DO NOT CREATE NEW MODULES.
+
+DO NOT REDESIGN THE UI.
+
+DO NOT CHANGE BUSINESS LOGIC.
+
+DO NOT EXPAND VERSION 2.
+
+Only fix genuine production-blocking defects if any are discovered.
+
+========================================================
+
+VERIFY ENTIRE ERP
+
+Review every module.
+
+Authentication
+
+RBAC
+
+Students
+
+Faculty
+
+Departments
+
+Courses
+
+Attendance
+
+Assignments
+
+Examinations
+
+Marks
+
+Library
+
+Fees
+
+Admission CRM
+
+Placement
+
+Parent Portal
+
+Reports
+
+AI
+
+Notifications
+
+Integration Center
+
+Administration
+
+Settings
+
+========================================================
+
+VERIFY
+
+Frontend
+
+Backend
+
+Database
+
+API
+
+Security
+
+RBAC
+
+Ownership
+
+Validation
+
+Routing
+
+Performance
+
+Accessibility
+
+Logging
+
+Monitoring
+
+Documentation
+
+========================================================
+
+RUN COMPLETE QUALITY GATES
+
+Workspace Typecheck
+
+Frontend Typecheck
+
+Backend Typecheck
+
+Frontend Production Build
+
+Backend Production Build
+
+Database Schema Validation
+
+Workflow Restart
+
+Runtime Verification
+
+========================================================
+
+RUN FINAL REGRESSION
+
+Authentication
+
+Admissions
+
+Placement
+
+Parent Portal
+
+Students
+
+Faculty
+
+Attendance
+
+Assignments
+
+Library
+
+Fees
+
+Reports
+
+AI
+
+Notifications
+
+Integrations
+
+Calendar
+
+Uploads
+
+Exports
+
+Search
+
+Filters
+
+Pagination
+
+RBAC
+
+Ownership
+
+========================================================
+
+SECURITY REVIEW
+
+Verify:
+
+JWT
+
+Sessions
+
+Authentication
+
+Authorization
+
+RBAC
+
+Ownership
+
+File Uploads
+
+Rate Limiting
+
+Secrets
+
+Logging
+
+Input Validation
+
+Parameterized Queries
+
+========================================================
+
+PERFORMANCE REVIEW
+
+Verify:
+
+Bundle
+
+Queries
+
+Pagination
+
+Indexes
+
+Caching
+
+Lazy Loading
+
+Memory Usage
+
+========================================================
+
+DATABASE REVIEW
+
+Verify:
+
+Foreign Keys
+
+Indexes
+
+Constraints
+
+Transactions
+
+Duplicate Prevention
+
+Cascade Rules
+
+========================================================
+
+RECLASSIFICATION RULE
+
+Do NOT output a Remaining Work section.
+
+Everything requiring:
+
+Cloud Infrastructure
+
+Production Credentials
+
+DNS
+
+SSL
+
+SMTP
+
+SMS
+
+WhatsApp
+
+Payment Providers
+
+Monitoring
+
+Backups
+
+Browser Certification
+
+Penetration Testing Services
+
+must be listed ONLY under:
+
+Deployment Tasks
+
+========================================================
+
+CERTIFICATION DECISION
+
+Choose ONLY ONE:
+
+✅ CERTIFIED FOR PRODUCTION RELEASE
+
+OR
+
+❌ NOT CERTIFIED
+
+========================================================
+
+OUTPUT ONLY
+
+1. Files Modified
+
+2. Files Created
+
+3. Final Issues Found
+
+4. Final Issues Fixed
+
+5. Testing Results
+
+6. Deployment Tasks
+
+7. Production Readiness Score
+
+8. Security Score
+
+9. Performance Score
+
+10. Accessibility Score
+
+11. Maintainability Score
+
+12. Scalability Score
+
+13. Overall ERP Health Score
+
+14. ERP Version 2 Completion %
+
+15. Certification Decision
+
+16. Final Statement
+
+The Final Statement must be exactly one of:
+
+"Enterprise College ERP Version 2 has successfully completed Final Production Certification and is approved for Stable Release v2.0.0."
+
+OR
+
+"Enterprise College ERP Version 2 is not approved for Stable Release and requires additional application-level fixes."
+
+If the application is approved, DO NOT suggest new Version 2 features.
+
+Treat Version 2 as feature-complete and production-certified.
