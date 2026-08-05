@@ -1,29 +1,168 @@
-# Roadmap
+# Enterprise College ERP Roadmap
 
-## Purpose
+## Current Stable Release
 
-This document distinguishes completed Version 2 scope from the current stable release and future Version 3 planning. It does not define new Version 2 functionality.
+**Version:** v2.0.0
+**Status:** General Availability (GA)
+**Maintenance:** Security patches and bug fixes only.
 
-## Completed
+---
 
-Enterprise College ERP Version 2 includes the certified academic, administrative, admissions, placement, parent, AI, reporting, notification, and integration modules described in the [README](README.md).
+# Version History
 
-## Current Stable
+## Version 1 (Foundation)
 
-- Stable release: `v2.0.0`
-- Release channel: General Availability
-- Maintenance: security, operational, documentation, and behavior-preserving fixes
+Status: Completed
 
-## Future — Version 3
+### Completed
 
-Version 3 planning may evaluate broader infrastructure integrations, expanded observability, workflow automation, and additional university operations. These are planning directions only and are not commitments or part of Version 2.
+- Project setup
+- Authentication
+- Student management
+- Faculty management
+- Department management
+- Course management
+- Attendance
+- Assignment management
+- Examination
+- Marks
+- Library
+- Fees
+- Notice board
+- Reports
+- Dashboard
+- Responsive UI
 
-## Related Documentation
+---
 
-- [README](README.md)
-- [Changelog](CHANGELOG.md)
-- [Release Readiness](docs/RELEASE_READINESS.md)
-- [Contributing](CONTRIBUTING.md)
+## Version 2 (Enterprise Edition)
 
-**Version reference:** Enterprise College ERP `v2.0.0`  
-**Last updated:** 2026-08-04
+Status: Stable (GA)
+
+### Completed
+
+- Enterprise architecture
+- PostgreSQL database
+- Drizzle ORM
+- RBAC
+- Secure authentication
+- Session management
+- Ownership validation
+- File uploads
+- API standardization
+- Integration Center
+- Calendar
+- Analytics
+- Documentation
+- CI/CD
+- GitHub Actions
+- Dependabot
+- Release management
+- Security policy
+- Repository standardization
+- Production readiness
+
+Version 2 is feature complete.
+
+Only bug fixes and security updates will be accepted.
+
+---
+
+# Version 3 (Current Development)
+
+Status: In Development
+
+## Planned Features
+
+### AI
+
+- AI College Assistant
+- AI Dashboard
+- AI Analytics
+- AI Report Generator
+- AI Search
+- AI Recommendations
+
+### Communication
+
+- Email Automation
+- SMS Gateway
+- WhatsApp Integration
+- Push Notifications
+
+### Student Portal
+
+- AI Study Planner
+- Timetable Assistant
+- Personal Dashboard
+- Assignment Reminder
+
+### Faculty Portal
+
+- AI Attendance Insights
+- AI Result Analysis
+- Faculty Analytics
+
+### Parent Portal
+
+- Student Progress
+- Attendance Reports
+- Fee Tracking
+- Notifications
+
+### Administration
+
+- Workflow Automation
+- Advanced Reports
+- Approval Pipelines
+- Audit Logs
+
+### Finance
+
+- Online Payments
+- Receipt Automation
+- Finance Dashboard
+
+### Placement
+
+- Resume Builder
+- Recruiter Portal
+- Interview Scheduler
+- Placement Analytics
+
+### Infrastructure
+
+- Docker
+- Kubernetes
+- Redis
+- Background Jobs
+- CDN
+- Monitoring
+- Logging
+- Backups
+
+---
+
+# Future
+
+## Version 4
+
+Enterprise SaaS
+
+Multi-campus
+
+Multi-tenant
+
+Mobile Apps
+
+AI Copilot
+
+Marketplace
+
+Public APIs
+
+Enterprise Integrations
+
+---
+
+Roadmap will evolve as Version 3 development progresses.
