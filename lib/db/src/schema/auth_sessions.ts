@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, text, timestamp, index } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 import { usersTable } from "./users";
 
 export const authSessionsTable = pgTable("auth_sessions", {
@@ -11,6 +11,10 @@ export const authSessionsTable = pgTable("auth_sessions", {
   expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
   lastSeenAt: timestamp("last_seen_at", { withTimezone: true }).notNull().defaultNow(),
   revokedAt: timestamp("revoked_at", { withTimezone: true }),
+  browser: text("browser"),
+  platform: text("platform"),
+  ipAddress: text("ip_address"),
+  rememberMe: boolean("remember_me").notNull().default(false),
 }, (table) => ({
   userExpiryIndex: index("auth_sessions_user_expiry_idx").on(table.userId, table.expiresAt),
   activeTokenIndex: index("auth_sessions_token_active_idx").on(table.tokenId, table.revokedAt),

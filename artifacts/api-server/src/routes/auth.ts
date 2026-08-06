@@ -1,9 +1,9 @@
 import { Router, type IRouter } from "express";
 import crypto from "node:crypto";
 import { and, eq, isNull, ne } from "drizzle-orm";
-import { authSessionsTable, db, usersTable } from "@workspace/db";
+import { authSessionsTable, db, refreshTokensTable, usersTable } from "@workspace/db";
 import { LoginBody, ChangePasswordBody } from "@workspace/api-zod";
-import { signToken, TOKEN_TTL_SECONDS } from "../lib/jwt";
+import { REMEMBER_ME_REFRESH_TTL_SECONDS, SESSION_REFRESH_TTL_SECONDS, signToken, TOKEN_TTL_SECONDS, verifyToken } from "../lib/jwt";
 import { verifyPassword, hashPassword } from "../lib/password";
 import { authenticate } from "../middlewares/auth";
 import { getUserWithPermissions } from "../lib/rbac";
@@ -14,6 +14,24 @@ const resetTokens = new Map<string, { userId: number; expiresAt: number }>();
 const MAX_FAILURES = 5;
 const LOCKOUT_MS = 15 * 60 * 1000;
 const RESET_TTL_MS = 15 * 60 * 1000;
+const hashToken = (token: string) => crypto.createHash("sha256").update(token).digest("hex");
+const headerValue = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] : value;
+const userAgentParts = (value: string | undefined) => {
+  const ua = value ?? "";
+  return {
+    browser: ua.match(/(Edg|Chrome|Firefox|Safari|Opera)\/[\d.]+/)?.[1] ?? "unknown",
+    platform: ua.match(/\(([^;)]+)(?:;[^)]*)?\)/)?.[1] ?? "unknown",
+  };
+};
+
+function issueRefreshToken(userId: number, sessionId: number, rememberMe: boolean) {
+  const token = crypto.randomBytes(48).toString("base64url");
+  return {
+    token,
+    tokenHash: hashToken(token),
+    expiresAt: new Date(Date.now() + (rememberMe ? REMEMBER_ME_REFRESH_TTL_SECONDS : SESSION_REFRESH_TTL_SECONDS) * 1000),
+  };
+}
 
 function strongPassword(password: string) {
   return password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password);
@@ -28,6 +46,7 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     }
 
     const { email, password } = parsed.data;
+    const rememberMe = req.body?.rememberMe !== false;
     const key = email.trim().toLowerCase();
     const attempt = failedLogins.get(key);
     if (attempt?.lockedUntil && attempt.lockedUntil > Date.now()) {
@@ -60,16 +79,31 @@ router.post("/auth/login", async (req, res): Promise<void> => {
       tokenId,
     );
 
-    await db.insert(authSessionsTable).values({
+    const device = userAgentParts(headerValue(req.headers["user-agent"]));
+    const [session] = await db.insert(authSessionsTable).values({
       userId: user.id,
       tokenId,
-      expiresAt: new Date(Date.now() + TOKEN_TTL_SECONDS * 1000),
+      expiresAt: new Date(Date.now() + (rememberMe ? REMEMBER_ME_REFRESH_TTL_SECONDS : SESSION_REFRESH_TTL_SECONDS) * 1000),
+      browser: device.browser,
+      platform: device.platform,
+      ipAddress: req.ip,
+      rememberMe,
+    }).returning({ id: authSessionsTable.id });
+    const refresh = issueRefreshToken(user.id, session.id, rememberMe);
+    await db.insert(refreshTokensTable).values({
+      userId: user.id,
+      sessionId: session.id,
+      tokenHash: refresh.tokenHash,
+      expiresAt: refresh.expiresAt,
+      rememberMe,
     });
 
     const safeUser = await getUserWithPermissions(user.id);
 
     res.json({
       token,
+      refreshToken: refresh.token,
+      expiresIn: TOKEN_TTL_SECONDS,
       user: {
         ...safeUser,
         createdAt: safeUser!.createdAt.toISOString(),
@@ -81,6 +115,28 @@ router.post("/auth/login", async (req, res): Promise<void> => {
   }
 });
 
+router.post("/auth/refresh", async (req, res): Promise<void> => {
+  const rawToken = typeof req.body?.refreshToken === "string" ? req.body.refreshToken : "";
+  if (!rawToken) { res.status(401).json({ error: "Refresh token required" }); return; }
+  const [stored] = await db.select().from(refreshTokensTable).where(and(
+    eq(refreshTokensTable.tokenHash, hashToken(rawToken)),
+    isNull(refreshTokensTable.revokedAt),
+  ));
+  if (!stored || stored.expiresAt <= new Date()) { res.status(401).json({ error: "Refresh token expired or revoked" }); return; }
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, stored.userId));
+  const [session] = await db.select().from(authSessionsTable).where(and(eq(authSessionsTable.id, stored.sessionId), isNull(authSessionsTable.revokedAt)));
+  if (!user?.isActive || !session || session.expiresAt <= new Date()) { res.status(401).json({ error: "Session expired or revoked" }); return; }
+  const tokenId = crypto.randomUUID();
+  const token = signToken({ userId: user.id, email: user.email, role: user.role }, tokenId);
+  const nextRefresh = issueRefreshToken(user.id, session.id, stored.rememberMe);
+  await db.transaction(async (tx) => {
+    await tx.update(refreshTokensTable).set({ revokedAt: new Date() }).where(eq(refreshTokensTable.id, stored.id));
+    await tx.insert(refreshTokensTable).values({ userId: user.id, sessionId: session.id, tokenHash: nextRefresh.tokenHash, expiresAt: nextRefresh.expiresAt, rememberMe: stored.rememberMe });
+    await tx.update(authSessionsTable).set({ tokenId, lastSeenAt: new Date(), expiresAt: new Date(Date.now() + (stored.rememberMe ? REMEMBER_ME_REFRESH_TTL_SECONDS : SESSION_REFRESH_TTL_SECONDS) * 1000) }).where(eq(authSessionsTable.id, session.id));
+  });
+  res.json({ token, refreshToken: nextRefresh.token, expiresIn: TOKEN_TTL_SECONDS });
+});
+
 router.post("/auth/logout", authenticate, async (req, res): Promise<void> => {
   if (req.user?.jti) {
     await db
@@ -88,7 +144,28 @@ router.post("/auth/logout", authenticate, async (req, res): Promise<void> => {
       .set({ revokedAt: new Date() })
       .where(and(eq(authSessionsTable.tokenId, req.user.jti), isNull(authSessionsTable.revokedAt)));
   }
+  if (req.user?.jti) {
+    const [session] = await db.select({ id: authSessionsTable.id }).from(authSessionsTable).where(eq(authSessionsTable.tokenId, req.user.jti));
+    if (session) await db.update(refreshTokensTable).set({ revokedAt: new Date() }).where(and(eq(refreshTokensTable.sessionId, session.id), isNull(refreshTokensTable.revokedAt)));
+  }
   res.json({ message: "Logged out successfully" });
+});
+
+router.get("/auth/sessions", authenticate, async (req, res): Promise<void> => {
+  const sessions = await db.select({ id: authSessionsTable.id, browser: authSessionsTable.browser, platform: authSessionsTable.platform, ipAddress: authSessionsTable.ipAddress, createdAt: authSessionsTable.createdAt, lastSeenAt: authSessionsTable.lastSeenAt, expiresAt: authSessionsTable.expiresAt, revokedAt: authSessionsTable.revokedAt }).from(authSessionsTable).where(eq(authSessionsTable.userId, req.user!.userId));
+  res.json(sessions);
+});
+
+router.delete("/auth/sessions/:id", authenticate, async (req, res): Promise<void> => {
+  await db.update(authSessionsTable).set({ revokedAt: new Date() }).where(and(eq(authSessionsTable.id, Number(req.params.id)), eq(authSessionsTable.userId, req.user!.userId)));
+  await db.update(refreshTokensTable).set({ revokedAt: new Date() }).where(and(eq(refreshTokensTable.sessionId, Number(req.params.id)), isNull(refreshTokensTable.revokedAt)));
+  res.json({ message: "Session revoked" });
+});
+
+router.post("/auth/logout-all", authenticate, async (req, res): Promise<void> => {
+  await db.update(authSessionsTable).set({ revokedAt: new Date() }).where(and(eq(authSessionsTable.userId, req.user!.userId), isNull(authSessionsTable.revokedAt)));
+  await db.update(refreshTokensTable).set({ revokedAt: new Date() }).where(and(eq(refreshTokensTable.userId, req.user!.userId), isNull(refreshTokensTable.revokedAt)));
+  res.json({ message: "All sessions revoked" });
 });
 
 router.get("/auth/me", authenticate, async (req, res): Promise<void> => {

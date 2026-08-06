@@ -4,7 +4,9 @@ import { randomUUID } from "node:crypto";
 const SECRET = process.env.SESSION_SECRET;
 export const TOKEN_ISSUER = "enterprise-college-erp";
 export const TOKEN_AUDIENCE = "enterprise-college-erp-web";
-export const TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
+export const TOKEN_TTL_SECONDS = Number(process.env.ACCESS_TOKEN_TTL_SECONDS ?? 15 * 60);
+export const REMEMBER_ME_REFRESH_TTL_SECONDS = Number(process.env.REMEMBER_ME_REFRESH_TTL_SECONDS ?? 30 * 24 * 60 * 60);
+export const SESSION_REFRESH_TTL_SECONDS = Number(process.env.SESSION_REFRESH_TTL_SECONDS ?? 24 * 60 * 60);
 
 if (!SECRET && process.env.NODE_ENV === "production") {
   throw new Error("SESSION_SECRET must be configured in production");

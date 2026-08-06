@@ -15,11 +15,16 @@ interface AuthContextType {
   rememberMe: boolean;
 }
 
+type LoginResponseWithRefresh = Awaited<ReturnType<ReturnType<typeof useLogin>["mutateAsync"]>> & {
+  refreshToken?: string;
+};
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
   const [token, setToken] = useState<string | null>(() => localStorage.getItem('erp_token') || sessionStorage.getItem('erp_token'));
+  const [refreshToken, setRefreshToken] = useState<string | null>(() => localStorage.getItem('erp_refresh_token') || sessionStorage.getItem('erp_refresh_token'));
   const [rememberMe, setRememberMe] = useState(() => Boolean(localStorage.getItem('erp_token')));
   const demoEnabled = import.meta.env.VITE_DEMO_MODE === 'true';
   
@@ -33,6 +38,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const clearSession = () => {
     localStorage.removeItem('erp_token');
     sessionStorage.removeItem('erp_token');
+    localStorage.removeItem('erp_refresh_token');
+    sessionStorage.removeItem('erp_refresh_token');
     localStorage.removeItem('erp_demo_session');
     setToken(null);
     queryClient.clear();
@@ -59,16 +66,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (data: LoginInput & { rememberMe?: boolean }) => {
     const { rememberMe: requestedRememberMe, ...credentials } = data;
-    const res = await loginMutation.mutateAsync({ data: credentials });
+    const res = await loginMutation.mutateAsync({
+      data: { ...credentials, rememberMe: requestedRememberMe } as LoginInput,
+    }) as LoginResponseWithRefresh;
     localStorage.removeItem('erp_token');
     sessionStorage.removeItem('erp_token');
     const storage = requestedRememberMe === false ? sessionStorage : localStorage;
     storage.setItem('erp_token', res.token);
+    if (res.refreshToken) storage.setItem('erp_refresh_token', res.refreshToken);
     setRememberMe(requestedRememberMe !== false);
     setToken(res.token);
+    setRefreshToken(res.refreshToken ?? null);
     queryClient.setQueryData(getGetMeQueryKey(), res.user);
     return res.user;
   };
+
+  useEffect(() => {
+    if (!refreshToken) return;
+    const interval = window.setInterval(async () => {
+      try {
+        const response = await fetch("/api/auth/refresh", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ refreshToken }) });
+        if (!response.ok) throw new Error("Session renewal failed");
+        const result = await response.json() as { token: string; refreshToken?: string };
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem("erp_token", result.token);
+        if (result.refreshToken) storage.setItem("erp_refresh_token", result.refreshToken);
+        setToken(result.token);
+        if (result.refreshToken) setRefreshToken(result.refreshToken);
+      } catch {
+        clearSession();
+        window.dispatchEvent(new Event("erp:session-expired"));
+      }
+    }, 10 * 60 * 1000);
+    return () => window.clearInterval(interval);
+  }, [refreshToken, rememberMe]);
 
   const logout = async () => {
     try {

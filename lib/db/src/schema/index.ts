@@ -14,6 +14,7 @@ export * from "./notices";
 export * from "./activity_log";
 export * from "./rbac";
 export * from "./auth_sessions";
+export * from "./refresh_tokens";
 export * from "./ai";
 export * from "./admissions";
 export * from "./placements";
