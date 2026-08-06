@@ -1,0 +1,220 @@
+PROJECT: Enterprise College ERP
+REPOSITORY: enterprise-college-erp
+VERSION: 3.0.0
+SPRINT: 2A – Enterprise Authentication Core
+BRANCH: version-3
+
+=========================================================
+CONTEXT
+=========================================================
+
+Sprint 1 is complete.
+
+The Version 3 foundation already exists.
+
+The current project already supports:
+
+• JWT authentication
+• Database-backed sessions
+• Password validation
+• Failed login tracking
+• Temporary account lock
+• Existing RBAC
+• Protected routes
+• Secure headers
+• Request validation
+
+DO NOT duplicate existing functionality.
+
+Review the existing implementation and extend it only where required.
+
+=========================================================
+OBJECTIVE
+=========================================================
+
+Implement the remaining enterprise authentication features related to tokens, sessions and devices.
+
+This sprint MUST NOT implement:
+
+• Email verification
+• OTP
+• MFA
+• Password history
+• Password expiration
+• Admin security dashboard
+• User security pages
+• Audit persistence
+• CSRF
+• Business modules
+
+Those belong to later sprints.
+
+=========================================================
+IMPLEMENT
+=========================================================
+
+Implement:
+
+1.
+
+Access Token
+
+• configurable expiry
+• rotation support
+• validation improvements
+
+2.
+
+Refresh Token
+
+• dedicated refresh token model
+• secure storage
+• refresh endpoint
+• refresh token rotation
+• revoke old refresh token
+
+3.
+
+Remember Me
+
+Support persistent login.
+
+Use configurable expiration.
+
+4.
+
+Session Renewal
+
+Automatically renew active sessions.
+
+Prevent unnecessary logouts.
+
+5.
+
+Device Sessions
+
+Track:
+
+• Browser
+• Platform
+• IP Address
+• Login Time
+• Last Activity
+
+6.
+
+Session Management
+
+Allow:
+
+• revoke one session
+
+• revoke all sessions
+
+• logout current device
+
+• session expiration
+
+=========================================================
+DATABASE
+=========================================================
+
+Only create tables if required.
+
+Use migrations.
+
+Do not modify existing authentication tables unnecessarily.
+
+Maintain backward compatibility.
+
+=========================================================
+API
+=========================================================
+
+Add only required endpoints.
+
+Keep existing endpoints unchanged.
+
+=========================================================
+SECURITY
+=========================================================
+
+Improve:
+
+• token validation
+
+• refresh flow
+
+• secure cookies
+
+• session lifecycle
+
+=========================================================
+TESTING
+=========================================================
+
+Verify:
+
+✓ Existing login works
+
+✓ Existing JWT works
+
+✓ Refresh tokens work
+
+✓ Remember Me works
+
+✓ Sessions renew correctly
+
+✓ Logout works
+
+✓ Logout all devices works
+
+✓ Existing APIs still work
+
+✓ Build passes
+
+✓ Typecheck passes
+
+=========================================================
+DELIVERABLES
+=========================================================
+
+Provide:
+
+• Updated backend
+
+• Updated authentication
+
+• Session management
+
+• Refresh token implementation
+
+• Database migration (if needed)
+
+• Test results
+
+Do not modify README.
+
+Do not modify CHANGELOG.
+
+Do not modify ROADMAP.
+
+Do not create releases.
+
+Do not merge into main.
+
+Keep everything on version-3.
+
+At completion report:
+
+1. Features implemented
+
+2. Remaining Sprint 2 work
+
+3. Build status
+
+4. Typecheck status
+
+5. Authentication compatibility
+
+6. Version 2 compatibility
