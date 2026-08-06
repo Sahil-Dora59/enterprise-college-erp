@@ -12,6 +12,9 @@ The application is a pnpm workspace with a React/Vite SPA and a shared Express A
 - `artifacts/api-server`: Express routes, JWT/session validation, RBAC, structured logging, rate limiting, and workers.
 - `lib/db`: Drizzle PostgreSQL schema and shared database client.
 - `lib/api-spec`: REST contract source of truth.
+- `artifacts/api-server/src/config`: validated environment configuration.
+- `artifacts/api-server/src/repositories`: persistence contracts for future adapters.
+- `artifacts/api-server/src/services`: provider-neutral contracts for audit, activity, jobs, notifications, search, storage, settings, and feature flags.
 
 ## Security boundary
 
@@ -20,6 +23,8 @@ Bearer JWTs are checked against active, non-expired database sessions on every p
 ## Operations
 
 `/api/healthz` exposes service status, uptime, memory, and timestamp. Integration queues, jobs, audit entries, webhook records, API keys, payments, and backup records are provider-neutral and persisted in PostgreSQL.
+
+Version 3 foundation contracts are intentionally additive. Existing `/api` routes remain the compatibility surface; future modules may opt into explicit `/api/v1` routers and the shared service contracts without replacing Version 2 behavior.
 
 ## Related Documentation
 

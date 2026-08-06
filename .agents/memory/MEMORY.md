@@ -5,3 +5,4 @@
 - [ERP audit hardening](erp-audit-hardening.md) — ownership scopes must be enforced in every student-facing read/write route, not only navigation.
 - [AI Foundation boundary](ai-foundation.md) — keep AI additive, provider-neutral, user-owned, and authorized through the existing database RBAC model.
 - [Demo mode production default](demo-mode-production-default.md) — role switching is explicitly opt-in and disabled by the standard full-stack command.
+- [Version 3 foundation boundary](version-3-foundation.md) — add provider-neutral infrastructure while preserving Version 2 routes, APIs, auth, RBAC, and schema.

@@ -1,0 +1,68 @@
+PROJECT: Enterprise College ERP
+VERSION: 3.0.0
+BRANCH: version-3
+
+This project is based on Enterprise College ERP Version 2.0.0.
+
+Version 2 is production-ready and frozen. Do NOT modify the stable architecture or remove existing functionality.
+
+The objective of Sprint 1 is NOT to add new modules. The objective is to build the enterprise foundation for Version 3.
+
+Requirements:
+
+1. Review the entire existing codebase.
+2. Preserve backward compatibility.
+3. Refactor only where necessary to support future enterprise growth.
+
+Create the Version 3 Foundation consisting of:
+
+• Modular folder architecture
+• Enterprise service layer
+• Repository pattern where appropriate
+• Central configuration management
+• Environment validation
+• Global error handling improvements
+• Request logging
+• Audit logging framework
+• Activity tracking framework
+• Notification framework
+• Background job framework
+• Global search foundation
+• File/document storage foundation
+• Permission framework improvements
+• API versioning (/api/v1)
+• Shared utility library
+• Validation layer improvements
+• Better middleware organization
+• Reusable UI component structure
+• Dashboard widget architecture
+• Feature flag system
+• Enterprise settings module
+• Health monitoring improvements
+• Performance optimization where safe
+• Code cleanup without changing behaviour
+
+Do NOT implement business modules such as Hostel, Transport, Payroll, AI, Library or Placement yet.
+
+Instead, create the infrastructure that those modules will use later.
+
+Requirements:
+
+• Keep all existing Version 2 functionality working.
+• Do not break authentication.
+• Do not break database compatibility.
+• Do not remove existing APIs.
+• Maintain responsive UI.
+• Keep production stability.
+
+At the end:
+
+1. Update project structure.
+2. Update architecture documentation.
+3. Ensure the application builds successfully.
+4. Ensure there are no TypeScript or build errors.
+5. Do not create a release.
+6. Do not merge into main.
+7. Keep all work on the version-3 branch only.
+
+The result should be a clean Enterprise Version 3 foundation ready for future module development.
