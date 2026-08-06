@@ -1,0 +1,203 @@
+PROJECT: Enterprise College ERP
+REPOSITORY: enterprise-college-erp
+VERSION: 3.0.0
+SPRINT: 2B – Enterprise Account Security
+BRANCH: version-3
+
+=========================================================
+CONTEXT
+=========================================================
+
+Sprint 1 is complete.
+
+Sprint 2A is complete.
+
+The project already supports:
+
+• JWT Authentication
+• Refresh Tokens
+• Session Management
+• Device Tracking
+• Remember Me
+• Session Renewal
+• Existing Login
+• Existing RBAC
+
+Do NOT duplicate existing functionality.
+
+Review the existing implementation first and implement ONLY the missing enterprise account security features.
+
+=========================================================
+OBJECTIVE
+=========================================================
+
+Implement enterprise account security without changing Version 2 behavior.
+
+Preserve backward compatibility.
+
+=========================================================
+IMPLEMENT
+=========================================================
+
+1. Email Verification
+
+Implement:
+
+• Email verification token
+• Verification endpoint
+• Resend verification email
+• Verification status
+• Prevent duplicate verification
+• Configurable verification expiry
+
+=========================================================
+
+2. Password History
+
+Implement:
+
+• Store password history securely
+• Prevent reuse of previous passwords
+• Configurable history limit
+• Automatic history cleanup
+
+=========================================================
+
+3. Password Expiration
+
+Implement:
+
+• Configurable password lifetime
+• Expiration warning
+• Force password change after expiry
+• Password age tracking
+
+=========================================================
+
+4. Account Lock Policies
+
+Improve existing lock system.
+
+Support:
+
+• Configurable failed-attempt limit
+• Temporary lock
+• Permanent lock
+• Automatic unlock
+• Admin unlock
+• Lock reason
+• Unlock history
+
+=========================================================
+
+5. Recovery Codes Foundation
+
+Create recovery-code framework for future MFA.
+
+Support:
+
+• Secure generation
+• Hashed storage
+• One-time use
+• Regeneration
+• Revocation
+
+Do NOT implement MFA yet.
+
+=========================================================
+DATABASE
+=========================================================
+
+Only create tables if required.
+
+Use migrations.
+
+Do not remove existing tables.
+
+Maintain backward compatibility.
+
+=========================================================
+API
+=========================================================
+
+Add only required endpoints.
+
+Keep all existing endpoints unchanged.
+
+=========================================================
+SECURITY
+=========================================================
+
+Improve:
+
+• Password policy
+• Password validation
+• Verification flow
+• Account lock policy
+
+=========================================================
+TESTING
+=========================================================
+
+Verify:
+
+✓ Existing login works
+
+✓ Existing refresh tokens work
+
+✓ Existing sessions work
+
+✓ Email verification works
+
+✓ Password history works
+
+✓ Password expiration works
+
+✓ Account lock policy works
+
+✓ Recovery codes generate correctly
+
+✓ Build passes
+
+✓ Typecheck passes
+
+=========================================================
+DELIVERABLES
+=========================================================
+
+Provide:
+
+• Updated backend
+• Updated authentication
+• Password history
+• Email verification
+• Account lock improvements
+• Recovery-code framework
+• Database migration (if needed)
+• Test results
+
+Do NOT modify:
+
+README
+
+CHANGELOG
+
+ROADMAP
+
+Release Notes
+
+Do not create a release.
+
+Do not merge into main.
+
+Keep everything on version-3.
+
+At completion provide:
+
+1. Features implemented
+2. Remaining Sprint 2 work
+3. Build status
+4. Typecheck status
+5. Authentication compatibility
+6. Database compatibility
+7. Version 2 compatibility
