@@ -1,0 +1,366 @@
+PROJECT: Enterprise College ERP
+REPOSITORY: enterprise-college-erp
+VERSION: 3.0.0
+SPRINT: 2 – Enterprise Authentication & RBAC
+BRANCH: version-3
+
+========================================================
+PROJECT CONTEXT
+========================================================
+
+Enterprise College ERP Version 2.0.0 is the stable production release.
+
+Sprint 1 has already been completed successfully.
+
+The Version 3 Foundation already includes:
+
+• Enterprise configuration
+• Environment validation
+• Centralized error handling foundation
+• Generic repository contracts
+• Audit logging contracts
+• Activity tracking contracts
+• Notification contracts
+• Background job contracts
+• Global search contracts
+• File storage contracts
+• Enterprise settings contracts
+• Feature flag contracts
+• API versioning foundation
+• Shared infrastructure layer
+
+These foundations MUST remain unchanged.
+
+========================================================
+OBJECTIVE
+========================================================
+
+Upgrade the existing authentication and authorization system into a complete enterprise-grade identity and access management platform while preserving full backward compatibility with Version 2.
+
+Review the existing implementation first.
+
+Reuse existing functionality wherever possible.
+
+Only implement missing enterprise capabilities.
+
+Do NOT duplicate existing code.
+
+========================================================
+RULES
+========================================================
+
+• Work only on version-3.
+• Never modify main.
+• Preserve Version 2 compatibility.
+• Do not remove existing APIs.
+• Do not remove existing authentication.
+• Do not change business modules.
+• Keep production stability.
+• Keep responsive UI.
+• Maintain coding standards.
+• Reuse existing architecture introduced in Sprint 1.
+
+========================================================
+PHASE 1
+Authentication
+========================================================
+
+Review current implementation.
+
+Retain existing features.
+
+Implement missing capabilities only.
+
+Required enterprise authentication features:
+
+• Access Token strategy
+• Refresh Token strategy
+• Refresh Token Rotation
+• Secure Session Management
+• Session Renewal
+• Remember Me
+• Email Verification
+• Password Reset
+• OTP Verification Framework
+• MFA Ready Architecture
+• Trusted Devices
+• Recovery Codes Framework
+• Password Strength Validation
+• Password History
+• Password Expiration Policy
+• Failed Login Tracking
+• Temporary Account Lock
+• Permanent Lock Policies
+• Device Tracking
+• Active Sessions
+• Logout Current Device
+• Logout All Devices
+• Force Logout
+
+========================================================
+PHASE 2
+Enterprise RBAC
+========================================================
+
+Review existing RBAC implementation.
+
+Expand it into enterprise permission management.
+
+Support roles:
+
+• Super Admin
+• Administrator
+• Principal
+• Vice Principal
+• HOD
+• Faculty
+• Staff
+• Accountant
+• Librarian
+• Hostel Warden
+• Placement Officer
+• Student
+• Parent
+• Guest
+
+Support:
+
+• Permission Matrix
+• Dynamic Permission Assignment
+• Role Hierarchy
+• Module Permissions
+• Feature Permissions
+• API Authorization
+• Route Guards
+• UI Permission Guards
+
+========================================================
+PHASE 3
+Security
+========================================================
+
+Improve security layer.
+
+Implement missing enterprise security.
+
+Include:
+
+• CSRF Protection
+• Secure Headers
+• Request Validation
+• Input Sanitization
+• Improved Rate Limiting
+• Secure Cookies
+• Session Protection
+• Security Middleware Improvements
+
+========================================================
+PHASE 4
+Audit Integration
+========================================================
+
+Integrate Sprint 1 contracts.
+
+Persist:
+
+• Login Events
+• Logout Events
+• Failed Login Attempts
+• Password Changes
+• Password Reset
+• Permission Changes
+• Role Changes
+• Session Creation
+• Session Revocation
+• Force Logout
+• Account Lock
+• Account Unlock
+
+========================================================
+PHASE 5
+Admin Security Dashboard
+========================================================
+
+Create enterprise admin pages.
+
+Include:
+
+Security Dashboard
+
+Login History
+
+Failed Logins
+
+Locked Accounts
+
+Active Sessions
+
+Active Devices
+
+Session Monitor
+
+Permission Manager
+
+Role Manager
+
+Force Logout
+
+Reset Password
+
+User Status
+
+========================================================
+PHASE 6
+User Security Settings
+========================================================
+
+Create user security pages.
+
+Allow users to:
+
+Change Password
+
+View Login History
+
+View Active Sessions
+
+Manage Devices
+
+Logout All Devices
+
+Manage Security Preferences
+
+Prepare for MFA
+
+========================================================
+DATABASE
+========================================================
+
+Only modify schema if necessary.
+
+Use migrations.
+
+Never delete existing tables.
+
+Never break Version 2 compatibility.
+
+========================================================
+QUALITY
+========================================================
+
+Requirements:
+
+• No TypeScript errors
+• No build errors
+• No runtime errors
+• No authentication regressions
+• No API regressions
+• No database regressions
+• Preserve Version 2 functionality
+• Preserve Sprint 1 architecture
+
+========================================================
+TESTING
+========================================================
+
+Verify:
+
+✓ Existing login works
+
+✓ Existing users work
+
+✓ Existing authentication remains functional
+
+✓ Admin authentication works
+
+✓ Student authentication works
+
+✓ RBAC works
+
+✓ Protected routes work
+
+✓ Sessions work
+
+✓ Security middleware works
+
+✓ Build passes
+
+✓ Typecheck passes
+
+========================================================
+DOCUMENTATION
+========================================================
+
+Update only authentication and security documentation if required.
+
+Do NOT update:
+
+README
+
+CHANGELOG
+
+ROADMAP
+
+Release Notes
+
+========================================================
+DO NOT IMPLEMENT
+========================================================
+
+Do NOT build:
+
+Hostel
+
+Transport
+
+Library
+
+Placement
+
+Payroll
+
+Finance
+
+Analytics
+
+Research
+
+AI
+
+Mobile App
+
+Multi-campus
+
+Any new business module
+
+========================================================
+DELIVERABLES
+========================================================
+
+Deliver:
+
+• Enterprise Authentication
+• Enterprise RBAC
+• Security Layer
+• Security Middleware
+• Audit Integration
+• Admin Security Dashboard
+• User Security Settings
+• Database Migration (only if required)
+• Updated Documentation
+
+Keep all work on version-3.
+
+Do not create a release.
+
+Do not merge into main.
+
+At completion provide:
+
+1. Summary of implemented features
+2. Remaining work (if any)
+3. Build status
+4. Typecheck status
+5. Authentication compatibility status
+6. Database compatibility status
+7. Version 2 compatibility confirmation
