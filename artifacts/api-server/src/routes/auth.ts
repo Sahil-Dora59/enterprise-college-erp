@@ -1,7 +1,7 @@
 import { Router, type IRouter } from "express";
 import crypto from "node:crypto";
-import { and, eq, isNull, ne } from "drizzle-orm";
-import { authSessionsTable, db, refreshTokensTable, usersTable } from "@workspace/db";
+import { and, desc, eq, isNull, ne, lt } from "drizzle-orm";
+import { authSessionsTable, db, emailVerificationTokensTable, passwordHistoryTable, recoveryCodesTable, refreshTokensTable, usersTable } from "@workspace/db";
 import { LoginBody, ChangePasswordBody } from "@workspace/api-zod";
 import { REMEMBER_ME_REFRESH_TTL_SECONDS, SESSION_REFRESH_TTL_SECONDS, signToken, TOKEN_TTL_SECONDS, verifyToken } from "../lib/jwt";
 import { verifyPassword, hashPassword } from "../lib/password";
@@ -11,9 +11,13 @@ import { getUserWithPermissions } from "../lib/rbac";
 const router: IRouter = Router();
 const failedLogins = new Map<string, { count: number; lockedUntil: number }>();
 const resetTokens = new Map<string, { userId: number; expiresAt: number }>();
-const MAX_FAILURES = 5;
-const LOCKOUT_MS = 15 * 60 * 1000;
 const RESET_TTL_MS = 15 * 60 * 1000;
+const VERIFICATION_TTL_MS = Number(process.env.EMAIL_VERIFICATION_TTL_MS ?? 24 * 60 * 60 * 1000);
+const PASSWORD_MAX_AGE_MS = Number(process.env.PASSWORD_MAX_AGE_MS ?? 90 * 24 * 60 * 60 * 1000);
+const PASSWORD_HISTORY_LIMIT = Number(process.env.PASSWORD_HISTORY_LIMIT ?? 5);
+const MAX_FAILURES = Number(process.env.MAX_LOGIN_FAILURES ?? 5);
+const LOCKOUT_MS = Number(process.env.LOGIN_LOCKOUT_MS ?? 15 * 60 * 1000);
+const PERMANENT_LOCK_FAILURES = Number(process.env.PERMANENT_LOCK_FAILURES ?? 15);
 const hashToken = (token: string) => crypto.createHash("sha256").update(token).digest("hex");
 const headerValue = (value: string | string[] | undefined) => Array.isArray(value) ? value[0] : value;
 const userAgentParts = (value: string | undefined) => {
@@ -31,6 +35,22 @@ function issueRefreshToken(userId: number, sessionId: number, rememberMe: boolea
     tokenHash: hashToken(token),
     expiresAt: new Date(Date.now() + (rememberMe ? REMEMBER_ME_REFRESH_TTL_SECONDS : SESSION_REFRESH_TTL_SECONDS) * 1000),
   };
+}
+
+function randomSecret(bytes = 32) {
+  return crypto.randomBytes(bytes).toString("base64url");
+}
+
+function passwordExpired(changedAt: Date | null) {
+  return !changedAt || changedAt.getTime() + PASSWORD_MAX_AGE_MS <= Date.now();
+}
+
+async function issueVerificationToken(userId: number) {
+  const token = randomSecret();
+  await db.insert(emailVerificationTokensTable).values({
+    userId, tokenHash: hashToken(token), expiresAt: new Date(Date.now() + VERIFICATION_TTL_MS),
+  });
+  return token;
 }
 
 function strongPassword(password: string) {
@@ -59,14 +79,32 @@ router.post("/auth/login", async (req, res): Promise<void> => {
       .from(usersTable)
       .where(eq(usersTable.email, key));
 
+    if (user?.permanentlyLocked) {
+      res.status(423).json({ error: user.lockReason ?? "Account permanently locked. Contact an administrator." });
+      return;
+    }
+    if (user?.passwordLockedUntil && user.passwordLockedUntil > new Date()) {
+      res.status(423).json({ error: user.lockReason ?? "Account temporarily locked. Try again later." });
+      return;
+    }
     if (!user || !(await verifyPassword(password, user.passwordHash))) {
       const next = { count: (attempt?.count ?? 0) + 1, lockedUntil: 0 };
       if (next.count >= MAX_FAILURES) next.lockedUntil = Date.now() + LOCKOUT_MS;
       failedLogins.set(key, next);
+      if (user) {
+        const permanent = next.count >= PERMANENT_LOCK_FAILURES;
+        await db.update(usersTable).set({
+          failedLoginCount: next.count,
+          passwordLockedUntil: permanent ? null : new Date(next.lockedUntil),
+          permanentlyLocked: permanent,
+          lockReason: `Repeated failed login attempts (${next.count})`,
+        }).where(eq(usersTable.id, user.id));
+      }
       res.status(401).json({ error: "Invalid email or password" });
       return;
     }
     failedLogins.delete(key);
+    await db.update(usersTable).set({ failedLoginCount: 0, passwordLockedUntil: null, lockReason: null }).where(eq(usersTable.id, user.id));
 
     if (!user.isActive) {
       res.status(401).json({ error: "Account is inactive. Contact administrator." });
@@ -100,10 +138,14 @@ router.post("/auth/login", async (req, res): Promise<void> => {
 
     const safeUser = await getUserWithPermissions(user.id);
 
+    const verificationToken = !user.emailVerified ? await issueVerificationToken(user.id) : undefined;
     res.json({
       token,
       refreshToken: refresh.token,
       expiresIn: TOKEN_TTL_SECONDS,
+      verificationRequired: !user.emailVerified,
+      verificationToken,
+      passwordExpired: passwordExpired(user.passwordChangedAt),
       user: {
         ...safeUser,
         createdAt: safeUser!.createdAt.toISOString(),
@@ -113,6 +155,28 @@ router.post("/auth/login", async (req, res): Promise<void> => {
     req.log?.error({ err }, "Login failed unexpectedly");
     res.status(500).json({ error: "Unable to sign in right now. Please try again later." });
   }
+});
+
+router.post("/auth/verify-email", async (req, res): Promise<void> => {
+  const token = typeof req.body?.token === "string" ? req.body.token : "";
+  const [entry] = await db.select().from(emailVerificationTokensTable).where(and(eq(emailVerificationTokensTable.tokenHash, hashToken(token)), isNull(emailVerificationTokensTable.usedAt)));
+  if (!entry || entry.expiresAt <= new Date()) { res.status(400).json({ error: "Verification token is invalid or expired." }); return; }
+  await db.transaction(async (tx) => {
+    await tx.update(emailVerificationTokensTable).set({ usedAt: new Date() }).where(eq(emailVerificationTokensTable.id, entry.id));
+    await tx.update(usersTable).set({ emailVerified: true }).where(eq(usersTable.id, entry.userId));
+  });
+  res.json({ message: "Email verified successfully." });
+});
+
+router.post("/auth/resend-verification", async (req, res): Promise<void> => {
+  const email = typeof req.body?.email === "string" ? req.body.email.trim().toLowerCase() : "";
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email));
+  if (user && !user.emailVerified) {
+    const token = await issueVerificationToken(user.id);
+    res.json({ message: "Verification instructions requested.", verificationToken: token });
+    return;
+  }
+  res.json({ message: "If the account requires verification, instructions have been requested." });
 });
 
 router.post("/auth/refresh", async (req, res): Promise<void> => {
@@ -194,8 +258,17 @@ router.post("/auth/change-password", authenticate, async (req, res): Promise<voi
     res.status(401).json({ error: "Current password is incorrect" });
     return;
   }
+  const history = await db.select({ passwordHash: passwordHistoryTable.passwordHash }).from(passwordHistoryTable).where(eq(passwordHistoryTable.userId, user.id)).orderBy(desc(passwordHistoryTable.createdAt)).limit(PASSWORD_HISTORY_LIMIT);
+  if (await Promise.all(history.map((entry) => verifyPassword(newPassword, entry.passwordHash))).then((matches) => matches.some(Boolean)) || await verifyPassword(newPassword, user.passwordHash)) {
+    res.status(400).json({ error: "You cannot reuse a recent password." });
+    return;
+  }
   const passwordHash = await hashPassword(newPassword);
-  await db.update(usersTable).set({ passwordHash, mustChangePassword: false }).where(eq(usersTable.id, user.id));
+  await db.transaction(async (tx) => {
+    await tx.insert(passwordHistoryTable).values({ userId: user.id, passwordHash: user.passwordHash });
+    await tx.delete(passwordHistoryTable).where(and(eq(passwordHistoryTable.userId, user.id), lt(passwordHistoryTable.createdAt, new Date(Date.now() - 365 * 24 * 60 * 60 * 1000))));
+    await tx.update(usersTable).set({ passwordHash, passwordChangedAt: new Date(), mustChangePassword: false }).where(eq(usersTable.id, user.id));
+  });
   await db
     .update(authSessionsTable)
     .set({ revokedAt: new Date() })
@@ -236,10 +309,37 @@ router.post("/auth/reset-password", async (req, res): Promise<void> => {
     res.status(400).json({ error: "Password must be at least 8 characters and include uppercase, lowercase, and a number." });
     return;
   }
-  await db.update(usersTable).set({ passwordHash: await hashPassword(password) }).where(eq(usersTable.id, reset.userId));
+  const [user] = await db.select().from(usersTable).where(eq(usersTable.id, reset.userId));
+  if (!user) { res.status(400).json({ error: "Reset link is invalid or expired." }); return; }
+  const history = await db.select({ passwordHash: passwordHistoryTable.passwordHash }).from(passwordHistoryTable).where(eq(passwordHistoryTable.userId, user.id)).limit(PASSWORD_HISTORY_LIMIT);
+  if (await Promise.all([user.passwordHash, ...history.map((entry) => entry.passwordHash)].map((hash) => verifyPassword(password, hash))).then((matches) => matches.some(Boolean))) {
+    res.status(400).json({ error: "You cannot reuse a recent password." }); return;
+  }
+  await db.transaction(async (tx) => {
+    await tx.insert(passwordHistoryTable).values({ userId: user.id, passwordHash: user.passwordHash });
+    await tx.update(usersTable).set({ passwordHash: await hashPassword(password), passwordChangedAt: new Date(), mustChangePassword: false }).where(eq(usersTable.id, reset.userId));
+  });
   await db.update(authSessionsTable).set({ revokedAt: new Date() }).where(and(eq(authSessionsTable.userId, reset.userId), isNull(authSessionsTable.revokedAt)));
   resetTokens.delete(token);
   res.json({ message: "Password reset successfully. Please sign in again." });
+});
+
+router.post("/auth/recovery-codes", authenticate, async (req, res): Promise<void> => {
+  const codes = Array.from({ length: 10 }, () => `${randomSecret(4)}-${randomSecret(4)}`);
+  await db.update(recoveryCodesTable).set({ revokedAt: new Date() }).where(and(eq(recoveryCodesTable.userId, req.user!.userId), isNull(recoveryCodesTable.revokedAt)));
+  await db.insert(recoveryCodesTable).values(codes.map((code) => ({ userId: req.user!.userId, codeHash: hashToken(code) })));
+  res.json({ codes });
+});
+
+router.delete("/auth/recovery-codes", authenticate, async (req, res): Promise<void> => {
+  await db.update(recoveryCodesTable).set({ revokedAt: new Date() }).where(and(eq(recoveryCodesTable.userId, req.user!.userId), isNull(recoveryCodesTable.revokedAt)));
+  res.json({ message: "Recovery codes revoked." });
+});
+
+router.post("/auth/unlock/:userId", authenticate, async (req, res): Promise<void> => {
+  if (!["super_admin", "admin"].includes(req.user!.role)) { res.status(403).json({ error: "Forbidden" }); return; }
+  await db.update(usersTable).set({ passwordLockedUntil: null, permanentlyLocked: false, failedLoginCount: 0, lockReason: null }).where(eq(usersTable.id, Number(req.params.userId)));
+  res.json({ message: "Account unlocked." });
 });
 
 export default router;

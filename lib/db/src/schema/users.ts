@@ -14,6 +14,11 @@ export const usersTable = pgTable("users", {
   mustChangePassword: boolean("must_change_password").notNull().default(false),
   emailVerified: boolean("email_verified").notNull().default(false),
   phoneVerified: boolean("phone_verified").notNull().default(false),
+  passwordChangedAt: timestamp("password_changed_at", { withTimezone: true }).notNull().defaultNow(),
+  passwordLockedUntil: timestamp("password_locked_until", { withTimezone: true }),
+  permanentlyLocked: boolean("permanently_locked").notNull().default(false),
+  lockReason: text("lock_reason"),
+  failedLoginCount: integer("failed_login_count").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow().$onUpdate(() => new Date()),
 });
