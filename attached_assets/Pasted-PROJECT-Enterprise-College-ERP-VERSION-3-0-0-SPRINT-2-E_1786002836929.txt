@@ -1,0 +1,270 @@
+PROJECT: Enterprise College ERP
+VERSION: 3.0.0
+SPRINT: 2 – Enterprise Authentication & RBAC
+BRANCH: version-3
+
+CONTEXT
+
+Version 2.0.0 is the stable production release.
+
+Sprint 1 has already established the Version 3 foundation, including:
+- Enterprise configuration
+- Service contracts
+- Error handling
+- Audit framework
+- Activity framework
+- Notification framework
+- Background job framework
+- Feature flags
+- Shared infrastructure
+
+Do NOT remove or rewrite this work.
+
+OBJECTIVE
+
+Upgrade the authentication and authorization system into an enterprise-grade security platform while maintaining full backward compatibility with Version 2.
+
+IMPORTANT RULES
+
+- Work only on version-3.
+- Do not modify main.
+- Do not break existing authentication.
+- Do not remove existing APIs.
+- Do not break the database.
+- Preserve all existing UI functionality.
+- Keep the application production-ready.
+
+==================================
+PHASE 1
+Authentication Improvements
+==================================
+
+Implement:
+
+• Access Token strategy
+• Refresh Token strategy
+• Secure session management
+• Session expiration
+• Session renewal
+• Remember Me
+• Email verification
+• Password reset
+• OTP verification framework
+• Password strength validation
+• Password history
+• Password expiration policy
+• Account lock after repeated failed logins
+• Failed login tracking
+• Force logout
+• Logout from all devices
+• Device/session tracking
+
+==================================
+PHASE 2
+Authorization
+==================================
+
+Implement enterprise RBAC.
+
+Support:
+
+Super Admin
+
+Administrator
+
+Principal
+
+Vice Principal
+
+Faculty
+
+HOD
+
+Accountant
+
+Librarian
+
+Hostel Warden
+
+Placement Officer
+
+Student
+
+Parent
+
+Guest
+
+Create:
+
+• Permission Matrix
+• Permission Groups
+• Dynamic Permission Assignment
+• Route Protection
+• API Authorization
+• UI Authorization
+• Module-level permissions
+• Feature-level permissions
+
+==================================
+PHASE 3
+Security
+==================================
+
+Improve security.
+
+Include:
+
+• CSRF protection
+• Secure headers
+• Better rate limiting
+• Request validation
+• Input sanitization
+• Secure cookie configuration
+• Session protection
+• Audit every authentication event
+• Audit permission changes
+• Audit failed login attempts
+
+==================================
+PHASE 4
+Admin Security Dashboard
+==================================
+
+Create:
+
+Security Dashboard
+
+Login History
+
+Failed Login History
+
+Active Sessions
+
+Active Devices
+
+Locked Accounts
+
+User Status
+
+Force Logout
+
+Reset Password
+
+Session Monitor
+
+==================================
+PHASE 5
+User Profile Security
+==================================
+
+Create Security section.
+
+Allow users to:
+
+Change Password
+
+View Active Sessions
+
+View Login History
+
+Manage Trusted Devices
+
+Logout All Devices
+
+Manage MFA readiness
+
+==================================
+DATABASE
+==================================
+
+Only add tables if absolutely necessary.
+
+Use migrations.
+
+Do not delete tables.
+
+Do not break existing schema.
+
+==================================
+QUALITY
+==================================
+
+Requirements:
+
+• No TypeScript errors
+• No build errors
+• No runtime errors
+• No broken APIs
+• No authentication regressions
+• Keep backward compatibility
+• Preserve Version 2 functionality
+
+==================================
+TESTING
+==================================
+
+Verify:
+
+✓ Existing login works
+
+✓ Existing users work
+
+✓ Admin works
+
+✓ Student works
+
+✓ Session handling works
+
+✓ Protected routes work
+
+✓ Permissions work
+
+✓ Build passes
+
+✓ Typecheck passes
+
+==================================
+DELIVERABLES
+==================================
+
+Update only:
+
+Authentication
+
+Authorization
+
+Middleware
+
+Security
+
+Admin Dashboard
+
+User Security Settings
+
+Documentation related to authentication
+
+Do NOT:
+
+Implement Hostel
+
+Implement Payroll
+
+Implement AI
+
+Implement Placement
+
+Implement Library
+
+Implement Transport
+
+Implement Finance
+
+Implement Analytics
+
+Implement new business modules
+
+Do not create a release.
+
+Do not merge into main.
+
+Keep everything on version-3.
