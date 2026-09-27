@@ -47,6 +47,12 @@ jobs:
       - name: Backend typecheck
         run: pnpm --filter @workspace/api-server run typecheck
 
+      - name: API test typecheck
+        run: pnpm --filter @workspace/api-server run test:typecheck
+
+      - name: API regression tests
+        run: pnpm --filter @workspace/api-server run test
+
       - name: Frontend production build
         run: pnpm --filter @workspace/college-erp run build
 
