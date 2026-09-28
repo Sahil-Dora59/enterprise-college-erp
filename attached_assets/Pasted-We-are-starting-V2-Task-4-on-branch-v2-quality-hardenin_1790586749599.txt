@@ -1,0 +1,64 @@
+We are starting V2 Task 4 on branch v2-quality-hardening.
+
+Current state:
+- Task 3A commit: 6700626
+- Task 3B commit: 1270e57
+- Both are pushed.
+- Working tree is clean.
+- main must remain untouched.
+- Do NOT modify any files in this investigation.
+
+Task 4 is Auth/Session Lifecycle Verification.
+
+INVESTIGATION ONLY.
+
+Inspect the existing implementation and report the current authentication/session lifecycle without changing code.
+
+Inspect:
+1. Login route and credential validation
+2. Session creation and persistence
+3. Session lookup/authentication middleware
+4. `/auth/me` or equivalent current-user endpoint
+5. Logout/session revocation
+6. Session expiration/TTL behavior
+7. Cookie/session transport configuration
+8. Password hashing/verification implementation
+9. RBAC/permission checks relevant to authentication
+10. Protected Student route authentication boundaries
+11. Existing auth-related tests
+12. Existing database-backed tests from Task 3B
+
+Determine:
+- What the actual auth/session lifecycle is today
+- Which lifecycle states are already tested
+- Which important states are not tested
+- Whether there are any obvious test gaps or inconsistencies
+- Whether existing implementation behavior differs from the intended route/test contracts
+- What should become Task 4A and Task 4B
+
+Safety rules:
+- Read-only investigation only.
+- Do not edit source files.
+- Do not edit tests.
+- Do not modify database schema.
+- Do not modify authentication/session behavior.
+- Do not run against the production or development database.
+- Do not create commits.
+- Do not push.
+- Do not change roadmap, changelog, README, or memory files.
+
+Use the existing isolated PostgreSQL test harness only if a test execution is genuinely necessary for diagnosis. Prefer static inspection first.
+
+Report:
+1. Files inspected
+2. Current authentication/session architecture
+3. Current lifecycle flow
+4. Existing test coverage
+5. Missing coverage
+6. Any implementation risks or inconsistencies
+7. Proposed scope for Task 4A
+8. Proposed scope for Task 4B
+9. Commands/tests run
+10. Confirmation that no files were changed
+
+STOP after the investigation report.
