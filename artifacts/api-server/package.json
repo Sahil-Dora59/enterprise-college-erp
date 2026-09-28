@@ -9,6 +9,7 @@
     "start": "node --enable-source-maps ./dist/index.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "tsx --test test/*.test.ts",
+    "test:db": "bash ./test/run-isolated-db-test.sh",
     "test:typecheck": "tsc -p tsconfig.test.json --noEmit"
   },
   "dependencies": {
