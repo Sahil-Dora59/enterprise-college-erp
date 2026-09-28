@@ -56,3 +56,7 @@ DATABASE_URL="$test_database_url" \
 TEST_DATABASE_URL="$test_database_url" \
   DATABASE_URL="$test_database_url" \
   pnpm exec tsx --test test/database.smoke.test.ts
+
+TEST_DATABASE_URL="$test_database_url" \
+  DATABASE_URL="$test_database_url" \
+  pnpm exec tsx --test test/database.regression.test.ts
