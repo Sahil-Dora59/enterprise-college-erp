@@ -1,6 +1,16 @@
 import React, { createContext, useContext, ReactNode, useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useGetMe, useLogin, User, LoginInput, useLogout, getGetMeQueryKey } from '@workspace/api-client-react';
+import {
+  clearAuthSession,
+  getBrowserAuthStorage,
+  hasRememberedAuthToken,
+  logoutWithCleanup,
+  persistAuthToken,
+  readStoredAuthToken,
+  shouldClearAuthFromStorageEvent,
+  shouldClearInvalidSession,
+} from '@/lib/auth-session';
 
 interface AuthContextType {
   user: User | null;
@@ -19,8 +29,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('erp_token') || sessionStorage.getItem('erp_token'));
-  const [rememberMe, setRememberMe] = useState(() => Boolean(localStorage.getItem('erp_token')));
+  const [token, setToken] = useState<string | null>(() => readStoredAuthToken(getBrowserAuthStorage()));
+  const [rememberMe, setRememberMe] = useState(() => hasRememberedAuthToken(getBrowserAuthStorage()));
   const demoEnabled = import.meta.env.VITE_DEMO_MODE === 'true';
   
   const { data: user, isLoading: isUserLoading } = useGetMe({
@@ -31,16 +41,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logoutMutation = useLogout();
 
   const clearSession = () => {
-    localStorage.removeItem('erp_token');
-    sessionStorage.removeItem('erp_token');
-    localStorage.removeItem('erp_demo_session');
+    clearAuthSession(getBrowserAuthStorage());
     setToken(null);
     queryClient.clear();
   };
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => {
-      if (event.key === 'erp_token' && !event.newValue) clearSession();
+      if (shouldClearAuthFromStorageEvent(event)) clearSession();
     };
     window.addEventListener('storage', onStorage);
     return () => window.removeEventListener('storage', onStorage);
@@ -53,17 +61,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!token || isUserLoading || user) return;
-    clearSession();
+    if (shouldClearInvalidSession({ token, isLoading: isUserLoading, user })) {
+      clearSession();
+    }
   }, [token, isUserLoading, user]);
 
   const login = async (data: LoginInput & { rememberMe?: boolean }) => {
     const { rememberMe: requestedRememberMe, ...credentials } = data;
     const res = await loginMutation.mutateAsync({ data: credentials });
-    localStorage.removeItem('erp_token');
-    sessionStorage.removeItem('erp_token');
-    const storage = requestedRememberMe === false ? sessionStorage : localStorage;
-    storage.setItem('erp_token', res.token);
+    persistAuthToken(res.token, requestedRememberMe !== false, getBrowserAuthStorage());
     setRememberMe(requestedRememberMe !== false);
     setToken(res.token);
     queryClient.setQueryData(getGetMeQueryKey(), res.user);
@@ -71,14 +77,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
-    try {
-      if (token) await logoutMutation.mutateAsync();
-    } catch {
-      // Local session cleanup and redirect must still happen if the server
-      // session has already expired or the request is unavailable.
-    } finally {
-      clearSession();
-    }
+    await logoutWithCleanup(token, () => logoutMutation.mutateAsync(), clearSession);
   };
 
   const switchDemoRole = async (role: string) => {

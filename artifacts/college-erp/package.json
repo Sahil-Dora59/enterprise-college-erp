@@ -8,6 +8,8 @@
     "fullstack": "VITE_DEMO_MODE=${VITE_DEMO_MODE:-false} DEMO_MODE=${DEMO_MODE:-false} pnpm run build && DEMO_MODE=${DEMO_MODE:-false} pnpm --filter @workspace/api-server run dev",
     "build": "vite build --config vite.config.ts",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
+    "test:auth": "tsx --test test/auth-lifecycle.test.ts",
+    "test:typecheck": "tsc -p tsconfig.test.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
