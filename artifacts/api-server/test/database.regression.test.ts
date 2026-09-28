@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { after, before, test } from "node:test";
-import { eq } from "drizzle-orm";
+import { eq, inArray } from "drizzle-orm";
 import {
   authSessionsTable,
   db,
@@ -27,9 +27,14 @@ const { default: router } = await import("../src/routes/index.ts");
 
 const adminPassword = "AdminPassword123";
 const studentPassword = "StudentPassword123";
+const lifecyclePassword = "LifecyclePassword123";
+const passwordChangePassword = "PasswordChange123";
 
 let server: Awaited<ReturnType<typeof startRouterServer>> | undefined;
 let adminUserId: number;
+let lifecycleUserId: number;
+let inactiveUserId: number;
+let passwordChangeUserId: number;
 let aliceUserId: number;
 let bobUserId: number;
 let aliceStudentId: number;
@@ -42,12 +47,16 @@ type LoginResult = {
   user: Record<string, unknown>;
 };
 
-async function login(email: string, password: string): Promise<LoginResult> {
-  const response = await server!.request("/auth/login", {
+async function loginRequest(email: string, password: string): Promise<Response> {
+  return server!.request("/auth/login", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
+}
+
+async function login(email: string, password: string): Promise<LoginResult> {
+  const response = await loginRequest(email, password);
   assert.equal(response.status, 200);
   const body = await jsonBody(response);
   assert.equal(typeof body.token, "string");
@@ -111,6 +120,25 @@ async function seedDatabase(): Promise<void> {
     passwordHash,
     role: "admin",
   }).returning({ id: usersTable.id });
+  const [lifecycle] = await db.insert(usersTable).values({
+    name: "Lifecycle Test User",
+    email: "lifecycle.task4a@example.test",
+    passwordHash: await hashPassword(lifecyclePassword),
+    role: "admin",
+  }).returning({ id: usersTable.id });
+  const [inactive] = await db.insert(usersTable).values({
+    name: "Inactive Test User",
+    email: "inactive.task4a@example.test",
+    passwordHash: await hashPassword(lifecyclePassword),
+    role: "admin",
+    isActive: false,
+  }).returning({ id: usersTable.id });
+  const [passwordChange] = await db.insert(usersTable).values({
+    name: "Password Change User",
+    email: "password-change.task4a@example.test",
+    passwordHash: await hashPassword(passwordChangePassword),
+    role: "admin",
+  }).returning({ id: usersTable.id });
   const [alice] = await db.insert(usersTable).values({
     name: "Alice Test",
     email: "alice.task3b@example.test",
@@ -124,6 +152,9 @@ async function seedDatabase(): Promise<void> {
     role: "student",
   }).returning({ id: usersTable.id });
   adminUserId = admin.id;
+  lifecycleUserId = lifecycle.id;
+  inactiveUserId = inactive.id;
+  passwordChangeUserId = passwordChange.id;
   aliceUserId = alice.id;
   bobUserId = bob.id;
 
@@ -312,4 +343,233 @@ test("authorized Student CRUD persists through the database", async () => {
     .from(studentsTable)
     .where(eq(studentsTable.id, createdId));
   assert.deepEqual(deleted, []);
+});
+
+test("wrong passwords and unknown users are rejected by database-backed login", async () => {
+  const wrongPasswordResponse = await loginRequest(
+    "lifecycle.task4a@example.test",
+    "WrongPassword123",
+  );
+  assert.equal(wrongPasswordResponse.status, 401);
+  assert.deepEqual(await jsonBody(wrongPasswordResponse), {
+    error: "Invalid email or password",
+  });
+
+  const unknownUserResponse = await loginRequest(
+    "unknown.task4a@example.test",
+    lifecyclePassword,
+  );
+  assert.equal(unknownUserResponse.status, 401);
+  assert.deepEqual(await jsonBody(unknownUserResponse), {
+    error: "Invalid email or password",
+  });
+});
+
+test("inactive users cannot create authenticated sessions", async () => {
+  const response = await loginRequest(
+    "inactive.task4a@example.test",
+    lifecyclePassword,
+  );
+
+  assert.equal(response.status, 401);
+  assert.deepEqual(await jsonBody(response), {
+    error: "Account is inactive. Contact administrator.",
+  });
+});
+
+test("an expired database session rejects an otherwise valid token", async () => {
+  const { token } = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+  const tokenId = verifyToken(token).jti;
+
+  await db
+    .update(authSessionsTable)
+    .set({ expiresAt: new Date("2000-01-01T00:00:00.000Z") })
+    .where(eq(authSessionsTable.tokenId, tokenId));
+
+  const response = await server!.request("/auth/me", { headers: auth(token) });
+  assert.equal(response.status, 401);
+  assert.deepEqual(await jsonBody(response), {
+    error: "Session expired or revoked",
+  });
+});
+
+test("a revoked database session rejects an otherwise valid token", async () => {
+  const { token } = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+  const tokenId = verifyToken(token).jti;
+
+  await db
+    .update(authSessionsTable)
+    .set({ revokedAt: new Date("2026-01-01T00:00:00.000Z") })
+    .where(eq(authSessionsTable.tokenId, tokenId));
+
+  const response = await server!.request("/auth/me", { headers: auth(token) });
+  assert.equal(response.status, 401);
+  assert.deepEqual(await jsonBody(response), {
+    error: "Session expired or revoked",
+  });
+});
+
+test("deactivating a user invalidates an already-issued token", async () => {
+  const { token } = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+
+  try {
+    await db
+      .update(usersTable)
+      .set({ isActive: false })
+      .where(eq(usersTable.id, lifecycleUserId));
+
+    const response = await server!.request("/auth/me", { headers: auth(token) });
+    assert.equal(response.status, 401);
+    assert.deepEqual(await jsonBody(response), {
+      error: "Invalid or inactive account",
+    });
+  } finally {
+    await db
+      .update(usersTable)
+      .set({ isActive: true })
+      .where(eq(usersTable.id, lifecycleUserId));
+  }
+});
+
+test("changing a user's email invalidates an already-issued token", async () => {
+  const originalEmail = "lifecycle.task4a@example.test";
+  const changedEmail = "lifecycle-changed.task4a@example.test";
+  const { token } = await login(originalEmail, lifecyclePassword);
+
+  try {
+    await db
+      .update(usersTable)
+      .set({ email: changedEmail })
+      .where(eq(usersTable.id, lifecycleUserId));
+
+    const response = await server!.request("/auth/me", { headers: auth(token) });
+    assert.equal(response.status, 401);
+    assert.deepEqual(await jsonBody(response), {
+      error: "Invalid or inactive account",
+    });
+  } finally {
+    await db
+      .update(usersTable)
+      .set({ email: originalEmail })
+      .where(eq(usersTable.id, lifecycleUserId));
+  }
+});
+
+test("authenticated requests update the session last-seen timestamp", async () => {
+  const { token } = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+  const tokenId = verifyToken(token).jti;
+  const oldLastSeenAt = new Date("2000-01-01T00:00:00.000Z");
+
+  await db
+    .update(authSessionsTable)
+    .set({ lastSeenAt: oldLastSeenAt })
+    .where(eq(authSessionsTable.tokenId, tokenId));
+
+  const response = await server!.request("/auth/me", { headers: auth(token) });
+  assert.equal(response.status, 200);
+
+  const [session] = await db
+    .select({ lastSeenAt: authSessionsTable.lastSeenAt })
+    .from(authSessionsTable)
+    .where(eq(authSessionsTable.tokenId, tokenId));
+  assert.ok(session);
+  assert.equal(session.lastSeenAt > oldLastSeenAt, true);
+});
+
+test("multiple active sessions remain independently usable", async () => {
+  const first = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+  const second = await login(
+    "lifecycle.task4a@example.test",
+    lifecyclePassword,
+  );
+  const tokenIds = [verifyToken(first.token).jti, verifyToken(second.token).jti];
+
+  const sessions = await db
+    .select({
+      tokenId: authSessionsTable.tokenId,
+      revokedAt: authSessionsTable.revokedAt,
+    })
+    .from(authSessionsTable)
+    .where(inArray(authSessionsTable.tokenId, tokenIds));
+  assert.equal(sessions.length, 2);
+  assert.deepEqual(
+    sessions.map((session) => session.revokedAt),
+    [null, null],
+  );
+
+  const firstResponse = await server!.request("/auth/me", {
+    headers: auth(first.token),
+  });
+  const secondResponse = await server!.request("/auth/me", {
+    headers: auth(second.token),
+  });
+  assert.equal(firstResponse.status, 200);
+  assert.equal(secondResponse.status, 200);
+});
+
+test("password changes preserve the current session and revoke other sessions", async () => {
+  const first = await login(
+    "password-change.task4a@example.test",
+    passwordChangePassword,
+  );
+  const second = await login(
+    "password-change.task4a@example.test",
+    passwordChangePassword,
+  );
+
+  const changeResponse = await server!.request("/auth/change-password", {
+    method: "POST",
+    headers: { ...auth(first.token), "content-type": "application/json" },
+    body: JSON.stringify({
+      currentPassword: passwordChangePassword,
+      newPassword: "PasswordChanged456",
+    }),
+  });
+  assert.equal(changeResponse.status, 200);
+
+  const currentSessionResponse = await server!.request("/auth/me", {
+    headers: auth(first.token),
+  });
+  assert.equal(currentSessionResponse.status, 200);
+
+  const otherSessionResponse = await server!.request("/auth/me", {
+    headers: auth(second.token),
+  });
+  assert.equal(otherSessionResponse.status, 401);
+  assert.deepEqual(await jsonBody(otherSessionResponse), {
+    error: "Session expired or revoked",
+  });
+
+  const newPasswordResponse = await loginRequest(
+    "password-change.task4a@example.test",
+    "PasswordChanged456",
+  );
+  assert.equal(newPasswordResponse.status, 200);
+
+  const oldPasswordResponse = await loginRequest(
+    "password-change.task4a@example.test",
+    passwordChangePassword,
+  );
+  assert.equal(oldPasswordResponse.status, 401);
+
+  const [passwordUser] = await db
+    .select({ id: usersTable.id })
+    .from(usersTable)
+    .where(eq(usersTable.id, passwordChangeUserId));
+  assert.equal(passwordUser.id, passwordChangeUserId);
 });
